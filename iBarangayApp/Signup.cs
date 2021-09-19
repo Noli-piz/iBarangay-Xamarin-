@@ -4,9 +4,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Google.Android.Material.Snackbar;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace iBarangayApp
@@ -30,6 +33,7 @@ namespace iBarangayApp
             btnNext = FindViewById<Button>(Resource.Id.btnNext);
             tvBack = FindViewById<TextView>(Resource.Id.lblBack);
 
+            tvBack.Click += Back_Click;
             btnNext.Click += BtnNext_Click;
         }
 
@@ -45,10 +49,56 @@ namespace iBarangayApp
             }
             else
             {
+                ValidateUsername(sender);
+            }
+
+        }
+
+        private void ValidateUsername(object sender)
+        {
+            WebRequest request = WebRequest.Create("http://192.168.254.114/iBarangay/ibarangay_checkusername.php?Username=" + edtUsername.Text);
+            request.Method = "GET";
+            WebResponse response = request.GetResponse();
+
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+            var responseFromServer = reader.ReadToEnd();
+
+            if (responseFromServer == "Username already Exist!")
+            {
+
+                View view = (View)sender;
+                Snackbar.Make(view, responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+            }
+            else
+            {
+                new Info(edtEmail.Text, edtUsername.Text, edtPassword.Text);
+
                 Intent intent = new Intent(this, typeof(Signup2));
+                intent.PutExtra("Email", edtEmail.Text);
+                intent.PutExtra("Username", edtUsername.Text);
+                intent.PutExtra("Password", edtPassword.Text);
                 StartActivity(intent);
             }
-            
+        }
+
+        private void Back_Click(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(this, typeof(Login)).SetFlags(ActivityFlags.ReorderToFront);
+            StartActivity(intent);
+            Finish();
+        }
+
+        public class Info
+        {
+            private static String email, username, password;
+            public Info(String Email, String Username, String Password)
+            {
+                email = Email;
+                username = Username;
+                password = Password;
+            }
+
         }
     }
 }

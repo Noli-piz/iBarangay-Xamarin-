@@ -14,17 +14,24 @@ using Google.Android.Material.FloatingActionButton;
 using Google.Android.Material.Navigation;
 using Google.Android.Material.Snackbar;
 using Newtonsoft.Json;
+using Org.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections;
+using Android.Widget;
+using Java.Util;
 
 namespace iBarangayApp
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
-    //[Activity(Label = "@string/app_name")]
+    //[Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "@string/app_name")]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
 
         private NavigationView navigationView;
+        private RelativeLayout rout;
+        private ListView lview;
 
+        private List<Announcement> announcementArrayList;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -32,19 +39,24 @@ namespace iBarangayApp
             SetContentView(Resource.Layout.activity_main);
 
 
-            Toolbar toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            AndroidX.AppCompat.Widget.Toolbar toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
             FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
             fab.Click += FabOnClick;
+
+            rout = FindViewById<RelativeLayout>(Resource.Id.Rlayout);
+            lview = FindViewById<ListView>(Resource.Id.listview);
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             drawer.AddDrawerListener(toggle);
             toggle.SyncState();
 
-           navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-           navigationView.SetNavigationItemSelectedListener(this);
+            navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            navigationView.SetNavigationItemSelectedListener(this);
+            navigationView.SetCheckedItem(Resource.Id.nav_announcement);
+
 
             GetAnnouncement();
         }
@@ -133,7 +145,7 @@ namespace iBarangayApp
         }
 
 
-
+        List<string> LId = new List<string>(), LDate = new List<string>(), LSubject = new List<string>(), LLevel = new List<string>(), LImageLocation = new List<string>(), LDetail = new List<string>();
         private async void GetAnnouncement()
         {
             using (var client = new HttpClient())
@@ -142,26 +154,62 @@ namespace iBarangayApp
                 var result = await client.GetStringAsync(uri);
 
 
-                //var announcement = JsonConvert.DeserializeObject<List<Announcement>>(result);
+                JSONObject jsonresult = new JSONObject(result);
+                int success = jsonresult.GetInt("success");
 
-                JObject par = JObject.Parse(result);
-                foreach (var pair in par)
+                if (success== 1)
                 {
-                    //Console.WriteLine("{0}: {1}", pair.Key, pair.Value );
+                    JSONArray ann = jsonresult.GetJSONArray("announcement");
+
+
+                    for (int i =0; i < ann.Length() ; i++) {
+                        JSONObject ancmnt = ann.GetJSONObject(i);
+
+                        LId.Add(ancmnt.GetInt("id_announcement").ToString());
+                        LDate.Add(ancmnt.GetString("Date"));
+                        LSubject.Add(ancmnt.GetString("Subject"));
+                        LLevel.Add(ancmnt.GetString("Level"));
+                        LImageLocation.Add(ancmnt.GetString("ImageLocation"));
+                        LDetail.Add(ancmnt.GetString("Details"));
+                    }
+
+                    announcementArrayList = new List<Announcement>();
+                    for (int i = 0; i < ann.Length(); i++)
+                    {
+                        Announcement announcem = new Announcement()
+                        {
+                            id_announcement = Int32.Parse(LId[i].ToString()),
+                            Date = LDate[i].ToString(),
+                            Subject = LSubject[i].ToString(),
+                            Level = LLevel[i].ToString(),
+                            ImageLocation = LImageLocation[i].ToString(),
+                            Details = LDetail[i].ToString()
+                        };  
+
+                        announcementArrayList.Add(announcem);
+                    }
+
+                    var adapter = new CustomAdapter(this, announcementArrayList);
+                    lview.Adapter = adapter;
+                    lview.ItemClick += List_Click;
                 }
-
-
+                else
+                {
+                    Snackbar.Make(rout, "Failed to Load", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                }
             }
         }
 
-        public class Announcement
+
+        public void List_Click(object sender, AdapterView.ItemClickEventArgs e)
         {
-            public string id_announcement { get; set; }
-            public string Date { get; set; }
-            public string Subject { get; set; }
-            public string Level { get; set; }
-            public string ImageLocation { get; set; }
-            public string Details { get; set; }
+            Intent intent = new Intent(this, typeof(Announcement_Module));
+            intent.PutExtra("Date", LDate[e.Position].ToString());
+            intent.PutExtra("Subject", LSubject[e.Position]);
+            intent.PutExtra("Level", LLevel[e.Position]);
+            intent.PutExtra("ImgLoc", LImageLocation[e.Position]);
+            intent.PutExtra("Detail", LDetail[e.Position]);
+            StartActivity(intent);
         }
     }
 }

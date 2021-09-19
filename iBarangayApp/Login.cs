@@ -18,8 +18,8 @@ using Google.Android.Material.Snackbar;
 
 namespace iBarangayApp
 {
-    [Activity(Label = "Login")]
-    //[Activity(Label = "IBarangay", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    //[Activity(Label = "Login")]
+    [Activity(Label = "IBarangay", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
 
     public class Login : Activity
     {
@@ -69,7 +69,6 @@ namespace iBarangayApp
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
             var responseFromServer = reader.ReadToEnd();
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription + "============================" + responseFromServer);
             
             if(responseFromServer == "Login Success")
             {
@@ -83,5 +82,9 @@ namespace iBarangayApp
             }
 
         }
+    
     }
+
+
 }
+
