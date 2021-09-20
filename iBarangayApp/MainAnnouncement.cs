@@ -24,7 +24,7 @@ namespace iBarangayApp
 {
     //[Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
     [Activity(Label = "@string/app_name")]
-    public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
+    public class MainAnnouncement : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
 
         private NavigationView navigationView;
@@ -108,7 +108,10 @@ namespace iBarangayApp
             }
             else if (id == Resource.Id.nav_request)
             {
-
+                Intent intent = new Intent(this, typeof(MainRequest));
+                intent.AddFlags(ActivityFlags.NoAnimation);
+                this.Window.TransitionBackgroundFadeDuration = 0;
+                StartActivity(intent);
             }
             else if (id == Resource.Id.nav_service)
             {
@@ -123,14 +126,14 @@ namespace iBarangayApp
 
                     Intent intent = new Intent(this, typeof(Login));
                     StartActivity(intent);
-
+                    Finish();
                 });
                 alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
                     alertDiag.Dispose();
                 });
                 Dialog diag = alertDiag.Create();
                 diag.Show();
-
+                
             }
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);

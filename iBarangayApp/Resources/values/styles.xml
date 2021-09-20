@@ -29,4 +29,15 @@
 		<item name="android:textColor">@color/navy1</item>
 		<item name="android:textColorHint">@color/white</item>
 	</style>
+
+	<style name="Theme.IBarangay.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+		<item name="colorPrimary">@color/purple_200</item>
+		<item name="colorPrimaryVariant">@color/purple_200</item>
+		<item name="colorOnPrimary">@color/purple_700</item>
+	</style>
+	<style name="TabLayoutStyle" parent="Base.Widget.Design.TabLayout">
+		<item name="android:textSize">15sp</item>
+		<item name="android:textAllCaps">true</item>
+		<item name="android:textStyle">bold</item>
+	</style>
 </resources>

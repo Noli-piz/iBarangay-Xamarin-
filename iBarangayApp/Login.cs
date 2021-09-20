@@ -61,26 +61,31 @@ namespace iBarangayApp
 
         private async void GetInfo(object sender)
         {
-
-            WebRequest request = WebRequest.Create("http://192.168.254.114/iBarangay/ibarangay_login.php?Username="+ edtUsername.Text  +"&Password="+ edtPassword.Text);
-            request.Method = "GET";
-            WebResponse response = request.GetResponse();
-
-            Stream dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            var responseFromServer = reader.ReadToEnd();
-            
-            if(responseFromServer == "Login Success")
+            try
             {
-                Intent intent = new Intent(this, typeof(MainActivity));
-                StartActivity(intent);
-            }
-            else
-            {
-                View view = (View)sender;
-                Snackbar.Make(view, responseFromServer , Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-            }
+                WebRequest request = WebRequest.Create("http://192.168.254.114/iBarangay/ibarangay_login.php?Username=" + edtUsername.Text + "&Password=" + edtPassword.Text);
+                request.Method = "GET";
+                WebResponse response = request.GetResponse();
 
+                Stream dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                var responseFromServer = reader.ReadToEnd();
+
+                if (responseFromServer == "Login Success")
+                {
+                    Intent intent = new Intent(this, typeof(MainAnnouncement));
+                    StartActivity(intent);
+                }
+                else
+                {
+                    View view = (View)sender;
+                    Snackbar.Make(view, responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(this, "Please check your connection.", ToastLength.Short).Show();
+            }
         }
     
     }

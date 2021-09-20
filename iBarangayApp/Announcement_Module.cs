@@ -38,7 +38,7 @@ namespace iBarangayApp
 
         private void Back_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(MainActivity)).SetFlags(ActivityFlags.ReorderToFront);
+            Intent intent = new Intent(this, typeof(MainAnnouncement)).SetFlags(ActivityFlags.ReorderToFront);
             StartActivity(intent);
             Finish();
         }

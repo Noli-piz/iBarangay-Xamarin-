@@ -56,29 +56,36 @@ namespace iBarangayApp
 
         private void ValidateUsername(object sender)
         {
-            WebRequest request = WebRequest.Create("http://192.168.254.114/iBarangay/ibarangay_checkusername.php?Username=" + edtUsername.Text);
-            request.Method = "GET";
-            WebResponse response = request.GetResponse();
-
-            Stream dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            var responseFromServer = reader.ReadToEnd();
-
-            if (responseFromServer == "Username already Exist!")
+            try
             {
+                WebRequest request = WebRequest.Create("http://192.168.254.114/iBarangay/ibarangay_checkusername.php?Username=" + edtUsername.Text);
+                request.Method = "GET";
+                WebResponse response = request.GetResponse();
 
-                View view = (View)sender;
-                Snackbar.Make(view, responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                var responseFromServer = reader.ReadToEnd();
+
+                if (responseFromServer == "Username already Exist!")
+                {
+
+                    View view = (View)sender;
+                    Snackbar.Make(view, responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                }
+                else
+                {
+                    new Info(edtEmail.Text, edtUsername.Text, edtPassword.Text);
+
+                    Intent intent = new Intent(this, typeof(Signup2));
+                    intent.PutExtra("Email", edtEmail.Text);
+                    intent.PutExtra("Username", edtUsername.Text);
+                    intent.PutExtra("Password", edtPassword.Text);
+                    StartActivity(intent);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                new Info(edtEmail.Text, edtUsername.Text, edtPassword.Text);
-
-                Intent intent = new Intent(this, typeof(Signup2));
-                intent.PutExtra("Email", edtEmail.Text);
-                intent.PutExtra("Username", edtUsername.Text);
-                intent.PutExtra("Password", edtPassword.Text);
-                StartActivity(intent);
+                Toast.MakeText(this, "Please check your connection.", ToastLength.Short).Show();
             }
         }
 
