@@ -19,11 +19,15 @@
             android:layout_height="wrap_content"
             app:tabIndicatorColor="@android:color/holo_blue_dark"
             app:tabSelectedTextColor="@android:color/holo_blue_bright"
-            app:tabTextColor="@color/navy1"/>
+            app:tabTextColor="@color/white"
+            app:tabMode="scrollable"
+            app:tabGravity="center"
+            android:background="@color/colorPrimary"/>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </LinearLayout>
 </RelativeLayout>

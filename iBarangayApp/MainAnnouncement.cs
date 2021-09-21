@@ -42,9 +42,6 @@ namespace iBarangayApp
             AndroidX.AppCompat.Widget.Toolbar toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
-            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            fab.Click += FabOnClick;
-
             rout = FindViewById<RelativeLayout>(Resource.Id.Rlayout);
             lview = FindViewById<ListView>(Resource.Id.listview);
 
@@ -89,13 +86,6 @@ namespace iBarangayApp
             }
 
             return base.OnOptionsItemSelected(item);
-        }
-
-        private void FabOnClick(object sender, EventArgs eventArgs)
-        {
-            View view = (View) sender;
-            Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
         }
 
         public bool OnNavigationItemSelected(IMenuItem item)
@@ -153,7 +143,9 @@ namespace iBarangayApp
         {
             using (var client = new HttpClient())
             {
-                var uri = "http://192.168.254.114/iBarangay/ibarangay_announcement.php";
+                zsg_hosting hosting = new zsg_hosting();
+                //var uri = "http://192.168.254.114/iBarangay/ibarangay_announcement.php";
+                var uri = hosting.getAnnouncement();
                 var result = await client.GetStringAsync(uri);
 
 

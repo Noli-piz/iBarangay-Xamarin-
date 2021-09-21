@@ -74,12 +74,10 @@ namespace iBarangayApp
                 }
                 else
                 {
-                    new Info(edtEmail.Text, edtUsername.Text, edtPassword.Text);
+                    Info inf = new Info();
+                    inf.Infos(edtEmail.Text, edtUsername.Text, edtPassword.Text);
 
                     Intent intent = new Intent(this, typeof(Signup2));
-                    intent.PutExtra("Email", edtEmail.Text);
-                    intent.PutExtra("Username", edtUsername.Text);
-                    intent.PutExtra("Password", edtPassword.Text);
                     StartActivity(intent);
                 }
             }
@@ -96,16 +94,6 @@ namespace iBarangayApp
             Finish();
         }
 
-        public class Info
-        {
-            private static String email, username, password;
-            public Info(String Email, String Username, String Password)
-            {
-                email = Email;
-                username = Username;
-                password = Password;
-            }
 
-        }
     }
 }

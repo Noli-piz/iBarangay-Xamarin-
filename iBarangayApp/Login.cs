@@ -73,8 +73,12 @@ namespace iBarangayApp
 
                 if (responseFromServer == "Login Success")
                 {
+                    zsg_nameandimage user = new zsg_nameandimage();
+                    user.setStrusername(edtUsername.Text);
+
                     Intent intent = new Intent(this, typeof(MainAnnouncement));
                     StartActivity(intent);
+                    Finish();
                 }
                 else
                 {

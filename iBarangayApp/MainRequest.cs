@@ -43,7 +43,7 @@ namespace iBarangayApp
             AndroidX.AppCompat.Widget.Toolbar toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
-            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
+            ExtendedFloatingActionButton fab = FindViewById<ExtendedFloatingActionButton>(Resource.Id.fab);
             fab.Click += FabOnClick;
 
             rout = FindViewById<RelativeLayout>(Resource.Id.Rlayout);
@@ -66,8 +66,10 @@ namespace iBarangayApp
             PagerAdapter adapter = new PagerAdapter(SupportFragmentManager);
 
             adapter.AddFragment(new frag_request1(), "All");
-            adapter.AddFragment(new frag_request1(), "FragmentB");
-            adapter.AddFragment(new frag_request1(), "FragmentC");
+            adapter.AddFragment(new frag_request2(), "Pending");
+            adapter.AddFragment(new frag_request3(), "Approved");
+            adapter.AddFragment(new frag_request4(), "Disapproved");
+            adapter.AddFragment(new frag_request5(), "Received");
 
             pager.Adapter = adapter;
             adapter.NotifyDataSetChanged();
@@ -106,9 +108,8 @@ namespace iBarangayApp
 
         private void FabOnClick(object sender, EventArgs eventArgs)
         {
-            View view = (View)sender;
-            Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+            Intent intent = new Intent(this, typeof(Request_Module));
+            StartActivity(intent);
         }
 
         public bool OnNavigationItemSelected(IMenuItem item)

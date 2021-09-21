@@ -68,15 +68,26 @@
     <Compile Include="Announcement.cs" />
     <Compile Include="Announcement_Module.cs" />
     <Compile Include="CustomAdapter.cs" />
+    <Compile Include="CustomAdapterRequest.cs" />
     <Compile Include="frag_request1.cs" />
+    <Compile Include="frag_request5.cs" />
+    <Compile Include="frag_request4.cs" />
+    <Compile Include="frag_request3.cs" />
+    <Compile Include="frag_request2.cs" />
+    <Compile Include="Info.cs" />
     <Compile Include="PagerAdapter.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="MainAnnouncement.cs" />
     <Compile Include="MainRequest.cs" />
+    <Compile Include="Request_Module.cs" />
+    <Compile Include="Req_Fragment.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RFrag.cs" />
     <Compile Include="Signup.cs" />
     <Compile Include="Signup2.cs" />
+    <Compile Include="zsg_hosting.cs" />
+    <Compile Include="zsg_nameandimage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -200,12 +211,27 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\request_tab1.xml">
+    <AndroidResource Include="Resources\layout\request_view.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\frag1_request.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\lyt_request_listview.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\shape_round_listview.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_request_module.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -16,9 +16,8 @@ using System.Text;
 
 namespace iBarangayApp
 {
-    class frag_request1 : AndroidX.Fragment.App.Fragment
+    public class frag_request3 : AndroidX.Fragment.App.Fragment
     {
-
         private TextView tv;
         private SwipeRefreshLayout swipe;
         private ListView lview;
@@ -28,8 +27,6 @@ namespace iBarangayApp
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            //binding =  inflater.Inflate(Resource.Layout.frag1_request, container, false);
-
             View view = inflater.Inflate(Resource.Layout.frag1_request, null);
             return view;
         }
@@ -57,7 +54,7 @@ namespace iBarangayApp
                 zsg_nameandimage user = new zsg_nameandimage();
                 zsg_hosting hosting = new zsg_hosting();
 
-                var uri = hosting.getRequestall() + "?Username=" + user.getStrusername();
+                var uri = hosting.getRequestapproved() + "?Username=" + user.getStrusername();
                 var result = await client.GetStringAsync(uri);
 
 
@@ -114,8 +111,8 @@ namespace iBarangayApp
             StartActivity(intent);
         }
 
-
-        private void RefreshLayout(object sender, EventArgs e) {
+        private void RefreshLayout(object sender, EventArgs e)
+        {
             GetRequest();
         }
     }
