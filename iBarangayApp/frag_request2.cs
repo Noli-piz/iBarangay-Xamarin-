@@ -33,7 +33,6 @@ namespace iBarangayApp
 
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
-            tv = (TextView)view.FindViewById(Resource.Id.txt);
             swipe = (SwipeRefreshLayout)view.FindViewById(Resource.Id.refreshFrag1);
             lview = (ListView)view.FindViewById(Resource.Id.req_fragment1_listview);
             lout = (LinearLayout)view.FindViewById(Resource.Id.Lout);

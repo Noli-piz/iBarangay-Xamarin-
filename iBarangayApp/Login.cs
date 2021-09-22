@@ -75,6 +75,7 @@ namespace iBarangayApp
                 {
                     zsg_nameandimage user = new zsg_nameandimage();
                     user.setStrusername(edtUsername.Text);
+                    user.nameandimage();
 
                     Intent intent = new Intent(this, typeof(MainAnnouncement));
                     StartActivity(intent);

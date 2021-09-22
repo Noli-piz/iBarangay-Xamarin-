@@ -40,7 +40,7 @@ namespace iBarangayApp
             using (var client = new HttpClient())
             {
                 zsg_hosting hosting = new zsg_hosting();
-                var uri = hosting.getRequestall() + "?Username=";
+                var uri = hosting.getPersonalinfo() + "?Username=" + strusername;
                 var result = await client.GetStringAsync(uri);
 
                 JSONObject jsonresult = new JSONObject(result);
@@ -71,9 +71,9 @@ namespace iBarangayApp
             return strusername;
         }
 
-        public void setStrusername(String strusername)
+        public void setStrusername(String strusernames)
         {
-            zsg_nameandimage.strusername = strusername;
+            strusername = strusernames;
         }
 
         public String getStrname()

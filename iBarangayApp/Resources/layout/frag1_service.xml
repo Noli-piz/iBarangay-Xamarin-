@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:dividerHeight="5dp"
                 android:scrollbars="vertical"
-                tools:listitem="@layout/lyt_request_listview" />
+                tools:listitem="@layout/lyt_service_listview" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </ScrollView>
 	

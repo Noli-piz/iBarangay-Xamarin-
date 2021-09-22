@@ -23,13 +23,14 @@ using Java.Util;
 namespace iBarangayApp
 {
     //[Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
-    [Activity(Label = "@string/app_name")]
+    [Activity(Label = "iBarangay")]
     public class MainAnnouncement : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
 
         private NavigationView navigationView;
         private RelativeLayout rout;
         private ListView lview;
+        private TextView TvName;
 
         private List<Announcement> announcementArrayList;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -45,6 +46,7 @@ namespace iBarangayApp
             rout = FindViewById<RelativeLayout>(Resource.Id.Rlayout);
             lview = FindViewById<ListView>(Resource.Id.listview);
 
+
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             drawer.AddDrawerListener(toggle);
@@ -53,6 +55,11 @@ namespace iBarangayApp
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
             navigationView.SetCheckedItem(Resource.Id.nav_announcement);
+
+            zsg_nameandimage nme = new zsg_nameandimage();
+            View view = navigationView.GetHeaderView(0);
+            TvName = view.FindViewById<TextView>(Resource.Id.tvMenuName);
+            TvName.Text = nme.getStrname();
 
 
             GetAnnouncement();
@@ -105,7 +112,10 @@ namespace iBarangayApp
             }
             else if (id == Resource.Id.nav_service)
             {
-
+                Intent intent = new Intent(this, typeof(MainService));
+                intent.AddFlags(ActivityFlags.NoAnimation);
+                this.Window.TransitionBackgroundFadeDuration = 0;
+                StartActivity(intent);
             }
             else if (id == Resource.Id.nav_logout)
             {

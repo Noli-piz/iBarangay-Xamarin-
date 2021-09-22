@@ -22,8 +22,8 @@ using ActionBarDrawerToggle = AndroidX.AppCompat.App.ActionBarDrawerToggle;
 namespace iBarangayApp
 {
 
-    [Activity(Label = "Request")]
-    public class MainRequest : AppCompatActivity ,NavigationView.IOnNavigationItemSelectedListener
+    [Activity(Label = "Miscellaneous Services")]
+    public class MainService : AppCompatActivity ,NavigationView.IOnNavigationItemSelectedListener
     {
 
         private NavigationView navigationView;
@@ -38,7 +38,7 @@ namespace iBarangayApp
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            SetContentView(Resource.Layout.activity_request);
+            SetContentView(Resource.Layout.activity_service);
 
 
             AndroidX.AppCompat.Widget.Toolbar toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
@@ -57,7 +57,7 @@ namespace iBarangayApp
 
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
-            navigationView.SetCheckedItem(Resource.Id.nav_request);
+            navigationView.SetCheckedItem(Resource.Id.nav_service);
 
             //Nav Text Header
             zsg_nameandimage nme = new zsg_nameandimage();
@@ -72,11 +72,11 @@ namespace iBarangayApp
             pager = FindViewById<ViewPager>(Resource.Id.pager);
             PagerAdapter adapter = new PagerAdapter(SupportFragmentManager);
 
-            adapter.AddFragment(new frag_request1(), "All");
-            adapter.AddFragment(new frag_request2(), "Pending");
-            adapter.AddFragment(new frag_request3(), "Approved");
-            adapter.AddFragment(new frag_request4(), "Disapproved");
-            adapter.AddFragment(new frag_request5(), "Received");
+            adapter.AddFragment(new frag_service1(), "All");
+            adapter.AddFragment(new frag_service2(), "Pending");
+            adapter.AddFragment(new frag_service3(), "Approved");
+            adapter.AddFragment(new frag_service4(), "Disapproved");
+            adapter.AddFragment(new frag_request5(), "Barrowed");
 
             pager.Adapter = adapter;
             adapter.NotifyDataSetChanged();
@@ -132,13 +132,14 @@ namespace iBarangayApp
             }
             else if (id == Resource.Id.nav_request)
             {
-            }
-            else if (id == Resource.Id.nav_service)
-            {
-                Intent intent = new Intent(this, typeof(MainService));
+                Intent intent = new Intent(this, typeof(MainRequest));
                 intent.AddFlags(ActivityFlags.NoAnimation);
                 this.Window.TransitionBackgroundFadeDuration = 0;
                 StartActivity(intent);
+            }
+            else if (id == Resource.Id.nav_service)
+            {
+
             }
             else if (id == Resource.Id.nav_logout)
             {
