@@ -72,8 +72,8 @@ namespace iBarangayApp
                         JSONObject rqst = req.GetJSONObject(i);
 
                         ArrItem.Add(rqst.GetString("Types"));
-                        ArrPurpose.Add(rqst.GetString("DateOfRequest"));
-                        ArrDate.Add(rqst.GetString("Purpose"));
+                        ArrDate.Add(rqst.GetString("DateOfRequest"));
+                        ArrPurpose.Add(rqst.GetString("Purpose"));
                         ArrStatus.Add(rqst.GetString("Status"));
                         //String strdeliveryoptions = rqst.GetString("Options");
                     }

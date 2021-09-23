@@ -15,6 +15,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.IO;
 using Google.Android.Material.Snackbar;
+using System.Collections.Specialized;
 
 namespace iBarangayApp
 {
@@ -63,13 +64,19 @@ namespace iBarangayApp
         {
             try
             {
-                WebRequest request = WebRequest.Create("http://192.168.254.114/iBarangay/ibarangay_login.php?Username=" + edtUsername.Text + "&Password=" + edtPassword.Text);
-                request.Method = "GET";
-                WebResponse response = request.GetResponse();
+                zsg_hosting hosting = new zsg_hosting();
+                var uri = hosting.getLogin();
 
-                Stream dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                var responseFromServer = reader.ReadToEnd();
+                string responseFromServer;
+                using (var wb = new WebClient())
+                {
+                    var datas = new NameValueCollection();
+                    datas["Username"] = edtUsername.Text;
+                    datas["Password"] = edtPassword.Text;
+
+                    var response = wb.UploadValues(uri, "POST", datas);
+                    responseFromServer = Encoding.UTF8.GetString(response);
+                }
 
                 if (responseFromServer == "Login Success")
                 {

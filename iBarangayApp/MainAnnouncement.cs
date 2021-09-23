@@ -23,7 +23,7 @@ using Java.Util;
 namespace iBarangayApp
 {
     //[Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
-    [Activity(Label = "iBarangay")]
+    [Activity(Label = "iBarangay", NoHistory = true)]
     public class MainAnnouncement : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
 

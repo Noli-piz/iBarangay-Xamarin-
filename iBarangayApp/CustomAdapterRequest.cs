@@ -59,10 +59,10 @@ namespace iBarangayApp
             var txtPurpose = view.FindViewById<TextView>(Resource.Id.purpose_listitem);
             var txtStatus = view.FindViewById<TextView>(Resource.Id.status_listitem);
 
-            txtItem.Text = txtItem.Text + requestArrayList[position].item;
-            txtDate.Text = txtDate.Text + requestArrayList[position].date;
-            txtPurpose.Text = txtPurpose.Text + requestArrayList[position].purpose;
-            txtStatus.Text = txtStatus.Text + requestArrayList[position].status;
+            txtItem.Text = "Document: " + requestArrayList[position].item;
+            txtDate.Text = "Requested Date: " + requestArrayList[position].date;
+            txtPurpose.Text = "Purpose: " + requestArrayList[position].purpose;
+            txtStatus.Text = "Status: " + requestArrayList[position].status;
 
             return view;
         }

@@ -8,6 +8,7 @@ using Google.Android.Material.Snackbar;
 using Org.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -161,26 +162,24 @@ namespace iBarangayApp
             data[16] = inf.getStrEmail();
             data[17] = "Image";
 
-            String fieldanddata = "";
-            for (int i = 0; i < field.Length; i++)
-            {
-                fieldanddata += field[i].ToString() +"="+data[i].ToString() + "&";
-            }
-            fieldanddata = fieldanddata.Remove(fieldanddata.Length - 1, 1);
             
             zsg_hosting hosting = new zsg_hosting();
-            var uri = hosting.getSignup3()+ "?"+ fieldanddata;
+            var uri = hosting.getSignup3();
 
-            Console.WriteLine(uri);
             try
             {
-                WebRequest request = WebRequest.Create(uri);
-                request.Method = "GET";
-                WebResponse response = request.GetResponse();
+                string responseFromServer;
+                using (var wb = new WebClient())
+                {
+                    var datas = new NameValueCollection();
+                    for (int i=0; i< field.Length; i++)
+                    {
+                        datas[field[i].ToString()] = data[i].ToString();
+                    }
 
-                Stream dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                var responseFromServer = reader.ReadToEnd();
+                    var response = wb.UploadValues(uri, "POST", datas);
+                    responseFromServer = Encoding.UTF8.GetString(response);
+                }
 
                 if (responseFromServer == "Sign up Failed")
                 {

@@ -7,6 +7,7 @@ using Android.Widget;
 using Google.Android.Material.Snackbar;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -58,13 +59,20 @@ namespace iBarangayApp
         {
             try
             {
-                WebRequest request = WebRequest.Create("http://192.168.254.114/iBarangay/ibarangay_checkusername.php?Username=" + edtUsername.Text);
-                request.Method = "GET";
-                WebResponse response = request.GetResponse();
+                zsg_hosting hosting = new zsg_hosting();
+                zsg_nameandimage name = new zsg_nameandimage();
 
-                Stream dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream);
-                var responseFromServer = reader.ReadToEnd();
+                var uri = hosting.getCheckusername();
+
+                string responseFromServer;
+                using (var wb = new WebClient())
+                {
+                    var datas = new NameValueCollection();
+                    datas["Username"] = edtUsername.Text;
+
+                    var response = wb.UploadValues(uri, "POST", datas);
+                    responseFromServer = Encoding.UTF8.GetString(response);
+                }
 
                 if (responseFromServer == "Username already Exist!")
                 {
