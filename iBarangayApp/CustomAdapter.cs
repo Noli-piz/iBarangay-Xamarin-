@@ -12,15 +12,6 @@ using static iBarangayApp.MainAnnouncement;
 
 namespace iBarangayApp
 {
-    public class ViewHolder : Java.Lang.Object
-    {
-        public TextView id_announcement { get; set; }
-        public TextView Date { get; set; }
-        public TextView Subject { get; set; }
-        public TextView Level { get; set; }
-        public TextView ImageLocation { get; set; }
-        public TextView Details { get; set; }
-    }
 
     public class CustomAdapter : BaseAdapter
     {
@@ -59,9 +50,9 @@ namespace iBarangayApp
             var txtDetails = view.FindViewById<TextView>(Resource.Id.details);
             var txtDate = view.FindViewById<TextView>(Resource.Id.date);
 
-            txtSubject.Text = announcement[position].Subject;
-            txtDetails.Text = announcement[position].Details;
-            txtDate.Text = announcement[position].Date;
+            txtSubject.Text = "Subject: " + announcement[position].Subject;
+            txtDetails.Text = "Details: " + announcement[position].Details;
+            txtDate.Text = "Date: " + announcement[position].Date;
 
             return view;
         }

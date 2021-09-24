@@ -115,7 +115,7 @@ namespace iBarangayApp
 
         private void FabOnClick(object sender, EventArgs eventArgs)
         {
-            Intent intent = new Intent(this, typeof(Request_Module));
+            Intent intent = new Intent(this, typeof(Service_Module));
             StartActivity(intent);
         }
 

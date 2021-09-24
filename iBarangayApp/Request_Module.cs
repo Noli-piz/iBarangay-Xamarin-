@@ -23,6 +23,7 @@ namespace iBarangayApp
         private Spinner sprDO, sprCert;
         private Button btnSubmit;
         private EditText edtPurpose;
+        private TextView tvBack;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -33,6 +34,7 @@ namespace iBarangayApp
             sprCert = FindViewById<Spinner>(Resource.Id.spnrCertificate);
             btnSubmit = FindViewById<Button>(Resource.Id.btnRequest);
             edtPurpose = FindViewById<EditText>(Resource.Id.ETPurposeCert);
+            tvBack = FindViewById<TextView>(Resource.Id.tvBack);
 
             LoadSpnr();
 
@@ -40,6 +42,7 @@ namespace iBarangayApp
             sprCert.ItemSelected += spC_Click;
 
             btnSubmit.Click += btnSubmit_Click;
+            tvBack.Click += tvBack_Click;
         }
 
         private String strDO, strCert;
@@ -180,6 +183,32 @@ namespace iBarangayApp
                 }
             }
 
+        }
+
+        private void tvBack_Click(Object sender, EventArgs e)
+        {
+            OnBackPressed();
+        }
+
+        public override void OnBackPressed()
+        {
+            Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+            alertDiag.SetTitle("Exit");
+            alertDiag.SetMessage("Are you sure you want to Exit?");
+            alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
+
+                Intent intent = new Intent(this, typeof(MainRequest));
+                StartActivity(intent);
+                Finish();
+            });
+
+            alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
+
+
+            });
+
+            Dialog diag = alertDiag.Create();
+            diag.Show();
         }
     }
 }
