@@ -16,7 +16,7 @@ using System.Text;
 
 namespace iBarangayApp
 {
-    public class frag_service4 : AndroidX.Fragment.App.Fragment
+    public class frag_service6 : AndroidX.Fragment.App.Fragment
     {
         private SwipeRefreshLayout swipe;
         private ListView lview;
@@ -52,7 +52,7 @@ namespace iBarangayApp
                 zsg_nameandimage user = new zsg_nameandimage();
                 zsg_hosting hosting = new zsg_hosting();
 
-                var uri = hosting.getServicedisapproved() + "?Username=" + user.getStrusername();
+                var uri = hosting.getServicereturned() + "?Username=" + user.getStrusername();
                 var result = await client.GetStringAsync(uri);
 
 

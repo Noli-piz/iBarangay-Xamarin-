@@ -44,7 +44,7 @@ namespace iBarangayApp
         }
 
 
-        List<String> ArrItem = new List<String>(), ArrQuantity= new List<string>(), ArrPurpose = new List<String>(), ArrDate = new List<String>(), ArrStatus = new List<String>();
+        List<String> ArrItem = new List<String>(), ArrQuantity= new List<string>(), ArrPurpose = new List<String>(), ArrDate = new List<String>(), ArrStatus = new List<String>(), ArrDO = new List<String>();
         private async void GetRequest()
         {
             using (var client = new HttpClient())
@@ -73,7 +73,7 @@ namespace iBarangayApp
                         ArrDate.Add(rqst.GetString("DateOfRequest"));
                         ArrPurpose.Add(rqst.GetString("Purpose"));
                         ArrStatus.Add(rqst.GetString("Status"));
-                        //String strdeliveryoptions = rqst.GetString("Options");
+                        ArrDO.Add(rqst.GetString("Options"));
                     }
 
                     serviceArrayList = new List<SFrag>();
@@ -110,11 +110,13 @@ namespace iBarangayApp
 
         private void List_Click(object sender, AdapterView.ItemClickEventArgs e)
         {
-            Intent intent = new Intent(this.Activity, typeof(Req_Fragment));
-            intent.PutExtra("Date", ArrItem[e.Position].ToString());
-            intent.PutExtra("Subject", ArrPurpose[e.Position]);
-            intent.PutExtra("Level", ArrDate[e.Position]);
-            intent.PutExtra("ImgLoc", ArrStatus[e.Position]);
+            Intent intent = new Intent(this.Activity, typeof(Ser_Fragment));
+            intent.PutExtra("Item", ArrItem[e.Position].ToString());
+            intent.PutExtra("Date", ArrDate[e.Position].ToString());
+            intent.PutExtra("Quantity", ArrQuantity[e.Position]);
+            intent.PutExtra("Purpose", ArrPurpose[e.Position]);
+            intent.PutExtra("Status", ArrStatus[e.Position]);
+            intent.PutExtra("DO", ArrDO[e.Position]);
             StartActivity(intent);
         }
 

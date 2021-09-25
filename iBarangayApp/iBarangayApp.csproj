@@ -71,6 +71,8 @@
     <Compile Include="CustomAdapterService.cs" />
     <Compile Include="CustomAdapterRequest.cs" />
     <Compile Include="frag_request1.cs" />
+    <Compile Include="frag_service5.cs" />
+    <Compile Include="frag_service6.cs" />
     <Compile Include="frag_service4.cs" />
     <Compile Include="frag_service2.cs" />
     <Compile Include="frag_service3.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RFrag.cs" />
     <Compile Include="Service_Module.cs" />
+    <Compile Include="Ser_Fragment.cs" />
     <Compile Include="SFrag.cs" />
     <Compile Include="Signup.cs" />
     <Compile Include="Signup2.cs" />
@@ -270,6 +273,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_service_module.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\service_view.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

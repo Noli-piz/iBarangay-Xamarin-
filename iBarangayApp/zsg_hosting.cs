@@ -24,7 +24,7 @@ namespace iBarangayApp
 
         public zsg_hosting()
         {
-            String hosting = hosting1;
+            String hosting = hosting2;
 
             announcement = hosting + "ibarangay_announcement.php";          //Announcement
             login = hosting + "ibarangay_login.php";                        //Login
@@ -51,7 +51,7 @@ namespace iBarangayApp
             servicepending = hosting + "ibarangay_servicepending.php";      //Ser_Fragment2  // ?Username=
             serviceapproved = hosting + "ibarangay_serviceapproved.php";     //Ser_Fragment3  // ?Username=
             servicedisapproved = hosting + "ibarangay_servicedisapproved.php";  //Ser_Fragment4  // ?Username=
-            serviceborrowed = hosting + "ibarangay_serviceborrowed.php";  //Ser_Fragment5  // ?Username=
+            serviceborrowed = hosting + "ibarangay_servicebarrowed.php";  //Ser_Fragment5  // ?Username=
             servicereturned = hosting + "ibarangay_servicereturned.php";  //Ser_Fragment6  // ?Username=
         }
 

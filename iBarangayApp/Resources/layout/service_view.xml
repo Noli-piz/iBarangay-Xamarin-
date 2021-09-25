@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Req_FragmentModule"
+    android:padding="30dp">
+
+    <TextView
+        android:id="@+id/ser_tvback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BACK"
+        android:textSize="18dp"
+        android:textColor="@color/red"
+        android:layout_marginBottom="40dp"/>
+
+
+    <TextView
+        android:id="@+id/ser_doctype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Document Type:"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"/>
+
+    
+    <TextView
+        android:id="@+id/ser_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quantity:"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/ser_reqdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Requested Date:"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/ser_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status:"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/ser_do"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delivery Option:"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/ser_purpose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Purpose:"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"/>
+</LinearLayout>
