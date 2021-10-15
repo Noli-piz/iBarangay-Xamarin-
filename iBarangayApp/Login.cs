@@ -16,6 +16,8 @@ using Newtonsoft.Json;
 using System.IO;
 using Google.Android.Material.Snackbar;
 using System.Collections.Specialized;
+using Google.Android.Material.ProgressIndicator;
+using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
@@ -26,6 +28,7 @@ namespace iBarangayApp
     {
         private EditText edtUsername, edtPassword;
         private Button btnLogin, btnSignup;
+        private CircularProgressIndicator progBar;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -40,6 +43,8 @@ namespace iBarangayApp
 
             btnLogin.Click += BtnLogin_Click;
             btnSignup.Click += BtnSignup_Click;
+
+            progBar = FindViewById<CircularProgressIndicator>(Resource.Id.circular);
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -50,6 +55,7 @@ namespace iBarangayApp
             }
             else
             {
+                progBar.Visibility = ViewStates.Visible;
                 GetInfo(sender);
             }
         }
@@ -84,6 +90,7 @@ namespace iBarangayApp
                     user.setStrusername(edtUsername.Text);
                     user.nameandimage();
 
+                    await Task.Delay(4000);
                     Intent intent = new Intent(this, typeof(MainAnnouncement));
                     StartActivity(intent);
                     Finish();
@@ -97,6 +104,10 @@ namespace iBarangayApp
             catch (Exception ex)
             {
                 Toast.MakeText(this, "Please check your connection.", ToastLength.Short).Show();
+            }
+            finally
+            {
+                progBar.Visibility = ViewStates.Invisible;
             }
         }
     

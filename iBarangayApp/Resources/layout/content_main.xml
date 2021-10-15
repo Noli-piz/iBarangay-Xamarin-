@@ -8,6 +8,8 @@
     tools:showIn="@layout/app_bar_main"
     android:id="@+id/Rlayout">
     
+
+
     <LinearLayout
        android:orientation="vertical"
         android:layout_width="match_parent"
@@ -32,18 +34,21 @@
                 android:layout_height="match_parent"
                 android:text="Announcement"/>
         </LinearLayout>
-
-            <ListView
-                android:id="@+id/listview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:dividerHeight="5dp"
-                tools:listitem="@layout/announcement_list_item" />
-
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+                <ListView
+                    android:id="@+id/listview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:dividerHeight="5dp"
+                    tools:listitem="@layout/announcement_list_item" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
-
+   
         
 </RelativeLayout>

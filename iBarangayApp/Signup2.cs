@@ -1,10 +1,14 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
+using Android.Provider;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Google.Android.Material.Snackbar;
+using Microsoft.WindowsAzure.Storage;
+using Azure.Storage.Blobs;
 using Org.Json;
 using System;
 using System.Collections.Generic;
@@ -25,14 +29,15 @@ namespace iBarangayApp
         private ImageView imgProfile;
         private Spinner sprCivilStatus, sprGender, sprPurok, sprVoterStatus;
         private EditText ETFname, ETMname, ETLname, ETSname, ETBirthPlace, ETCedulaNo, ETContactNo;
-
+        private TextView tvBack;
+        private ProgressBar pb;
 
         public static readonly int PickImageId = 1000;
 
         private const int DATE_DIALOG = 1, DATE_DIALOG1 = 2;
         private int year, month, day, year1, month1, day1;
 
-        private string strEmail, strPassword;
+        private string strEmail, strPassword, strImageUrl;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -57,11 +62,13 @@ namespace iBarangayApp
             sprPurok = FindViewById<Spinner>(Resource.Id.spnrPurok);
             sprVoterStatus = FindViewById<Spinner>(Resource.Id.spnrVoterStatus);
 
+            tvBack = FindViewById<TextView>(Resource.Id.lblBack2);
+            pb = FindViewById<ProgressBar>(Resource.Id.pb);
+
             LoadSpinners();
 
             imgProfile.Click += ImageClick;
 
-            SetDate();
             btnBirthDate.Click += delegate {
                 ShowDialog(DATE_DIALOG1);
             };
@@ -70,12 +77,15 @@ namespace iBarangayApp
                 ShowDialog(DATE_DIALOG);
             };
 
+            SetDate();
             btnSignup.Click += Signup_Click;
 
             sprCivilStatus.ItemSelected += spCV_Click;
             sprGender.ItemSelected += spG_Click;
             sprPurok.ItemSelected += spPRK_Click;
             sprVoterStatus.ItemSelected += spVS_Click;
+
+            tvBack.Click += tvBack_Click;
         }
 
         /// Spinner Event
@@ -160,7 +170,7 @@ namespace iBarangayApp
             data[14] = ETContactNo.Text;
             data[15] = ETCedulaNo.Text;
             data[16] = inf.getStrEmail();
-            data[17] = "Image";
+            data[17] = strImageUrl;
 
             
             zsg_hosting hosting = new zsg_hosting();
@@ -226,11 +236,75 @@ namespace iBarangayApp
         {
             if ((requestCode == PickImageId) && (resultCode == Result.Ok) && (data != null))
             {
-                Android.Net.Uri uri = data.Data;
-                imgProfile.SetImageURI(uri);
+                Android.Net.Uri filePath = data.Data;
+                try
+                {
+                    if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.P)
+                    {
+                        Bitmap mBitMap = MediaStore.Images.Media.GetBitmap(ContentResolver, filePath);
+                        imgProfile.SetImageBitmap(mBitMap);
+                        byte[] bitmapData;
+                        using (var stream = new MemoryStream())
+                        {
+                            mBitMap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
+                            bitmapData = stream.ToArray();
+                        }
+                        MemoryStream inputStream = new MemoryStream(bitmapData);
+                        Upload(inputStream);
+                    }
+                    else
+                    {
+                        var source = ImageDecoder.CreateSource(ContentResolver, filePath);
+                        var MBitmap = ImageDecoder.DecodeBitmap(source);
+                        imgProfile.SetImageBitmap(MBitmap);
+
+                        byte[] bitmapData;
+                        using (var stream = new MemoryStream())
+                        {
+                            MBitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
+                            bitmapData = stream.ToArray();
+                        }
+                    }
+                }
+                catch (IOException e)
+                {
+                    Toast.MakeText(this, "" + e.ToString(), ToastLength.Short).Show();
+                }
+
             }
         }
-        
+
+        /// upload Blob function
+        private async void Upload(Stream stream)
+        {
+            try
+            {
+                pb.Visibility = ViewStates.Visible;
+                btnSignup.Enabled = false;
+
+                var account = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=ibarangaystorage;AccountKey=SuJ5YP5ovCzjeBc9sLKwbbhrk8GIWjrSyO493EnTRLc7tpNxApS/sdsIvk+qXWOhohgVASKI6VjFgrCYGYiuEw==;EndpointSuffix=core.windows.net");
+                var client = account.CreateCloudBlobClient();
+                var container = client.GetContainerReference("profileimages");
+                await container.CreateIfNotExistsAsync();
+                var name = Guid.NewGuid().ToString();
+                var blockBlob = container.GetBlockBlobReference($"{name}.png");
+                await blockBlob.UploadFromStreamAsync(stream);
+                string URL = blockBlob.Uri.OriginalString;
+                strImageUrl = URL;
+                Toast.MakeText(this, "Image uploaded to Blob Storage Successfully!", ToastLength.Long).Show();
+            }
+            catch (Exception e)
+            {
+                Toast.MakeText(this, "" + e.ToString(), ToastLength.Short).Show();
+            }
+            finally
+            {
+                pb.Visibility = ViewStates.Invisible;
+                btnSignup.Enabled = true;
+
+            }
+        }
+
 
         /// <summary>
         /// Date
@@ -242,14 +316,18 @@ namespace iBarangayApp
             day = Int32.Parse(DateTime.Now.ToString("dd"));
 
             year1 = Int32.Parse(DateTime.Now.ToString("yyyy"));
-            month1 = Int32.Parse(DateTime.Now.ToString("MM"));
+            month1 = Int32.Parse(DateTime.Now.ToString("MM")) ;
             day1 = Int32.Parse(DateTime.Now.ToString("dd"));
 
             DateTime date = new DateTime(year, month, day);
             DateTime date1 = new DateTime(year1, month1, day1);
             
-            Rdate = date.ToString("yyyy - MM - dd");
-            Bdate = date1.ToString("yyyy - MM - dd");
+            Rdate = date.ToString("yyyy-MM-dd");
+            Bdate = date1.ToString("yyyy-MM-dd");
+
+            btnRegistration.Text = date.ToString("MMM dd, yyyy");
+            btnBirthDate.Text = date1.ToString("MMM dd, yyyy");
+
         }
 
         int SelectedNum=0;
@@ -260,12 +338,12 @@ namespace iBarangayApp
                 case DATE_DIALOG:
                     {
                         SelectedNum = id;
-                        return new DatePickerDialog(this, this, year, month, day);
+                        return new DatePickerDialog(this, this, year, month-1, day);
                     }
                 case DATE_DIALOG1:
                     {
                         SelectedNum = id;
-                        return new DatePickerDialog(this, this, year1, month1, day1);
+                        return new DatePickerDialog(this, this, year1, month1-1, day1);
                     }
                 default:
                     break;
@@ -280,22 +358,22 @@ namespace iBarangayApp
 
             if (SelectedNum == 1) {
                 this.year = year;
-                this.month = month;
+                this.month = month+1;
                 day = dayOfMonth;
 
-                DateTime date = new DateTime(year, month, day);
-                btnRegistration.Text = date.ToString("MMM dd, yyyy");
+                DateTime date = new DateTime(this.year, this.month, day);
+                btnRegistration.Text = date.ToString("MMMM dd, yyyy");
                 Rdate = date.ToString("yyyy-MM-dd");
             }
             else
             {
                 this.year1 = year;
-                this.month1 = month;
+                this.month1 = month+1;
                 day1 = dayOfMonth;
 
                 DateTime date1 = new DateTime(year1, month1, day1);
-                btnBirthDate.Text = date1.ToString("MMM dd, yyyy");
-                Bdate = date1.ToString("yyyy - MM - dd");
+                btnBirthDate.Text = date1.ToString("MMMM dd, yyyy");
+                Bdate = date1.ToString("yyyy-MM-dd");
             }
         }
 
@@ -399,5 +477,32 @@ namespace iBarangayApp
             sprVoterStatus.Adapter = adapters;
         }
 
+        private void tvBack_Click(Object sender, EventArgs e)
+        {
+            OnBackPressed();
+        }
+
+        public override void OnBackPressed()
+        {
+            Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+            alertDiag.SetTitle("Exit");
+            alertDiag.SetMessage("Are you sure you want to Exit?");
+            alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
+
+                Intent intent = new Intent(this, typeof(Signup));
+                StartActivity(intent);
+                Finish();
+            });
+
+            alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
+
+
+            });
+
+            Dialog diag = alertDiag.Create();
+            diag.Show();
+        }
+
     }
+
 }

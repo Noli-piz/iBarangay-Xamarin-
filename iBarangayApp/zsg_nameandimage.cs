@@ -8,7 +8,9 @@ using Android.Widget;
 using Org.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 
@@ -60,10 +62,34 @@ namespace iBarangayApp
 
                     strname = Fname + " " + Mname + " " + Lname + " " + Sname;
                     strImg = Image;
+                    DownloadImage(Image);
                 }
 
             }
         }
+
+        private async void DownloadImage(string url)
+        {
+            try
+            {
+                Bitmap imageBitmap = null;
+                using (var webClient = new WebClient())
+                {
+                    var imageBytes = webClient.DownloadData(url);
+                    if (imageBytes != null && imageBytes.Length > 0)
+                    {
+                        imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                    }
+                }
+
+                bitImg = imageBitmap;
+            }
+            catch (Exception e)
+            {
+                bitImg = null;
+            }
+        }
+
 
         //Setters Getters
         public String getStrusername()

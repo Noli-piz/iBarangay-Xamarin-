@@ -19,6 +19,10 @@ using Newtonsoft.Json.Linq;
 using System.Collections;
 using Android.Widget;
 using Java.Util;
+using AndroidX.SwipeRefreshLayout.Widget;
+using Android.Graphics;
+using System.Net;
+using Android.Graphics.Drawables;
 
 namespace iBarangayApp
 {
@@ -29,8 +33,10 @@ namespace iBarangayApp
 
         private NavigationView navigationView;
         private RelativeLayout rout;
+        private SwipeRefreshLayout swipe;
         private ListView lview;
         private TextView TvName;
+        private ImageView imgView;
 
         private List<Announcement> announcementArrayList;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -60,6 +66,16 @@ namespace iBarangayApp
             View view = navigationView.GetHeaderView(0);
             TvName = view.FindViewById<TextView>(Resource.Id.tvMenuName);
             TvName.Text = nme.getStrname();
+            imgView = view.FindViewById<ImageView>(Resource.Id.imgMenuProfile);
+            if(nme.getImg() != null)
+            {
+                imgView.SetImageBitmap(nme.getImg());
+            }
+
+            swipe = FindViewById<SwipeRefreshLayout>(Resource.Id.refreshContent); 
+            swipe.SetColorSchemeColors(Color.Red, Color.Yellow, Color.Blue);
+            swipe.Refreshing = true;
+            swipe.Refresh += RefreshLayout;
 
 
             GetAnnouncement();
@@ -151,57 +167,68 @@ namespace iBarangayApp
         List<string> LId = new List<string>(), LDate = new List<string>(), LSubject = new List<string>(), LLevel = new List<string>(), LImageLocation = new List<string>(), LDetail = new List<string>();
         private async void GetAnnouncement()
         {
-            using (var client = new HttpClient())
+            try
             {
-                zsg_hosting hosting = new zsg_hosting();
-                //var uri = "http://192.168.254.114/iBarangay/ibarangay_announcement.php";
-                var uri = hosting.getAnnouncement();
-                var result = await client.GetStringAsync(uri);
-
-
-                JSONObject jsonresult = new JSONObject(result);
-                int success = jsonresult.GetInt("success");
-
-                if (success== 1)
+                using (var client = new HttpClient())
                 {
-                    JSONArray ann = jsonresult.GetJSONArray("announcement");
+                    zsg_hosting hosting = new zsg_hosting();
+                    //var uri = "http://192.168.254.114/iBarangay/ibarangay_announcement.php";
+                    var uri = hosting.getAnnouncement();
+                    var result = await client.GetStringAsync(uri);
 
 
-                    for (int i =0; i < ann.Length() ; i++) {
-                        JSONObject ancmnt = ann.GetJSONObject(i);
+                    JSONObject jsonresult = new JSONObject(result);
+                    int success = jsonresult.GetInt("success");
 
-                        LId.Add(ancmnt.GetInt("id_announcement").ToString());
-                        LDate.Add(ancmnt.GetString("Date"));
-                        LSubject.Add(ancmnt.GetString("Subject"));
-                        LLevel.Add(ancmnt.GetString("Level"));
-                        LImageLocation.Add(ancmnt.GetString("ImageLocation"));
-                        LDetail.Add(ancmnt.GetString("Details"));
-                    }
-
-                    announcementArrayList = new List<Announcement>();
-                    for (int i = 0; i < ann.Length(); i++)
+                    if (success == 1)
                     {
-                        Announcement announcem = new Announcement()
+                        JSONArray ann = jsonresult.GetJSONArray("announcement");
+
+
+                        for (int i = 0; i < ann.Length(); i++)
                         {
-                            id_announcement = Int32.Parse(LId[i].ToString()),
-                            Date = LDate[i].ToString(),
-                            Subject = LSubject[i].ToString(),
-                            Level = LLevel[i].ToString(),
-                            ImageLocation = LImageLocation[i].ToString(),
-                            Details = LDetail[i].ToString()
-                        };  
+                            JSONObject ancmnt = ann.GetJSONObject(i);
 
-                        announcementArrayList.Add(announcem);
+                            LId.Add(ancmnt.GetInt("id_announcement").ToString());
+                            LDate.Add(ancmnt.GetString("Date"));
+                            LSubject.Add(ancmnt.GetString("Subject"));
+                            LLevel.Add(ancmnt.GetString("Level"));
+                            LImageLocation.Add(ancmnt.GetString("ImageLocation"));
+                            LDetail.Add(ancmnt.GetString("Details"));
+                        }
+
+                        announcementArrayList = new List<Announcement>();
+                        for (int i = 0; i < ann.Length(); i++)
+                        {
+                            Announcement announcem = new Announcement()
+                            {
+                                id_announcement = Int32.Parse(LId[i].ToString()),
+                                Date = LDate[i].ToString(),
+                                Subject = LSubject[i].ToString(),
+                                Level = LLevel[i].ToString(),
+                                ImageLocation = LImageLocation[i].ToString(),
+                                Details = LDetail[i].ToString()
+                            };
+
+                            announcementArrayList.Add(announcem);
+                        }
+
+                        var adapter = new CustomAdapter(this, announcementArrayList);
+                        lview.Adapter = adapter;
+                        lview.ItemClick += List_Click;
                     }
-
-                    var adapter = new CustomAdapter(this, announcementArrayList);
-                    lview.Adapter = adapter;
-                    lview.ItemClick += List_Click;
+                    else
+                    {
+                        Snackbar.Make(rout, "Failed to Load", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                    }
                 }
-                else
-                {
-                    Snackbar.Make(rout, "Failed to Load", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Make(rout, "Unable to connect to the database.", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+            }
+            finally{
+                swipe.Refreshing = false;
             }
         }
 
@@ -215,6 +242,27 @@ namespace iBarangayApp
             intent.PutExtra("ImgLoc", LImageLocation[e.Position]);
             intent.PutExtra("Detail", LDetail[e.Position]);
             StartActivity(intent);
+        }
+        private void RefreshLayout(object sender, EventArgs e)
+        {
+            GetAnnouncement();
+        }
+
+
+        private Bitmap DownloadImage(string url)
+        {
+            Bitmap imageBitmap = null;
+
+            using (var webClient = new WebClient())
+            {
+                var imageBytes = webClient.DownloadData(url);
+                if (imageBytes != null && imageBytes.Length > 0)
+                {
+                    imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                }
+            }
+
+            return imageBitmap;
         }
     }
 }

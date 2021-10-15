@@ -32,6 +32,7 @@ namespace iBarangayApp
         private TextView TvName;
 
         private TabLayout tabLayout;
+        private ImageView imgView;
         private ViewPager pager;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -64,7 +65,11 @@ namespace iBarangayApp
             View view = navigationView.GetHeaderView(0);
             TvName = view.FindViewById<TextView>(Resource.Id.tvMenuName);
             TvName.Text = nme.getStrname();
-
+            imgView = view.FindViewById<ImageView>(Resource.Id.imgMenuProfile);
+            if (nme.getImg() != null)
+            {
+                imgView.SetImageBitmap(nme.getImg());
+            }
 
             // Tabs
 
