@@ -49,11 +49,12 @@ namespace iBarangayApp
             var txtSubject = view.FindViewById<TextView>(Resource.Id.subject);
             var txtDetails = view.FindViewById<TextView>(Resource.Id.details);
             var txtDate = view.FindViewById<TextView>(Resource.Id.date);
+            var imgProfile = view.FindViewById<ImageView>(Resource.Id.alert_pic);
 
             txtSubject.Text = "Subject: " + announcement[position].Subject;
             txtDetails.Text = "Details: " + announcement[position].Details;
             txtDate.Text = "Date: " + announcement[position].Date;
-
+            imgProfile.SetImageBitmap(announcement[position].Image);
             return view;
         }
     }

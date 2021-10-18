@@ -45,6 +45,8 @@ namespace iBarangayApp
             btnSignup.Click += BtnSignup_Click;
 
             progBar = FindViewById<CircularProgressIndicator>(Resource.Id.circular);
+            zsg_nameandimage user = new zsg_nameandimage();
+            user.reset();
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)

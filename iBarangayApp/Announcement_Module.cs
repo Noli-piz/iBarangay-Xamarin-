@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -7,6 +8,7 @@ using Android.Widget;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace iBarangayApp
@@ -34,6 +36,23 @@ namespace iBarangayApp
             tvSub.Text = Intent.GetStringExtra("Subject");
             tvDate.Text = Intent.GetStringExtra("Date");
             tvDetails.Text = Intent.GetStringExtra("Detail");
+            DownloadImage(Intent.GetStringExtra("ImgLoc"));
+        }
+
+        public async void DownloadImage(String url)
+        {
+            Bitmap imageBitmap = null;
+
+            using (var webClient = new WebClient())
+            {
+                var imageBytes = webClient.DownloadData(url);
+                if (imageBytes != null && imageBytes.Length > 0)
+                {
+                    imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
+                }
+            }
+
+            imgView.SetImageBitmap(imageBitmap);
         }
 
         private void Back_Click(object sender, EventArgs e)

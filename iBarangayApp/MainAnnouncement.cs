@@ -210,6 +210,7 @@ namespace iBarangayApp
                                 Details = LDetail[i].ToString()
                             };
 
+                            announcem.DownloadImage(LImageLocation[i].ToString());
                             announcementArrayList.Add(announcem);
                         }
 
