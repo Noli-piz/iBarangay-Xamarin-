@@ -19,6 +19,7 @@ namespace iBarangayApp
     public class zsg_nameandimage
     {
         private static String strusername, strname, stremail, strImg;
+        private static Boolean boolVerified = true;
         private static Bitmap bitImg;
 
         private zsg_hosting sg_host = new zsg_hosting();
@@ -115,6 +116,10 @@ namespace iBarangayApp
         public String getStrImg()
         {
             return strImg;
+        }
+        public Boolean getboolVerified()
+        {
+            return boolVerified;
         }
 
         public Bitmap getImg()

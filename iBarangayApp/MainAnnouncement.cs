@@ -39,6 +39,8 @@ namespace iBarangayApp
         private ImageView imgView;
 
         private List<Announcement> announcementArrayList;
+        private zsg_nameandimage nme = new zsg_nameandimage();
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -62,7 +64,6 @@ namespace iBarangayApp
             navigationView.SetNavigationItemSelectedListener(this);
             navigationView.SetCheckedItem(Resource.Id.nav_announcement);
 
-            zsg_nameandimage nme = new zsg_nameandimage();
             View view = navigationView.GetHeaderView(0);
             TvName = view.FindViewById<TextView>(Resource.Id.tvMenuName);
             TvName.Text = nme.getStrname();
@@ -72,6 +73,12 @@ namespace iBarangayApp
                 imgView.SetImageBitmap(nme.getImg());
             }
 
+            imgView.Clickable = true;
+            imgView.Click += (s, e) =>
+            {
+                StartActivity(new Intent(this, typeof(UpdateInfo_Module)));
+            };
+
             swipe = FindViewById<SwipeRefreshLayout>(Resource.Id.refreshContent); 
             swipe.SetColorSchemeColors(Color.Red, Color.Yellow, Color.Blue);
             swipe.Refreshing = true;
@@ -80,7 +87,6 @@ namespace iBarangayApp
 
             GetAnnouncement();
         }
-
         public override void OnBackPressed()
         {
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -94,26 +100,29 @@ namespace iBarangayApp
             }
         }
 
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            MenuInflater.Inflate(Resource.Menu.menu_main, menu);
-            return true;
-        }
+        //public override bool OnCreateOptionsMenu(IMenu menu)
+        //{
+        //    MenuInflater.Inflate(Resource.Menu.menu_main, menu);
+        //    return true;
+        //}
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            int id = item.ItemId;
-            if (id == Resource.Id.action_settings)
-            {
-                return true;
-            }
+        //public override bool OnOptionsItemSelected(IMenuItem item)
+        //{
+        //    int id = item.ItemId;
+        //    if (id == Resource.Id.action_settings)
+        //    {
+        //        return true;
+        //    }
 
-            return base.OnOptionsItemSelected(item);
-        }
+        //    return base.OnOptionsItemSelected(item);
+        //}
 
         public bool OnNavigationItemSelected(IMenuItem item)
         {
             int id = item.ItemId;
+
+            navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            navigationView.SetNavigationItemSelectedListener(this);
 
             if (id == Resource.Id.nav_announcement)
             {
@@ -121,17 +130,57 @@ namespace iBarangayApp
             }
             else if (id == Resource.Id.nav_request)
             {
-                Intent intent = new Intent(this, typeof(MainRequest));
-                intent.AddFlags(ActivityFlags.NoAnimation);
-                this.Window.TransitionBackgroundFadeDuration = 0;
-                StartActivity(intent);
+                if (nme.getboolVerified() == true)
+                {
+                    Intent intent = new Intent(this, typeof(MainRequest));
+                    intent.AddFlags(ActivityFlags.NoAnimation);
+                    this.Window.TransitionBackgroundFadeDuration = 0;
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetTitle("Not Verified");
+                    alertDiag.SetMessage("Unable to access because you are still not Verified.");
+                    alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) => {
+
+                        
+                    });
+                    alertDiag.SetNegativeButton("Do it Later", (senderAlert, args) => {
+
+                        navigationView.SetCheckedItem(Resource.Id.nav_announcement);
+                        alertDiag.Dispose();
+                    });
+                    Dialog diag = alertDiag.Create();
+                    diag.Show();
+                }
             }
             else if (id == Resource.Id.nav_service)
             {
-                Intent intent = new Intent(this, typeof(MainService));
-                intent.AddFlags(ActivityFlags.NoAnimation);
-                this.Window.TransitionBackgroundFadeDuration = 0;
-                StartActivity(intent);
+                if (nme.getboolVerified() == true)
+                {
+                    Intent intent = new Intent(this, typeof(MainService));
+                    intent.AddFlags(ActivityFlags.NoAnimation);
+                    this.Window.TransitionBackgroundFadeDuration = 0;
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetTitle("Not Verified");
+                    alertDiag.SetMessage("Unable to access because you are still not Verified.");
+                    alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) => {
+
+
+                    });
+                    alertDiag.SetNegativeButton("Do it Later", (senderAlert, args) => {
+
+                        navigationView.SetCheckedItem(Resource.Id.nav_announcement);
+                        alertDiag.Dispose();
+                    });
+                    Dialog diag = alertDiag.Create();
+                    diag.Show();
+                }
             }
             else if (id == Resource.Id.nav_logout)
             {
@@ -145,7 +194,10 @@ namespace iBarangayApp
                     Finish();
                 });
                 alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
+
+                    navigationView.SetCheckedItem(Resource.Id.nav_announcement);
                     alertDiag.Dispose();
+
                 });
                 Dialog diag = alertDiag.Create();
                 diag.Show();
@@ -247,23 +299,6 @@ namespace iBarangayApp
         private void RefreshLayout(object sender, EventArgs e)
         {
             GetAnnouncement();
-        }
-
-
-        private Bitmap DownloadImage(string url)
-        {
-            Bitmap imageBitmap = null;
-
-            using (var webClient = new WebClient())
-            {
-                var imageBytes = webClient.DownloadData(url);
-                if (imageBytes != null && imageBytes.Length > 0)
-                {
-                    imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
-                }
-            }
-
-            return imageBitmap;
         }
     }
 }

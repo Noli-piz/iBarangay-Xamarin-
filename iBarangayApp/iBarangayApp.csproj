@@ -101,6 +101,7 @@
     <Compile Include="SFrag.cs" />
     <Compile Include="Signup.cs" />
     <Compile Include="Signup2.cs" />
+    <Compile Include="UpdateInfo_Module.cs" />
     <Compile Include="zsg_hosting.cs" />
     <Compile Include="zsg_nameandimage.cs" />
   </ItemGroup>
@@ -133,7 +134,6 @@
     <AndroidResource Include="Resources\drawable-v21\ic_menu_send.xml" />
     <AndroidResource Include="Resources\drawable-v21\ic_menu_share.xml" />
     <AndroidResource Include="Resources\menu\activity_main_drawer.xml" />
-    <AndroidResource Include="Resources\menu\menu_main.xml" />
     <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher.xml" />
     <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
@@ -291,6 +291,14 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\service_view.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\menu_main.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\UpdateInfo_Module.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

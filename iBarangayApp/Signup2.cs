@@ -239,7 +239,7 @@ namespace iBarangayApp
                 Android.Net.Uri filePath = data.Data;
                 try
                 {
-                    if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.P)
+                    if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.P )
                     {
                         Bitmap mBitMap = MediaStore.Images.Media.GetBitmap(ContentResolver, filePath);
                         imgProfile.SetImageBitmap(mBitMap);
@@ -264,6 +264,8 @@ namespace iBarangayApp
                             MBitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
                             bitmapData = stream.ToArray();
                         }
+                        MemoryStream inputStream = new MemoryStream(bitmapData);
+                        Upload(inputStream);
                     }
                 }
                 catch (IOException e)

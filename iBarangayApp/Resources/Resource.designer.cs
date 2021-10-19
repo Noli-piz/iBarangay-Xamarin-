@@ -8243,6 +8243,9 @@ namespace iBarangayApp
 			// aapt resource value: 0x7F0B0090
 			public const int text_view_with_theme_line_height = 2131427472;
 			
+			// aapt resource value: 0x7F0B0092
+			public const int UpdateInfo_Module = 2131427474;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
