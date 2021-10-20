@@ -18,9 +18,12 @@ namespace iBarangayApp
 {
     public class zsg_nameandimage
     {
+        private static String Fname, Mname, Lname, Sname, Image;
         private static String strusername, strname, stremail, strImg;
         private static Boolean boolVerified = true;
         private static Bitmap bitImg;
+        private static String Birthplace, Gender, CivilStatus, ContactNo, CedulaNo, Purok;
+        private static int BYear, BMonth, BDay, RYear, RMonth, RDay;
 
         private zsg_hosting sg_host = new zsg_hosting();
         public void nameandimage()
@@ -52,7 +55,6 @@ namespace iBarangayApp
                 if (success == 1)
                 {
                     JSONArray information = jsonresult.GetJSONArray("info");
-                    String Fname, Mname, Lname, Sname, Image;
 
                     JSONObject info = information.GetJSONObject(0);
                     Fname = info.GetString("Fname");
@@ -60,6 +62,22 @@ namespace iBarangayApp
                     Lname = info.GetString("Lname");
                     Sname = info.GetString("Sname");
                     Image = info.GetString("Image");
+                    
+                    Birthplace = info.GetString("Birthplace");
+                    ContactNo = info.GetString("ContactNo");
+                    CedulaNo = info.GetString("CedulaNo");
+
+                    CivilStatus = info.GetString("CivilStatus");
+                    Gender = info.GetString("Gender");
+
+                    BYear = Int32.Parse(info.GetString("BYear"));
+                    BMonth = Int32.Parse(info.GetString("BMonth"));
+                    BDay = Int32.Parse(info.GetString("BDay"));
+
+                    RYear = Int32.Parse(info.GetString("RYear"));
+                    RMonth = Int32.Parse(info.GetString("RMonth"));
+                    RDay = Int32.Parse(info.GetString("RDay"));
+
 
                     strname = Fname + " " + Mname + " " + Lname + " " + Sname;
                     strImg = Image;
@@ -107,6 +125,37 @@ namespace iBarangayApp
         {
             return strname;
         }
+
+        public String getFirstName()
+        {
+            return Fname;
+        }
+        public String getMiddleName()
+        {
+            return Mname;
+        }
+        public String getLastName()
+        {
+            return Lname;
+        }
+        public String getSuffixName()
+        {
+            return Sname;
+        }
+
+        public String getBirthPlace() { return Birthplace; }
+        public String getCiviStatus() { return CivilStatus; }
+        public String getGender() { return Gender; }
+        public String getContactNo() { return ContactNo; }
+        public String getCedulaNo() { return CedulaNo; }
+
+        public int getBYear() { return BYear; }
+        public int getBMonth() { return BMonth; }
+        public int getBDay() { return BDay; }
+
+        public int getRYear() { return RYear; }
+        public int getRMonth() { return RMonth; }
+        public int getRDay() { return RDay; }
 
         public String getStremail()
         {

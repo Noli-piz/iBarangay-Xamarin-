@@ -102,6 +102,7 @@
     <Compile Include="Signup.cs" />
     <Compile Include="Signup2.cs" />
     <Compile Include="UpdateInfo_Module.cs" />
+    <Compile Include="VerifyAccount.cs" />
     <Compile Include="zsg_hosting.cs" />
     <Compile Include="zsg_nameandimage.cs" />
   </ItemGroup>
@@ -299,6 +300,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\UpdateInfo_Module.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\VerifyAccount.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

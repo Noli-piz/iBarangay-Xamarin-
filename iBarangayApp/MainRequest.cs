@@ -34,6 +34,7 @@ namespace iBarangayApp
         private TabLayout tabLayout;
         private ImageView imgView;
         private ViewPager pager;
+        private ISharedPreferences pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -71,6 +72,11 @@ namespace iBarangayApp
                 imgView.SetImageBitmap(nme.getImg());
             }
 
+            imgView.Clickable = true;
+            imgView.Click += (s, e) =>
+            {
+                StartActivity(new Intent(this, typeof(UpdateInfo_Module)));
+            };
             // Tabs
 
             tabLayout = FindViewById<TabLayout>(Resource.Id.tabLayout);
@@ -153,6 +159,11 @@ namespace iBarangayApp
                 alertDiag.SetTitle("Confirm Logout");
                 alertDiag.SetMessage("Are you sure you want to logout?");
                 alertDiag.SetPositiveButton("Logout", (senderAlert, args) => {
+
+                    ISharedPreferencesEditor edit = pref.Edit();
+                    edit.Clear();
+                    edit.PutString("Logout", "true");
+                    edit.Apply();
 
                     Intent intent = new Intent(this, typeof(Login));
                     StartActivity(intent);

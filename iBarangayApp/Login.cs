@@ -18,6 +18,7 @@ using Google.Android.Material.Snackbar;
 using System.Collections.Specialized;
 using Google.Android.Material.ProgressIndicator;
 using System.Threading.Tasks;
+using Google.Android.Material.TextField;
 
 namespace iBarangayApp
 {
@@ -29,6 +30,8 @@ namespace iBarangayApp
         private EditText edtUsername, edtPassword;
         private Button btnLogin, btnSignup;
         private CircularProgressIndicator progBar;
+
+        private ISharedPreferences pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -47,8 +50,44 @@ namespace iBarangayApp
             progBar = FindViewById<CircularProgressIndicator>(Resource.Id.circular);
             zsg_nameandimage user = new zsg_nameandimage();
             user.reset();
+
+
+
+            String strLogin = pref.GetString("Logout", String.Empty);
+            if (strLogin == "false")
+            {
+                edtUsername.Text = pref.GetString("Username", String.Empty);
+                edtPassword.Text = pref.GetString("Password", String.Empty);
+                Object sender = new object();
+
+                Disable();
+                GetInfo(sender);
+            }
         }
 
+        TextInputLayout lay;
+        bool visibleToUser =true;
+        private void Disable()
+        {
+            edtUsername.Visibility = ViewStates.Invisible;
+            edtPassword.Visibility = ViewStates.Invisible;
+            btnLogin.Visibility = ViewStates.Invisible;
+            btnSignup.Visibility = ViewStates.Invisible;
+
+            lay = FindViewById<TextInputLayout>(Resource.Id.txtLayout1S2);
+            lay.Visibility = ViewStates.Invisible;
+            visibleToUser = false;
+        }
+        private void Enable()
+        {
+            edtUsername.Visibility = ViewStates.Visible;
+            edtPassword.Visibility = ViewStates.Visible;
+            btnLogin.Visibility = ViewStates.Visible;
+            btnSignup.Visibility = ViewStates.Visible;
+
+            lay.Visibility = ViewStates.Visible;
+            visibleToUser = true;
+        }
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             if (edtUsername.Text== "" || edtPassword.Text == "")
@@ -57,7 +96,6 @@ namespace iBarangayApp
             }
             else
             {
-                progBar.Visibility = ViewStates.Visible;
                 GetInfo(sender);
             }
         }
@@ -72,6 +110,7 @@ namespace iBarangayApp
         {
             try
             {
+                progBar.Visibility = ViewStates.Visible;
                 zsg_hosting hosting = new zsg_hosting();
                 var uri = hosting.getLogin();
 
@@ -88,6 +127,12 @@ namespace iBarangayApp
 
                 if (responseFromServer == "Login Success")
                 {
+                    ISharedPreferencesEditor edit = pref.Edit();
+                    edit.PutString("Username", edtUsername.Text);
+                    edit.PutString("Password", edtPassword.Text);
+                    edit.PutString("Logout", "false");
+                    edit.Apply();
+
                     zsg_nameandimage user = new zsg_nameandimage();
                     user.setStrusername(edtUsername.Text);
                     user.nameandimage();
@@ -110,6 +155,9 @@ namespace iBarangayApp
             finally
             {
                 progBar.Visibility = ViewStates.Invisible;
+                if (visibleToUser == false) {
+                    Enable();
+                }
             }
         }
     

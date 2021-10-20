@@ -40,6 +40,7 @@ namespace iBarangayApp
 
         private List<Announcement> announcementArrayList;
         private zsg_nameandimage nme = new zsg_nameandimage();
+        private ISharedPreferences pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -54,12 +55,15 @@ namespace iBarangayApp
             rout = FindViewById<RelativeLayout>(Resource.Id.Rlayout);
             lview = FindViewById<ListView>(Resource.Id.listview);
 
-
+            // Initialized Drawer Layout
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             drawer.AddDrawerListener(toggle);
             toggle.SyncState();
 
+
+
+            //Initialized Navigation Information
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
             navigationView.SetCheckedItem(Resource.Id.nav_announcement);
@@ -79,14 +83,20 @@ namespace iBarangayApp
                 StartActivity(new Intent(this, typeof(UpdateInfo_Module)));
             };
 
-            swipe = FindViewById<SwipeRefreshLayout>(Resource.Id.refreshContent); 
+            //  Get Announcement
+            swipe = FindViewById<SwipeRefreshLayout>(Resource.Id.refreshContent);
             swipe.SetColorSchemeColors(Color.Red, Color.Yellow, Color.Blue);
             swipe.Refreshing = true;
             swipe.Refresh += RefreshLayout;
 
-
             GetAnnouncement();
         }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+        }
+
         public override void OnBackPressed()
         {
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -188,6 +198,11 @@ namespace iBarangayApp
                 alertDiag.SetTitle("Confirm Logout");
                 alertDiag.SetMessage("Are you sure you want to logout?");
                 alertDiag.SetPositiveButton("Logout", (senderAlert, args) => {
+
+                    ISharedPreferencesEditor edit = pref.Edit();
+                    edit.Clear();
+                    edit.PutString("Logout", "true");
+                    edit.Apply();
 
                     Intent intent = new Intent(this, typeof(Login));
                     StartActivity(intent);
