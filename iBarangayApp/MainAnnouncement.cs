@@ -154,7 +154,9 @@ namespace iBarangayApp
                     alertDiag.SetMessage("Unable to access because you are still not Verified.");
                     alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) => {
 
-                        
+                        StartActivity(new Intent(this, typeof(VerifyAccount)));
+                        Finish();
+
                     });
                     alertDiag.SetNegativeButton("Do it Later", (senderAlert, args) => {
 
@@ -181,6 +183,8 @@ namespace iBarangayApp
                     alertDiag.SetMessage("Unable to access because you are still not Verified.");
                     alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) => {
 
+                        StartActivity(new Intent(this, typeof(VerifyAccount)));
+                        Finish();
 
                     });
                     alertDiag.SetNegativeButton("Do it Later", (senderAlert, args) => {

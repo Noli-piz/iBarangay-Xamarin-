@@ -1,7 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".VerifyAccount">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:id="@+id/lblCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:text="Cancel"
+                android:textSize="15sp"
+                android:textColor="@color/red"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Front of ID"
+                android:textSize="15sp"/>
+
+           <ImageView
+                android:id="@+id/imgVerify"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:background="@drawable/border"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:text="Please take a picture of your ID"
+                android:textSize="15sp"/>
+
+            <Button
+                android:id="@+id/btnPickImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pick an Image"/>
+
+            <Button
+                android:id="@+id/btnOpenCam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Open Camera"/>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit"/>
+        </LinearLayout>
+
+		<ProgressBar
+	        android:id="@id/pb"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:indeterminate="true"
+			android:visibility="invisible"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:layout_centerInParent="true" />
+    </RelativeLayout>
+</ScrollView>

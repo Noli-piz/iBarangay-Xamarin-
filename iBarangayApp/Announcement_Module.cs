@@ -57,6 +57,11 @@ namespace iBarangayApp
 
         private void Back_Click(object sender, EventArgs e)
         {
+            OnBackPressed();
+        }
+
+        public override void OnBackPressed()
+        {
             Intent intent = new Intent(this, typeof(MainAnnouncement)).SetFlags(ActivityFlags.ReorderToFront);
             StartActivity(intent);
             Finish();
