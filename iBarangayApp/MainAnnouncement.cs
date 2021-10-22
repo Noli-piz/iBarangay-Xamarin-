@@ -211,6 +211,7 @@ namespace iBarangayApp
                     Intent intent = new Intent(this, typeof(Login));
                     StartActivity(intent);
                     Finish();
+                    this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
                 });
                 alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
 

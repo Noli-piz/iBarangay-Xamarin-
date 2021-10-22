@@ -19,6 +19,7 @@ using System.Collections.Specialized;
 using Google.Android.Material.ProgressIndicator;
 using System.Threading.Tasks;
 using Google.Android.Material.TextField;
+using Android.Views.InputMethods;
 
 namespace iBarangayApp
 {
@@ -96,6 +97,9 @@ namespace iBarangayApp
             }
             else
             {
+                InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+                imm.HideSoftInputFromWindow(edtUsername.WindowToken, 0);
+                imm.HideSoftInputFromWindow(edtPassword.WindowToken, 0);
                 GetInfo(sender);
             }
         }
@@ -160,9 +164,6 @@ namespace iBarangayApp
                 }
             }
         }
-    
     }
-
-
 }
 

@@ -49,23 +49,12 @@ namespace iBarangayApp
 
         public override void OnBackPressed()
         {
-            Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
-            alertDiag.SetTitle("Exit");
-            alertDiag.SetMessage("Are you sure you want to Exit?");
-            alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
 
-                Intent intent = new Intent(this, typeof(MainService));
-                StartActivity(intent);
-                Finish();
-            });
+            Intent intent = new Intent(this, typeof(MainService));
+            StartActivity(intent);
+            Finish();
+            this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
 
-            alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
-
-
-            });
-
-            Dialog diag = alertDiag.Create();
-            diag.Show();
         }
     }
 }

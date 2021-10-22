@@ -512,6 +512,8 @@ namespace iBarangayApp
             Intent intent = new Intent(this, typeof(MainAnnouncement));
             StartActivity(intent);
             Finish();
+            this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
+
         }
     }
 }

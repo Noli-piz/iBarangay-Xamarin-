@@ -303,7 +303,6 @@ namespace iBarangayApp
             {
                 pb.Visibility = ViewStates.Invisible;
                 btnSignup.Enabled = true;
-
             }
         }
 
@@ -494,6 +493,7 @@ namespace iBarangayApp
                 Intent intent = new Intent(this, typeof(Signup));
                 StartActivity(intent);
                 Finish();
+                this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
             });
 
             alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {

@@ -78,6 +78,14 @@ namespace iBarangayApp
                     RMonth = Int32.Parse(info.GetString("RMonth"));
                     RDay = Int32.Parse(info.GetString("RDay"));
 
+                    if (info.GetString("Valid") == "0" || info.GetString("Valid") == "false" || info.GetString("Valid") == "False")
+                    {
+                        boolVerified = false;
+                    }
+                    else
+                    {
+                        boolVerified = true;
+                    }
 
                     strname = Fname + " " + Mname + " " + Lname + " " + Sname;
                     strImg = Image;

@@ -6,60 +6,76 @@
     android:layout_height="match_parent"
     tools:context=".VerifyAccount2">
 
-    <LinearLayout
+     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+                <TextView
+                android:id="@+id/lblBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:text="BACK"
+                android:textSize="15sp"
+                android:textColor="@color/red"/>
 
             <TextView
-            android:id="@+id/lblBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:text="BACK"
-            android:textSize="15sp"
-            android:textColor="@color/red"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Owners Face and Front of ID"
+                android:textSize="15sp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Owners Face and Front of ID"
-            android:textSize="15sp"/>
+            <ImageView
+                android:id="@+id/imgVerify"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:background="@drawable/border"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:background="@drawable/border"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:text="Please take a picture of yourself holding your ID"
+                android:textSize="15sp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center"
-            android:text="Please take a picture of yourself holding your ID"
-            android:textSize="15sp"/>
+            <Button
+                android:id="@+id/btnPickImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pick an Image"/>
 
-        <Button
-            android:id="@+id/btnPickImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Pick an Image"/>
+            <Button
+                android:id="@+id/btnOpenCam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Open Camera"/>
 
-        <Button
-            android:id="@+id/btnOpenCam"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Open Camera"/>
+            <Button
+                android:id="@+id/btnFinish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Finish"/>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnFinish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Finish"/>
-    </LinearLayout>
+    	<ProgressBar
+	        android:id="@id/pb"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:indeterminate="true"
+			android:visibility="invisible"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:layout_centerInParent="true" />
+    </RelativeLayout>
 </ScrollView>
