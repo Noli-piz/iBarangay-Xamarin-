@@ -38,13 +38,13 @@ namespace iBarangayApp
         private TextView TvName;
         private ImageView imgView;
 
-        private List<Announcement> announcementArrayList;
+        private static List<Announcement> announcementArrayList;
+        private static CustomAdapter adapter;
         private zsg_nameandimage nme = new zsg_nameandimage();
         private ISharedPreferences pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
@@ -90,12 +90,16 @@ namespace iBarangayApp
             swipe.Refresh += RefreshLayout;
 
             GetAnnouncement();
+            base.OnCreate(savedInstanceState);
         }
 
-        protected override void OnResume()
+
+        protected override void OnSaveInstanceState(Bundle outState)
         {
-            base.OnResume();
+            base.OnSaveInstanceState(outState);
         }
+
+
 
         public override void OnBackPressed()
         {
@@ -286,7 +290,7 @@ namespace iBarangayApp
                             announcementArrayList.Add(announcem);
                         }
 
-                        var adapter = new CustomAdapter(this, announcementArrayList);
+                        adapter = new CustomAdapter(this, announcementArrayList);
                         lview.Adapter = adapter;
                         lview.ItemClick += List_Click;
                     }

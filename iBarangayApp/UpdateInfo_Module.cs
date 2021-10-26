@@ -34,8 +34,8 @@ namespace iBarangayApp
 
         public static readonly int PickImageId = 1000;
 
-        private const int DATE_DIALOG = 1, DATE_DIALOG1 = 2;
-        private int year, month, day, year1, month1, day1;
+        private const int BDATE_DIALOG = 1, RDATE_DIALOG = 2;
+        private int Byear, Bmonth, Bday, Ryear, Rmonth, Rday;
 
         private string strEmail, strPassword, strImageUrl;
 
@@ -72,11 +72,11 @@ namespace iBarangayApp
             imgProfile.Click += ImageClick;
 
             btnBirthDate.Click += delegate {
-                ShowDialog(DATE_DIALOG1);
+                ShowDialog(BDATE_DIALOG);
             };
 
             btnRegistration.Click += delegate {
-                ShowDialog(DATE_DIALOG);
+                ShowDialog(RDATE_DIALOG);
             };
 
             btnUpdate.Click += btnUpdate_Click;
@@ -227,7 +227,6 @@ namespace iBarangayApp
                 }
                 else
                 {
-                    ETBirthPlace.Text = responseFromServer;
                     View view = (View)sender;
                     Snackbar.Make(view, responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
                 }
@@ -333,22 +332,22 @@ namespace iBarangayApp
         /// </summary>
         private void SetDate()
         {
-            year = nme.getBYear();
-            month = nme.getBMonth();
-            day = nme.getBDay();
+            Byear = nme.getBYear();
+            Bmonth = nme.getBMonth();
+            Bday = nme.getBDay();
 
-            year1 = nme.getRYear();
-            month1 = nme.getRMonth();
-            day1 = nme.getRDay();
+            Ryear = nme.getRYear();
+            Rmonth = nme.getRMonth();
+            Rday = nme.getRDay();
 
-            DateTime date1 = new DateTime(year1, month1, day1);
-            DateTime date = new DateTime(year, month, day);
+            DateTime Bdatetime = new DateTime(Byear, Bmonth, Bday);
+            DateTime Rdatetime = new DateTime(Ryear, Rmonth, Rday);
 
-            Rdate = date1.ToString("yyyy-MM-dd");
-            Bdate = date.ToString("yyyy-MM-dd");
+            Bdate = Bdatetime.ToString("yyyy-MM-dd");
+            Rdate = Rdatetime.ToString("yyyy-MM-dd");
 
-            btnRegistration.Text = date1.ToString("MMM dd, yyyy");
-            btnBirthDate.Text = date.ToString("MMM dd, yyyy");
+            btnBirthDate.Text = Bdatetime.ToString("MMM dd, yyyy");
+            btnRegistration.Text = Rdatetime.ToString("MMM dd, yyyy");
 
         }
 
@@ -357,15 +356,15 @@ namespace iBarangayApp
         {
             switch (id)
             {
-                case DATE_DIALOG:
+                case BDATE_DIALOG:
                     {
                         SelectedNum = id;
-                        return new DatePickerDialog(this, this, year, month - 1, day);
+                        return new DatePickerDialog(this, this, Byear, Bmonth - 1, Bday);
                     }
-                case DATE_DIALOG1:
+                case RDATE_DIALOG:
                     {
                         SelectedNum = id;
-                        return new DatePickerDialog(this, this, year1, month1 - 1, day1);
+                        return new DatePickerDialog(this, this, Ryear, Rmonth - 1, Rday);
                     }
                 default:
                     break;
@@ -378,23 +377,23 @@ namespace iBarangayApp
         public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
         {
 
-            if (SelectedNum == 1)
+            if (SelectedNum == 2)
             {
-                this.year = year;
-                this.month = month + 1;
-                day = dayOfMonth;
+                this.Ryear = year;
+                this.Rmonth = month + 1;
+                Rday = dayOfMonth;
 
-                DateTime date = new DateTime(this.year, this.month, day);
+                DateTime date = new DateTime(this.Ryear, this.Rmonth, Rday);
                 btnRegistration.Text = date.ToString("MMMM dd, yyyy");
                 Rdate = date.ToString("yyyy-MM-dd");
             }
             else
             {
-                this.year1 = year;
-                this.month1 = month + 1;
-                day1 = dayOfMonth;
+                this.Byear = year;
+                this.Bmonth = month + 1;
+                Bday = dayOfMonth;
 
-                DateTime date1 = new DateTime(year1, month1, day1);
+                DateTime date1 = new DateTime(this.Byear, this.Bmonth, Bday);
                 btnBirthDate.Text = date1.ToString("MMMM dd, yyyy");
                 Bdate = date1.ToString("yyyy-MM-dd");
             }

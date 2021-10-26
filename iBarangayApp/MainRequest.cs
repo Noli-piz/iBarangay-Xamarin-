@@ -38,7 +38,6 @@ namespace iBarangayApp
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_request);
 
@@ -92,6 +91,13 @@ namespace iBarangayApp
             pager.Adapter = adapter;
             adapter.NotifyDataSetChanged();
             tabLayout.SetupWithViewPager(pager);
+            base.OnCreate(savedInstanceState);
+
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
         }
 
         public override void OnBackPressed()

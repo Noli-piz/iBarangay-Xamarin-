@@ -20,6 +20,7 @@ using Google.Android.Material.ProgressIndicator;
 using System.Threading.Tasks;
 using Google.Android.Material.TextField;
 using Android.Views.InputMethods;
+using Android.Util;
 
 namespace iBarangayApp
 {
@@ -100,6 +101,7 @@ namespace iBarangayApp
                 InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
                 imm.HideSoftInputFromWindow(edtUsername.WindowToken, 0);
                 imm.HideSoftInputFromWindow(edtPassword.WindowToken, 0);
+
                 GetInfo(sender);
             }
         }
@@ -114,6 +116,7 @@ namespace iBarangayApp
         {
             try
             {
+
                 progBar.Visibility = ViewStates.Visible;
                 zsg_hosting hosting = new zsg_hosting();
                 var uri = hosting.getLogin();
@@ -141,6 +144,7 @@ namespace iBarangayApp
                     user.setStrusername(edtUsername.Text);
                     user.nameandimage();
 
+                    
                     await Task.Delay(4000);
                     Intent intent = new Intent(this, typeof(MainAnnouncement));
                     StartActivity(intent);

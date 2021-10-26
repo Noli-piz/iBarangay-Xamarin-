@@ -15,7 +15,7 @@
         <item
             android:id="@+id/nav_service"
             android:icon="@drawable/ic_service"
-            android:title="Miscelleneos Services" />
+            android:title="Miscellaneous Services" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"

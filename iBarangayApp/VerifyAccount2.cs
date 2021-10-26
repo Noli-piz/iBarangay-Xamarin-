@@ -186,6 +186,7 @@ namespace iBarangayApp
         {
             try
             {
+                zsg_nameandimage nme = new zsg_nameandimage();
                 pb.Visibility = ViewStates.Visible;
 
                 zsg_hosting hosting = new zsg_hosting();
@@ -195,7 +196,7 @@ namespace iBarangayApp
                 using (var wb = new WebClient())
                 {
                     var datas = new NameValueCollection();
-                    datas["Username"] = "Jan";
+                    datas["Username"] = nme.getStrusername();
                     datas["IdImgUrl"] = strImageUrlId;
                     datas["IdAndFaceImgUrl"] = strImageUrl;
 
