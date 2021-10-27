@@ -22,7 +22,7 @@ using ActionBarDrawerToggle = AndroidX.AppCompat.App.ActionBarDrawerToggle;
 namespace iBarangayApp
 {
 
-    [Activity(Label = "Miscellaneous Services", NoHistory = true)]
+    [Activity(Label = "Miscellaneous Services")]
     public class MainService : AppCompatActivity ,NavigationView.IOnNavigationItemSelectedListener
     {
 
@@ -109,7 +109,11 @@ namespace iBarangayApp
             }
             else
             {
-                base.OnBackPressed();
+                Intent startMain = new Intent(Intent.ActionMain);
+                startMain.AddCategory(Intent.CategoryHome);
+                startMain.SetFlags(ActivityFlags.NewTask);
+                StartActivity(startMain);
+                //base.OnBackPressed();
             }
         }
 

@@ -22,7 +22,7 @@ using ActionBarDrawerToggle = AndroidX.AppCompat.App.ActionBarDrawerToggle;
 namespace iBarangayApp
 {
 
-    [Activity(Label = "Request", NoHistory=true)]
+    [Activity(Label = "Request")]
     public class MainRequest : AppCompatActivity ,NavigationView.IOnNavigationItemSelectedListener
     {
 
@@ -92,7 +92,6 @@ namespace iBarangayApp
             adapter.NotifyDataSetChanged();
             tabLayout.SetupWithViewPager(pager);
             base.OnCreate(savedInstanceState);
-
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -109,7 +108,11 @@ namespace iBarangayApp
             }
             else
             {
-                base.OnBackPressed();
+                Intent startMain = new Intent(Intent.ActionMain);
+                startMain.AddCategory(Intent.CategoryHome);
+                startMain.SetFlags(ActivityFlags.NewTask);
+                StartActivity(startMain);
+                //base.OnBackPressed();
             }
         }
 

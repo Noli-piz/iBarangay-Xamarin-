@@ -27,7 +27,7 @@ using Android.Graphics.Drawables;
 namespace iBarangayApp
 {
     //[Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
-    [Activity(Label = "iBarangay", NoHistory = true)]
+    [Activity(Label = "iBarangay")]
     public class MainAnnouncement : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
 
@@ -110,7 +110,11 @@ namespace iBarangayApp
             }
             else
             {
-                base.OnBackPressed();
+                Intent startMain = new Intent(Intent.ActionMain);
+                startMain.AddCategory(Intent.CategoryHome);
+                startMain.SetFlags(ActivityFlags.NewTask);
+                StartActivity(startMain);
+                //base.OnBackPressed();
             }
         }
 
@@ -148,8 +152,8 @@ namespace iBarangayApp
                 {
                     Intent intent = new Intent(this, typeof(MainRequest));
                     intent.AddFlags(ActivityFlags.NoAnimation);
-                    this.Window.TransitionBackgroundFadeDuration = 0;
                     StartActivity(intent);
+                    this.Window.TransitionBackgroundFadeDuration = 0;
                 }
                 else
                 {
