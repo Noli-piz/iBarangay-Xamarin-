@@ -70,7 +70,7 @@ namespace iBarangayApp
 
             View view = navigationView.GetHeaderView(0);
             TvName = view.FindViewById<TextView>(Resource.Id.tvMenuName);
-            TvName.Text = nme.getStrname();
+            TvName.Text = nme.getStrname() == null ? "loading..." : nme.getStrname();
             imgView = view.FindViewById<ImageView>(Resource.Id.imgMenuProfile);
             if(nme.getImg() != null)
             {
