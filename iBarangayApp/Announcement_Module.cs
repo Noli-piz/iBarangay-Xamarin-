@@ -62,8 +62,7 @@ namespace iBarangayApp
 
         public override void OnBackPressed()
         {
-            Intent intent = new Intent(this, typeof(MainAnnouncement)).SetFlags(ActivityFlags.ReorderToFront);
-            StartActivity(intent);
+            StartActivity(new Intent(this, typeof(MainAnnouncement)).SetFlags(ActivityFlags.ReorderToFront));
             Finish();
             this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
         }

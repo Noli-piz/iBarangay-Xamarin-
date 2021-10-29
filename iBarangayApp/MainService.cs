@@ -149,17 +149,13 @@ namespace iBarangayApp
 
             if (id == Resource.Id.nav_announcement)
             {
-                Intent intent = new Intent(this, typeof(MainAnnouncement));
-                intent.AddFlags(ActivityFlags.NoAnimation);
+                StartActivity(new Intent(this, typeof(MainAnnouncement)).SetFlags(ActivityFlags.NoAnimation));
                 this.Window.TransitionBackgroundFadeDuration = 0;
-                StartActivity(intent);
             }
             else if (id == Resource.Id.nav_request)
             {
-                Intent intent = new Intent(this, typeof(MainRequest));
-                intent.AddFlags(ActivityFlags.NoAnimation);
+                StartActivity(new Intent(this, typeof(MainRequest)).SetFlags(ActivityFlags.NoAnimation));
                 this.Window.TransitionBackgroundFadeDuration = 0;
-                StartActivity(intent);
             }
             else if (id == Resource.Id.nav_service)
             {
@@ -177,7 +173,7 @@ namespace iBarangayApp
                     edit.PutString("Logout", "true");
                     edit.Apply();
 
-                    Intent intent = new Intent(this, typeof(Login));
+                    Intent intent = new Intent(this, typeof(Login)).SetFlags( ActivityFlags.ClearTask | ActivityFlags.NewTask);
                     StartActivity(intent);
                     Finish();
                     this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);

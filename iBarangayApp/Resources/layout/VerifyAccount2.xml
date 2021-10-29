@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -49,23 +50,26 @@
                 android:text="Please take a picture of yourself holding your ID"
                 android:textSize="15sp"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPickImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pick an Image"/>
+                android:layout_height="60dp"
+                android:text="Pick an Image"
+                app:cornerRadius="23dp"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnOpenCam"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Open Camera"/>
+                android:layout_height="60dp"
+                android:text="Open Camera"
+                app:cornerRadius="23dp"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFinish"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Finish"/>
+                android:layout_height="60dp"
+                android:text="Finish"
+                app:cornerRadius="23dp"/>
         </LinearLayout>
 
     	<ProgressBar
@@ -76,6 +80,6 @@
 			android:visibility="invisible"
 	        android:layout_centerHorizontal="true"
 	        android:layout_centerVertical="true"
-	        android:layout_centerInParent="true" />
+	        android:layout_centerInParent="true"/>
     </RelativeLayout>
 </ScrollView>

@@ -490,10 +490,8 @@ namespace iBarangayApp
             alertDiag.SetMessage("Are you sure you want to Exit?");
             alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
 
-                Intent intent = new Intent(this, typeof(Signup));
-                StartActivity(intent);
+                base.OnBackPressed();
                 Finish();
-                this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
             });
 
             alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {

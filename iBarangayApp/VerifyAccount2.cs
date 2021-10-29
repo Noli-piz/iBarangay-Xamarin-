@@ -28,7 +28,7 @@ namespace iBarangayApp
         private TextView tvBack;
 
         private MemoryStream inputStream;
-        private string strImageUrl, strImageUrlId;
+        private string strImageUrl="", strImageUrlId;
         private Bitmap mBitMap;
         public static readonly int PickImageId = 1000;
 
@@ -79,13 +79,13 @@ namespace iBarangayApp
 
         private void btnFinish_Click(Object sender, EventArgs e)
         {
-            if (strImageUrl != null || strImageUrl != "")
+            if (strImageUrl == null || strImageUrl == "")
             {
-                Verification();
+                Toast.MakeText(this, "Please Select an Image.", ToastLength.Short).Show();
             }
             else
             {
-                Toast.MakeText(this, "Please Select an Image.", ToastLength.Short);
+                Verification();
             }
         }
 
@@ -94,6 +94,7 @@ namespace iBarangayApp
             base.OnActivityResult(requestCode, resultCode, data);
             try
             {
+
                 if ((requestCode == PickImageId) && (resultCode == Result.Ok) && (data != null))
                 {
                     Android.Net.Uri filePath = data.Data;
@@ -110,7 +111,6 @@ namespace iBarangayApp
                         }
                         inputStream = new MemoryStream(bitmapData);
                         Upload(inputStream);
-
                     }
                     else
                     {
@@ -157,8 +157,8 @@ namespace iBarangayApp
         {
             try
             {
+                this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.NotTouchable);
                 pb.Visibility = ViewStates.Visible;
-                btnFinish.Enabled = false;
 
                 var account = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=ibarangaystorage;AccountKey=SuJ5YP5ovCzjeBc9sLKwbbhrk8GIWjrSyO493EnTRLc7tpNxApS/sdsIvk+qXWOhohgVASKI6VjFgrCYGYiuEw==;EndpointSuffix=core.windows.net");
                 var client = account.CreateCloudBlobClient();
@@ -178,7 +178,7 @@ namespace iBarangayApp
             finally
             {
                 pb.Visibility = ViewStates.Invisible;
-                btnFinish.Enabled = true;
+                this.Window.ClearFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.NotTouchable);
             }
         }
 
@@ -215,7 +215,7 @@ namespace iBarangayApp
                     alertDiag.SetMessage("Please wait atleast 3-7 days to verify your account.");
                     alertDiag.SetPositiveButton("Okay", (senderAlert, args) => {
 
-                        StartActivity(new Intent(this, typeof(MainAnnouncement)));
+                        StartActivity(new Intent(this, typeof(MainAnnouncement)).SetFlags(ActivityFlags.NoHistory));
                         Finish();
                         this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
                     });

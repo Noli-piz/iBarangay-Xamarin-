@@ -76,24 +76,23 @@ namespace iBarangayApp
 
         private void btnSubmit_Click(Object sender, EventArgs e)
         {
-            //this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.NotTouchable);
-            //this.Window.ClearFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.NotTouchable);
-            if (strImageUrl != null || strImageUrl == "")
+            if (strImageUrl == null || strImageUrl == "")
+            {
+                Toast.MakeText(this, "Please Select an Image.", ToastLength.Short).Show();
+            }
+            else
             {
                 Intent intent = new Intent(this, typeof(VerifyAccount2));
                 intent.PutExtra("ID", strImageUrl);
                 StartActivity(intent);
-            }
-            else
-            {
-                Toast.MakeText(this, "Please Select an Image.", ToastLength.Short);
             }
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            try { 
+            try
+            {
                 if ((requestCode == PickImageId) && (resultCode == Result.Ok) && (data != null))
                 {
                     Android.Net.Uri filePath = data.Data;
@@ -155,8 +154,9 @@ namespace iBarangayApp
         {
             try
             {
+                this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.NotTouchable);
+
                 pb.Visibility = ViewStates.Visible;
-                btnSubmit.Enabled = false;
 
                 var account = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=ibarangaystorage;AccountKey=SuJ5YP5ovCzjeBc9sLKwbbhrk8GIWjrSyO493EnTRLc7tpNxApS/sdsIvk+qXWOhohgVASKI6VjFgrCYGYiuEw==;EndpointSuffix=core.windows.net");
                 var client = account.CreateCloudBlobClient();
@@ -177,7 +177,7 @@ namespace iBarangayApp
             finally
             {
                 pb.Visibility = ViewStates.Invisible;
-                btnSubmit.Enabled = true;
+                this.Window.ClearFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.NotTouchable);
             }
         }
 
@@ -188,7 +188,7 @@ namespace iBarangayApp
             alertDiag.SetMessage("Are you sure you want to quit?");
             alertDiag.SetPositiveButton("Okay", (senderAlert, args) => {
 
-                Intent intent = new Intent(this, typeof(MainAnnouncement));
+                Intent intent = new Intent(this, typeof(MainAnnouncement)).SetFlags(ActivityFlags.NoHistory);
                 StartActivity(intent);
                 Finish();
                 this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);

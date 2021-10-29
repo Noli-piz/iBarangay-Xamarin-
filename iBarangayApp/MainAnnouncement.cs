@@ -216,7 +216,7 @@ namespace iBarangayApp
                     edit.PutString("Logout", "true");
                     edit.Apply();
 
-                    Intent intent = new Intent(this, typeof(Login));
+                    Intent intent = new Intent(this, typeof(Login)).SetFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask);
                     StartActivity(intent);
                     Finish();
                     this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
