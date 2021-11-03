@@ -328,6 +328,8 @@ namespace iBarangayApp
         {
             GetAnnouncement();
         }
+
+        
     }
 }
 

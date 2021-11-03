@@ -21,6 +21,8 @@ using System.Threading.Tasks;
 using Google.Android.Material.TextField;
 using Android.Views.InputMethods;
 using Android.Util;
+using Android.Gms.Common;
+using Firebase.Iid;
 
 namespace iBarangayApp
 {
@@ -65,6 +67,9 @@ namespace iBarangayApp
                 Disable();
                 GetInfo(sender);
             }
+
+            IsPlayServiceAvailable();
+            Log.Error("TOKEN", FirebaseInstanceId.Instance.Token);
         }
 
         TextInputLayout lay;
@@ -168,6 +173,33 @@ namespace iBarangayApp
                 }
             }
         }
+
+
+        //// Push Notification from Firebase
+        ///
+
+        private bool IsPlayServiceAvailable()
+        {
+            int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
+            if (resultCode != ConnectionResult.Success)
+            {
+                if (GoogleApiAvailability.Instance.IsUserResolvableError(resultCode))
+                {
+                    Toast.MakeText(this, GoogleApiAvailability.Instance.GetErrorString(resultCode).ToString(), ToastLength.Short).Show();
+                }
+                else
+                {
+                    Toast.MakeText(this, "This device is not supported", ToastLength.Short).Show();
+                }
+                return false;
+            }
+            else
+            {
+                Toast.MakeText(this, "Google Play Service is available", ToastLength.Short).Show();
+                return true;
+            }
+        }
+
     }
 }
 
