@@ -9,6 +9,7 @@ using AndroidX.AppCompat.App;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using AndroidX.ViewPager.Widget;
+using Firebase.Messaging;
 using Google.Android.Material.FloatingActionButton;
 using Google.Android.Material.Navigation;
 using Google.Android.Material.Snackbar;
@@ -172,6 +173,8 @@ namespace iBarangayApp
                     edit.Clear();
                     edit.PutString("Logout", "true");
                     edit.Apply();
+
+                    FirebaseMessaging.Instance.UnsubscribeFromTopic("ibarangay");
 
                     Intent intent = new Intent(this, typeof(Login)).SetFlags( ActivityFlags.ClearTask | ActivityFlags.NewTask);
                     StartActivity(intent);

@@ -47,64 +47,71 @@ namespace iBarangayApp
         List<String> ArrItem = new List<String>(), ArrQuantity = new List<string>(), ArrPurpose = new List<String>(), ArrDate = new List<String>(), ArrStatus = new List<String>(), ArrDO = new List<String>();
         private async void GetRequest()
         {
-            using (var client = new HttpClient())
+            try
             {
-                zsg_nameandimage user = new zsg_nameandimage();
-                zsg_hosting hosting = new zsg_hosting();
-
-                var uri = hosting.getServiceapproved() + "?Username=" + user.getStrusername();
-                var result = await client.GetStringAsync(uri);
-
-
-                JSONObject jsonresult = new JSONObject(result);
-                int success = jsonresult.GetInt("success");
-
-                if (success == 1)
+                using (var client = new HttpClient())
                 {
-                    JSONArray req = jsonresult.GetJSONArray("service");
+                    zsg_nameandimage user = new zsg_nameandimage();
+                    zsg_hosting hosting = new zsg_hosting();
+
+                    var uri = hosting.getServiceapproved() + "?Username=" + user.getStrusername();
+                    var result = await client.GetStringAsync(uri);
 
 
-                    for (int i = 0; i < req.Length(); i++)
+                    JSONObject jsonresult = new JSONObject(result);
+                    int success = jsonresult.GetInt("success");
+
+                    if (success == 1)
                     {
-                        JSONObject rqst = req.GetJSONObject(i);
+                        JSONArray req = jsonresult.GetJSONArray("service");
 
-                        ArrItem.Add(rqst.GetString("ItemName"));
-                        ArrQuantity.Add(rqst.GetString("Quantity"));
-                        ArrDate.Add(rqst.GetString("DateOfRequest"));
-                        ArrPurpose.Add(rqst.GetString("Purpose"));
-                        ArrStatus.Add(rqst.GetString("Status"));
-                        ArrDO.Add(rqst.GetString("Options"));
+
+                        for (int i = 0; i < req.Length(); i++)
+                        {
+                            JSONObject rqst = req.GetJSONObject(i);
+
+                            ArrItem.Add(rqst.GetString("ItemName"));
+                            ArrQuantity.Add(rqst.GetString("Quantity"));
+                            ArrDate.Add(rqst.GetString("DateOfRequest"));
+                            ArrPurpose.Add(rqst.GetString("Purpose"));
+                            ArrStatus.Add(rqst.GetString("Status"));
+                            ArrDO.Add(rqst.GetString("Options"));
+                        }
+
+                        serviceArrayList = new List<SFrag>();
+                        for (int i = 0; i < req.Length(); i++)
+                        {
+                            SFrag rquest = new SFrag(
+                                i,
+                                ArrItem[i].ToString(),
+                                ArrQuantity[i].ToString(),
+                                ArrDate[i].ToString(),
+                                ArrPurpose[i].ToString(),
+                                ArrStatus[i].ToString()
+                            );
+
+                            serviceArrayList.Add(rquest);
+                        }
+
+                        var adapter = new CustomAdapterService(this.Activity, serviceArrayList);
+                        lview.Adapter = adapter;
+                        lview.ItemClick += List_Click;
+                    }
+                    else if ("No Data" == jsonresult.GetString("message"))
+                    {
+                        //Snackbar.Make(lout, "No Data.", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                    }
+                    else
+                    {
+                        Snackbar.Make(lout, "Failed to Load", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
                     }
 
-                    serviceArrayList = new List<SFrag>();
-                    for (int i = 0; i < req.Length(); i++)
-                    {
-                        SFrag rquest = new SFrag(
-                            i, 
-                            ArrItem[i].ToString(), 
-                            ArrQuantity[i].ToString(), 
-                            ArrDate[i].ToString(), 
-                            ArrPurpose[i].ToString(), 
-                            ArrStatus[i].ToString()
-                        );
-                        
-                        serviceArrayList.Add(rquest);
-                    }
-
-                    var adapter = new CustomAdapterService(this.Activity, serviceArrayList);
-                    lview.Adapter = adapter;
-                    lview.ItemClick += List_Click;
+                    swipe.Refreshing = false;
                 }
-                else if ("No Data" == jsonresult.GetString("message"))
-                {
-                    //Snackbar.Make(lout, "No Data.", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-                }
-                else
-                {
-                    Snackbar.Make(lout, "Failed to Load", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-                }
-
-                swipe.Refreshing = false;
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message + "", ToastLength.Short).Show();
             }
         }
 

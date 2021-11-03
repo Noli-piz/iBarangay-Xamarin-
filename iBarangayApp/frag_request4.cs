@@ -47,55 +47,62 @@ namespace iBarangayApp
         List<String> ArrItem = new List<String>(), ArrPurpose = new List<String>(), ArrDate = new List<String>(), ArrStatus = new List<String>(), ArrDO = new List<String>();
         private async void GetRequest()
         {
-            using (var client = new HttpClient())
+            try
             {
-                zsg_nameandimage user = new zsg_nameandimage();
-                zsg_hosting hosting = new zsg_hosting();
-
-                var uri = hosting.getRequestdisapproved() + "?Username=" + user.getStrusername();
-                var result = await client.GetStringAsync(uri);
-
-
-                JSONObject jsonresult = new JSONObject(result);
-                int success = jsonresult.GetInt("success");
-
-                if (success == 1)
+                using (var client = new HttpClient())
                 {
-                    JSONArray req = jsonresult.GetJSONArray("request");
+                    zsg_nameandimage user = new zsg_nameandimage();
+                    zsg_hosting hosting = new zsg_hosting();
+
+                    var uri = hosting.getRequestdisapproved() + "?Username=" + user.getStrusername();
+                    var result = await client.GetStringAsync(uri);
 
 
-                    for (int i = 0; i < req.Length(); i++)
+                    JSONObject jsonresult = new JSONObject(result);
+                    int success = jsonresult.GetInt("success");
+
+                    if (success == 1)
                     {
-                        JSONObject rqst = req.GetJSONObject(i);
+                        JSONArray req = jsonresult.GetJSONArray("request");
 
-                        ArrItem.Add(rqst.GetString("Types"));
-                        ArrDate.Add(rqst.GetString("DateOfRequest"));
-                        ArrPurpose.Add(rqst.GetString("Purpose"));
-                        ArrStatus.Add(rqst.GetString("Status"));
-                        ArrDO.Add(rqst.GetString("Options"));
+
+                        for (int i = 0; i < req.Length(); i++)
+                        {
+                            JSONObject rqst = req.GetJSONObject(i);
+
+                            ArrItem.Add(rqst.GetString("Types"));
+                            ArrDate.Add(rqst.GetString("DateOfRequest"));
+                            ArrPurpose.Add(rqst.GetString("Purpose"));
+                            ArrStatus.Add(rqst.GetString("Status"));
+                            ArrDO.Add(rqst.GetString("Options"));
+                        }
+
+                        requestArrayList = new List<RFrag>();
+                        for (int i = 0; i < req.Length(); i++)
+                        {
+                            RFrag rquest = new RFrag(i, ArrItem[i].ToString(), ArrDate[i].ToString(), ArrPurpose[i].ToString(), ArrStatus[i].ToString());
+                            requestArrayList.Add(rquest);
+                        }
+
+                        var adapter = new CustomAdapterRequest(this.Activity, requestArrayList);
+                        lview.Adapter = adapter;
+                        lview.ItemClick += List_Click;
+                    }
+                    else if ("No Data" == jsonresult.GetString("message"))
+                    {
+                        //Snackbar.Make(lout, "No Data.", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                    }
+                    else
+                    {
+                        Snackbar.Make(lout, "Failed to Load", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
                     }
 
-                    requestArrayList = new List<RFrag>();
-                    for (int i = 0; i < req.Length(); i++)
-                    {
-                        RFrag rquest = new RFrag(i, ArrItem[i].ToString(), ArrDate[i].ToString(), ArrPurpose[i].ToString(), ArrStatus[i].ToString());
-                        requestArrayList.Add(rquest);
-                    }
-
-                    var adapter = new CustomAdapterRequest(this.Activity, requestArrayList);
-                    lview.Adapter = adapter;
-                    lview.ItemClick += List_Click;
+                    swipe.Refreshing = false;
                 }
-                else if ("No Data" == jsonresult.GetString("message"))
-                {
-                    //Snackbar.Make(lout, "No Data.", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-                }
-                else
-                {
-                    Snackbar.Make(lout, "Failed to Load", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-                }
-
-                swipe.Refreshing = false;
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message + "", ToastLength.Short).Show();
             }
         }
 

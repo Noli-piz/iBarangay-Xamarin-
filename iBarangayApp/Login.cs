@@ -23,6 +23,8 @@ using Android.Views.InputMethods;
 using Android.Util;
 using Android.Gms.Common;
 using Firebase.Iid;
+using Plugin.FirebasePushNotification;
+using Firebase.Messaging;
 
 namespace iBarangayApp
 {
@@ -56,7 +58,6 @@ namespace iBarangayApp
             user.reset();
 
 
-
             String strLogin = pref.GetString("Logout", String.Empty);
             if (strLogin == "false")
             {
@@ -70,6 +71,7 @@ namespace iBarangayApp
 
             IsPlayServiceAvailable();
             Log.Error("TOKEN", FirebaseInstanceId.Instance.Token);
+            FirebaseMessaging.Instance.SubscribeToTopic("ibarangay");
         }
 
         TextInputLayout lay;
@@ -199,7 +201,6 @@ namespace iBarangayApp
                 return true;
             }
         }
-
     }
 }
 

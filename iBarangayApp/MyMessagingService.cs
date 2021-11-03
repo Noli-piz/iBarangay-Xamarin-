@@ -56,7 +56,7 @@ namespace iBarangayApp
                 NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Notification Channel",
                     Android.App.NotificationImportance.Default);
 
-                notificationChannel.Description = "iBarangay::";
+                notificationChannel.Description = "ibarangay";
                 notificationChannel.EnableLights(true);
                 notificationChannel.LightColor = Color.Red;
                 notificationChannel.SetVibrationPattern(new long[] { 0, 1000, 500, 1000 });

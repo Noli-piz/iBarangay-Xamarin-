@@ -23,6 +23,7 @@ using AndroidX.SwipeRefreshLayout.Widget;
 using Android.Graphics;
 using System.Net;
 using Android.Graphics.Drawables;
+using Firebase.Messaging;
 
 namespace iBarangayApp
 {
@@ -215,6 +216,9 @@ namespace iBarangayApp
                     edit.Clear();
                     edit.PutString("Logout", "true");
                     edit.Apply();
+
+                    FirebaseMessaging.Instance.UnsubscribeFromTopic("ibarangay");
+
 
                     Intent intent = new Intent(this, typeof(Login)).SetFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask);
                     StartActivity(intent);
