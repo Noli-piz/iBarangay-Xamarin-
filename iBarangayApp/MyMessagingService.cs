@@ -53,10 +53,14 @@ namespace iBarangayApp
 
             if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
             {
+                zsg_nameandimage nme = new zsg_nameandimage();
+
+                //To notify all user
                 NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Notification Channel",
-                    Android.App.NotificationImportance.Default);
+                    Android.App.NotificationImportance.High);
 
                 notificationChannel.Description = "ibarangay";
+                notificationChannel.Description = nme.getStrusername();
                 notificationChannel.EnableLights(true);
                 notificationChannel.LightColor = Color.Red;
                 notificationChannel.SetVibrationPattern(new long[] { 0, 1000, 500, 1000 });
@@ -64,6 +68,7 @@ namespace iBarangayApp
                 notificationManager.CreateNotificationChannel(notificationChannel);
             }
 
+            //Announcement
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
 
             notificationBuilder.SetAutoCancel(true)
@@ -75,7 +80,6 @@ namespace iBarangayApp
                 .SetContentInfo("info");
 
             notificationManager.Notify(new Random().Next(), notificationBuilder.Build());
-
         }
     }
 }

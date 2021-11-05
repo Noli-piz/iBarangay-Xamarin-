@@ -55,8 +55,11 @@ namespace iBarangayApp
 
             progBar = FindViewById<CircularProgressIndicator>(Resource.Id.circular);
             zsg_nameandimage user = new zsg_nameandimage();
-            user.reset();
 
+            IsPlayServiceAvailable();
+            FirebaseMessaging.Instance.UnsubscribeFromTopic("ibarangay");
+            FirebaseMessaging.Instance.UnsubscribeFromTopic(user.getStrusername());
+            user.reset();
 
             String strLogin = pref.GetString("Logout", String.Empty);
             if (strLogin == "false")
@@ -69,8 +72,8 @@ namespace iBarangayApp
                 GetInfo(sender);
             }
 
-            IsPlayServiceAvailable();
-            FirebaseMessaging.Instance.UnsubscribeFromTopic("ibarangay");
+
+
         }
 
         TextInputLayout lay;
