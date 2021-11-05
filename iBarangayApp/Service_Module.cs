@@ -20,9 +20,9 @@ namespace iBarangayApp
     public class Service_Module : Activity
     {
         private Button BTNAdd, BTNMin, BTNRequest;
-        private TextView TVQuantity, TVAvailable, tvBack;
+        private TextView  TVAvailable, tvBack;
         private Spinner sprDelivery, sprItem;
-        private EditText ETPurpose;
+        private EditText ETPurpose, TVQuantity;
 
         private List<string> DOption = new List<string>(), Item= new List<string>();
         protected override void OnCreate(Bundle savedInstanceState)
@@ -34,7 +34,7 @@ namespace iBarangayApp
             BTNMin = FindViewById<Button>(Resource.Id.btnMin);
             BTNRequest = FindViewById<Button>(Resource.Id.btnRequestItem);
             ETPurpose = FindViewById<EditText>(Resource.Id.ETPurposeItem);
-            TVQuantity = FindViewById<TextView>(Resource.Id.tvQuantity);
+            TVQuantity = FindViewById<EditText>(Resource.Id.tvQuantity);
             TVAvailable = FindViewById<TextView>(Resource.Id.tvAvailable);
             tvBack = FindViewById<TextView>(Resource.Id.tvBack);
             sprItem = FindViewById<Spinner>(Resource.Id.spnrItem);
@@ -50,6 +50,22 @@ namespace iBarangayApp
 
             BTNMin.Click += btnMin_Click;
             BTNAdd.Click += btnAdd_Click;
+
+            TVQuantity.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
+
+                if (TVQuantity.Text.Length > 0) {
+                    String Newvalue = TVQuantity.Text.ToString();
+                    if (Convert.ToInt32(Newvalue) > intAvailable)
+                    {
+                        Toast.MakeText(this, "Not Enough Quantity.", ToastLength.Short).Show();
+                        TVQuantity.Text = intAvailable.ToString();
+                    }
+                    else
+                    {
+                        intQuantity = Convert.ToInt32(Newvalue);
+                    }
+                }
+            };
         }
 
 
@@ -131,6 +147,7 @@ namespace iBarangayApp
                 if (responseFromServer == "Operation Success")
                 {
                     Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Request Success.");
                     alertDiag.SetMessage("Wait for the Barangay Official to Approve your Request.");
                     alertDiag.SetPositiveButton("OK", (senderAlert, args) => {

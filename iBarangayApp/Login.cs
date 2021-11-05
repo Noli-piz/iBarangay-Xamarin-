@@ -70,8 +70,7 @@ namespace iBarangayApp
             }
 
             IsPlayServiceAvailable();
-            Log.Error("TOKEN", FirebaseInstanceId.Instance.Token);
-            FirebaseMessaging.Instance.SubscribeToTopic("ibarangay");
+            FirebaseMessaging.Instance.UnsubscribeFromTopic("ibarangay");
         }
 
         TextInputLayout lay;

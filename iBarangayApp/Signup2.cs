@@ -115,12 +115,25 @@ namespace iBarangayApp
         /// <summary>
         private void Signup_Click(object sender, EventArgs e)
         {
-            if (ETFname.Text == "" || ETMname.Text == "" || ETLname.Text == "" || ETBirthPlace.Text == "" || ETCedulaNo.Text == "" || ETContactNo.Text == "")
+            if (ETFname.Text == ""){
+                ETFname.Error = "Cannot be Empty";
+            }
+            else if (ETLname.Text == "") {
+                ETLname.Error = "Cannot be Empty";
+            }
+            else if (ETBirthPlace.Text == "") { 
+                ETBirthPlace.Error = "Cannot be Empty";
+            }
+            else if ( ETContactNo.Text == ""){
+                ETContactNo.Error = "Cannot be Empty";
+            }
+            else if (strCV == "" || strGDR == "" || strPRK=="" || strVS=="")
             {
-                Toast.MakeText(this, "Please Insert Valid Information.", ToastLength.Short).Show();
-            } else if (strCV == "" || strGDR == "" || strPRK=="" || strVS=="")
-            {
+                ((TextView)sprCivilStatus.SelectedView).Error = "None Selected";
                 Toast.MakeText(this, "Please Select Valid Information.", ToastLength.Short).Show();
+            } else if (strImageUrl=="")
+            {
+                Toast.MakeText(this, "Please Select an Image.", ToastLength.Short).Show();
             }
             else
             {
@@ -157,7 +170,7 @@ namespace iBarangayApp
             data[1] = inf.getStrPassword();
             data[2] = "False";
             data[3] = ETFname.Text;
-            data[4] = ETMname.Text;
+            data[4] = ETMname.Text=="" ? "NONE" : ETMname.Text;
             data[5] = ETLname.Text;
             data[6] = ETSname.Text=="" ? "NONE" : ETSname.Text;
             data[7] = ETBirthPlace.Text;
@@ -168,7 +181,7 @@ namespace iBarangayApp
             data[12] = strVS;
             data[13] = Rdate;
             data[14] = ETContactNo.Text;
-            data[15] = ETCedulaNo.Text;
+            data[15] = ETCedulaNo.Text == "" ? "NONE" : ETCedulaNo.Text;
             data[16] = inf.getStrEmail();
             data[17] = strImageUrl;
 
@@ -200,12 +213,12 @@ namespace iBarangayApp
                 else if(responseFromServer == "Sign Up Success")
                 {
                     Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Sign Up Success.");
                     alertDiag.SetMessage("You Successfuly Create New Account.");
                     alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
 
-                        Intent intent = new Intent(this, typeof(Login));
-                        StartActivity(intent);
+                        StartActivity(new Intent(this, typeof(Login)).SetFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask));
                         Finish();
                     });
 

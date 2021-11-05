@@ -36,7 +36,7 @@ namespace iBarangayApp
         private RelativeLayout rout;
         private SwipeRefreshLayout swipe;
         private ListView lview;
-        private TextView TvName;
+        private TextView TvName, TvVerificationStatus;
         private ImageView imgView;
 
         private static List<Announcement> announcementArrayList;
@@ -71,7 +71,10 @@ namespace iBarangayApp
 
             View view = navigationView.GetHeaderView(0);
             TvName = view.FindViewById<TextView>(Resource.Id.tvMenuName);
-            TvName.Text = nme.getStrname() == null ? "loading..." : nme.getStrname();
+            TvVerificationStatus = view.FindViewById<TextView>(Resource.Id.tvVerificationStatus);
+
+            TvName.Text = nme.getStrname() == null ? "Loading..." : nme.getStrname();
+            TvVerificationStatus.Text = nme.getboolVerified() == false? "Not Verified" : "Verified";
             imgView = view.FindViewById<ImageView>(Resource.Id.imgMenuProfile);
             if(nme.getImg() != null)
             {
@@ -91,6 +94,8 @@ namespace iBarangayApp
             swipe.Refresh += RefreshLayout;
 
             GetAnnouncement();
+            FirebaseMessaging.Instance.SubscribeToTopic("ibarangay");
+            FirebaseMessaging.Instance.SubscribeToTopic(nme.getStrusername());
             base.OnCreate(savedInstanceState);
         }
 
@@ -159,6 +164,7 @@ namespace iBarangayApp
                 else
                 {
                     Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Not Verified");
                     alertDiag.SetMessage("Unable to access because you are still not Verified.");
                     alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) => {
@@ -188,6 +194,7 @@ namespace iBarangayApp
                 else
                 {
                     Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Not Verified");
                     alertDiag.SetMessage("Unable to access because you are still not Verified.");
                     alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) => {
@@ -208,6 +215,7 @@ namespace iBarangayApp
             else if (id == Resource.Id.nav_logout)
             {
                 Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                alertDiag.SetCancelable(false);
                 alertDiag.SetTitle("Confirm Logout");
                 alertDiag.SetMessage("Are you sure you want to logout?");
                 alertDiag.SetPositiveButton("Logout", (senderAlert, args) => {
@@ -216,8 +224,6 @@ namespace iBarangayApp
                     edit.Clear();
                     edit.PutString("Logout", "true");
                     edit.Apply();
-
-                    FirebaseMessaging.Instance.UnsubscribeFromTopic("ibarangay");
 
 
                     Intent intent = new Intent(this, typeof(Login)).SetFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask);

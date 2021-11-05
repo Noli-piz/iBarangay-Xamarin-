@@ -27,7 +27,7 @@ namespace iBarangayApp
 
         private MemoryStream inputStream;
         private string strImageUrl;
-        private static Bitmap mBitMap;
+        private Bitmap mBitMap;
         public static readonly int PickImageId = 1000;
 
         protected override void OnCreate(Bundle savedInstanceState)

@@ -96,11 +96,19 @@
                         android:backgroundTint="@color/navy2" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="*Optional"
+                    android:textSize="10dp"
+                    android:textColor="@color/red"/>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/txtLayout2S2"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="15dp"
                     android:hint="@string/mname"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
@@ -145,12 +153,11 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/invic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:paddingLeft="15dp"
-                    android:text="*You can leave this field blank."
+                    android:text="*Optional"
                     android:textSize="10dp"
                     android:textColor="@color/red"/>
 
@@ -336,7 +343,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_gravity="start"
-                        android:text="Select Voter Status"
+                        android:text="Are you a Registered Voter?"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
                     <Spinner
@@ -378,11 +385,20 @@
                         android:textSize="20sp"/>
                 </androidx.cardview.widget.CardView>
 
+
+                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="15dp"
+                    android:text="*Optional"
+                    android:textSize="10dp"
+                    android:textColor="@color/red"/>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayout12S2"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
                     android:hint="Cedula No."
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"

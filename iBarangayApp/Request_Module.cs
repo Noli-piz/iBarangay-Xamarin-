@@ -98,6 +98,7 @@ namespace iBarangayApp
                 if (responseFromServer == "Operation Success")
                 {
                     Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Request Success.");
                     alertDiag.SetMessage("Wait for the Barangay Official to Approve your Request.");
                     alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
