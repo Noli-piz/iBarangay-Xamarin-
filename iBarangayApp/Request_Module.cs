@@ -23,7 +23,7 @@ namespace iBarangayApp
         private Spinner sprDO, sprCert;
         private Button btnSubmit;
         private EditText edtPurpose;
-        private TextView tvBack;
+        private TextView tvBack, tvDocFee, tvDeliveryFee;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,6 +35,8 @@ namespace iBarangayApp
             btnSubmit = FindViewById<Button>(Resource.Id.btnRequest);
             edtPurpose = FindViewById<EditText>(Resource.Id.ETPurposeCert);
             tvBack = FindViewById<TextView>(Resource.Id.tvBack);
+            tvDocFee = FindViewById<TextView>(Resource.Id.tvDocFee);
+            tvDeliveryFee = FindViewById<TextView>(Resource.Id.tvDeliveryFee);
 
             LoadSpnr();
 
@@ -54,6 +56,8 @@ namespace iBarangayApp
         private void spC_Click(Object sender, AdapterView.ItemSelectedEventArgs e)
         {
             strCert = Cert[e.Position].ToString();
+            tvDocFee.Text = "Document Fee: " + DocFee[e.Position].ToString();
+            tvDeliveryFee.Text = "Delivery Fee: " + DeliveryFee[e.Position].ToString();
         }
 
         private void btnSubmit_Click(Object sender, EventArgs e)
@@ -125,7 +129,7 @@ namespace iBarangayApp
         }
 
       
-        private List<string> DOption = new List<string>(), Cert = new List<string>();
+        private List<string> DOption = new List<string>(), Cert = new List<string>(), DocFee = new List<string>(), DeliveryFee = new List<string>();
         private async void LoadSpnr()
         {
 
@@ -170,13 +174,18 @@ namespace iBarangayApp
 
                 if (success == 1)
                 {
-                    JSONArray cvl = jsonresult.GetJSONArray("certificate");
+                    JSONArray crt = jsonresult.GetJSONArray("certificate");
 
                     Cert = new List<string>();
-                    for (int i = 0; i < cvl.Length(); i++)
+                    DocFee = new List<string>();
+                    DeliveryFee = new List<string>();
+
+                    for (int i = 0; i < crt.Length(); i++)
                     {
-                        JSONObject c = cvl.GetJSONObject(i);
+                        JSONObject c = crt.GetJSONObject(i);
                         Cert.Add(c.GetString("Types"));
+                        DocFee.Add(c.GetString("DocFee"));
+                        DeliveryFee.Add(c.GetString("DeliveryFee"));
                     }
 
                     var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, Cert);

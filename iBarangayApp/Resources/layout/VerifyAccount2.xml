@@ -55,7 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Pick an Image"
-                app:cornerRadius="23dp"/>
+                app:cornerRadius="23dp"
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnOpenCam"

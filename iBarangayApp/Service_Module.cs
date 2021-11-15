@@ -20,7 +20,7 @@ namespace iBarangayApp
     public class Service_Module : Activity
     {
         private Button BTNAdd, BTNMin, BTNRequest;
-        private TextView  TVAvailable, tvBack;
+        private TextView  TVAvailable, tvBack, tvDelFee;
         private Spinner sprDelivery, sprItem;
         private EditText ETPurpose, TVQuantity;
 
@@ -37,6 +37,7 @@ namespace iBarangayApp
             TVQuantity = FindViewById<EditText>(Resource.Id.tvQuantity);
             TVAvailable = FindViewById<TextView>(Resource.Id.tvAvailable);
             tvBack = FindViewById<TextView>(Resource.Id.tvBack);
+            tvDelFee = FindViewById<TextView>(Resource.Id.tvDeliveryFee);
             sprItem = FindViewById<Spinner>(Resource.Id.spnrItem);
             sprDelivery = FindViewById<Spinner>(Resource.Id.spnerDelivery);
 
@@ -176,35 +177,8 @@ namespace iBarangayApp
         private async void LoadSpnr()
         {
 
-            ///// Delivery Option
-
-            zsg_hosting hosting = new zsg_hosting();
-            using (var client = new HttpClient())
-            {
-                var uri = hosting.getDeliveryoption();
-                var result = await client.GetStringAsync(uri);
-
-
-                JSONObject jsonresult = new JSONObject(result);
-                int success = jsonresult.GetInt("success");
-
-                if (success == 1)
-                {
-                    JSONArray cvl = jsonresult.GetJSONArray("deliveryoptions");
-
-                    DOption = new List<string>();
-                    for (int i = 0; i < cvl.Length(); i++)
-                    {
-                        JSONObject c = cvl.GetJSONObject(i);
-                        DOption.Add(c.GetString("Options"));
-                    }
-
-                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, DOption);
-                    sprDelivery.Adapter = adapter;
-                }
-            }
-
             ///// Items
+            zsg_hosting hosting = new zsg_hosting();
 
             using (var client = new HttpClient())
             {
@@ -231,6 +205,34 @@ namespace iBarangayApp
                 }
             }
 
+            ///// Delivery Option
+
+            using (var client = new HttpClient())
+            {
+                var uri = hosting.getDeliveryoption();
+                var result = await client.GetStringAsync(uri);
+
+
+                JSONObject jsonresult = new JSONObject(result);
+                int success = jsonresult.GetInt("success");
+
+                if (success == 1)
+                {
+                    JSONArray cvl = jsonresult.GetJSONArray("deliveryoptions");
+
+                    DOption = new List<string>();
+                    for (int i = 0; i < cvl.Length(); i++)
+                    {
+                        JSONObject c = cvl.GetJSONObject(i);
+                        DOption.Add(c.GetString("Options"));
+                    }
+
+                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, DOption);
+                    sprDelivery.Adapter = adapter;
+                }
+            }
+
+
         }
 
 
@@ -255,6 +257,7 @@ namespace iBarangayApp
                         JSONArray info = jsonresult.GetJSONArray("quantity");
                         JSONObject strAvai = info.GetJSONObject(0);
 
+                        tvDelFee.Text = "Delivery Fee: " + strAvai.GetString("DeliveryFee");
 
                         intAvailable = Int32.Parse(strAvai.GetString("Quantity"));
                         TVAvailable.Text = intAvailable.ToString();
@@ -264,6 +267,8 @@ namespace iBarangayApp
                             TVQuantity.Text = intAvailable.ToString();
                             intQuantity = intAvailable;
                         }
+
+                        
                     }
                 }
             }
@@ -272,6 +277,7 @@ namespace iBarangayApp
                 Toast.MakeText(this, ex.Message, ToastLength.Short).Show();
             }
         }
+
 
         private void tvBack_Click(Object sender, EventArgs e)
         {

@@ -71,7 +71,25 @@
         <Spinner
             android:id="@+id/spnrDeliveryOption"
             android:layout_width="match_parent"
-            android:layout_height="35dp" />
+            android:layout_height="35dp" 
+            android:layout_marginBottom="30dp"/>
+
+        
+        <TextView
+            android:id="@+id/tvDocFee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Doc Fee: "
+            android:textColor="@color/red"
+            style="@style/textDesign"/>
+
+        <TextView
+            android:id="@+id/tvDeliveryFee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery Fee: "
+            android:textColor="@color/red"
+            style="@style/textDesign"/>
 
         <Button
             android:id="@+id/btnRequest"

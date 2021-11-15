@@ -37,7 +37,7 @@ namespace iBarangayApp
         private const int DATE_DIALOG = 1, DATE_DIALOG1 = 2;
         private int year, month, day, year1, month1, day1;
 
-        private string strEmail, strPassword, strImageUrl;
+        private string strEmail, strPassword, strImageUrl="";
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
