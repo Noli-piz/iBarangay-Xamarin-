@@ -14,7 +14,7 @@ namespace iBarangayApp
     [Activity(Label = "Req_Fragment")]
     public class Req_Fragment : Activity
     {
-        private TextView tvBack, tvDocument, tvDate, tvPurpose, tvDO, tvStatus;
+        private TextView tvBack, tvDocument, tvDate, tvPurpose, tvDO, tvStatus, tvNote;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -28,12 +28,14 @@ namespace iBarangayApp
             tvPurpose = FindViewById<TextView>(Resource.Id.req_purpose);
             tvStatus = FindViewById<TextView>(Resource.Id.req_status);
             tvDO = FindViewById<TextView>(Resource.Id.req_do);
+            tvNote = FindViewById<TextView>(Resource.Id.req_note);
 
             tvDocument.Text = "Document: " + Intent.GetStringExtra("Item");
             tvDate.Text = "Requested Date: " + Intent.GetStringExtra("Date");
             tvPurpose.Text = "Purpose: " + Intent.GetStringExtra("Purpose");
             tvStatus.Text = "Status: " + Intent.GetStringExtra("Status");
             tvDO.Text = "Delivery Option: " + Intent.GetStringExtra("DO");
+            tvNote.Text = "Note: " + Intent.GetStringExtra("Note");
 
             tvBack.Click += tvBack_Click;
         }

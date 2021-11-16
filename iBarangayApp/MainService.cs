@@ -90,7 +90,7 @@ namespace iBarangayApp
             adapter.AddFragment(new frag_service2(), "Pending");
             adapter.AddFragment(new frag_service3(), "Approved");
             adapter.AddFragment(new frag_service4(), "Disapproved");
-            adapter.AddFragment(new frag_service5(), "Barrowed");
+            adapter.AddFragment(new frag_service5(), "Borrowed");
             adapter.AddFragment(new frag_service6(), "Returned");
 
             pager.Adapter = adapter;

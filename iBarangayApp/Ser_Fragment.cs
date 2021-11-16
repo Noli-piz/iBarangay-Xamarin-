@@ -14,7 +14,7 @@ namespace iBarangayApp
     [Activity(Label = "Ser_Fragment")]
     public class Ser_Fragment : Activity
     {
-        private TextView tvBack, tvDocument, tvDate, tvPurpose, tvDO, tvStatus, tvQuantity;
+        private TextView tvBack, tvDocument, tvDate, tvPurpose, tvDO, tvStatus, tvQuantity, tvNote;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -30,6 +30,7 @@ namespace iBarangayApp
             tvPurpose = FindViewById<TextView>(Resource.Id.ser_purpose);
             tvStatus = FindViewById<TextView>(Resource.Id.ser_status);
             tvDO = FindViewById<TextView>(Resource.Id.ser_do);
+            tvNote = FindViewById<TextView>(Resource.Id.ser_note);
 
             tvDocument.Text = "Item: " + Intent.GetStringExtra("Item");
             tvDate.Text = "Requested Date: " + Intent.GetStringExtra("Date");
@@ -37,6 +38,7 @@ namespace iBarangayApp
             tvPurpose.Text = "Purpose: " + Intent.GetStringExtra("Purpose");
             tvStatus.Text = "Status: " + Intent.GetStringExtra("Status");
             tvDO.Text = "Delivery Option: " + Intent.GetStringExtra("DO");
+            tvNote.Text = "Note: " + Intent.GetStringExtra("Note");
 
             tvBack.Click += tvBack_Click;
         }

@@ -44,7 +44,9 @@ namespace iBarangayApp
         }
 
 
-        List<String> ArrItem = new List<String>(), ArrPurpose = new List<String>(), ArrDate = new List<String>(), ArrStatus = new List<String>(), ArrDO = new List<String>();
+        List<String> ArrItem = new List<String>(), ArrPurpose = new List<String>(), 
+            ArrDate = new List<String>(), ArrStatus = new List<String>(), 
+            ArrDO = new List<String>(), ArrNote = new List<String>();
         private async void GetRequest()
         {
             try
@@ -75,6 +77,8 @@ namespace iBarangayApp
                             ArrPurpose.Add(rqst.GetString("Purpose"));
                             ArrStatus.Add(rqst.GetString("Status"));
                             ArrDO.Add(rqst.GetString("Options"));
+                            ArrNote.Add(rqst.GetString("Note"));
+
                         }
 
                         requestArrayList = new List<RFrag>();
@@ -114,6 +118,7 @@ namespace iBarangayApp
             intent.PutExtra("Date", ArrDate[e.Position]);
             intent.PutExtra("Status", ArrStatus[e.Position]);
             intent.PutExtra("DO", ArrDO[e.Position]);
+            intent.PutExtra("Note", ArrNote[e.Position]);
             StartActivity(intent);
         }
 
