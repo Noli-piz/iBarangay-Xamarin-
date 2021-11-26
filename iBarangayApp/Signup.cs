@@ -69,24 +69,23 @@ namespace iBarangayApp
                 {
                     var datas = new NameValueCollection();
                     datas["Username"] = edtUsername.Text;
+                    datas["Email"] = edtEmail.Text;
 
                     var response = wb.UploadValues(uri, "POST", datas);
                     responseFromServer = Encoding.UTF8.GetString(response);
                 }
 
-                if (responseFromServer == "Username already Exist!")
-                {
-
-                    View view = (View)sender;
-                    Snackbar.Make(view, responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-                }
-                else
+                if(responseFromServer == "Username is Available")
                 {
                     Info inf = new Info();
                     inf.Infos(edtEmail.Text, edtUsername.Text, edtPassword.Text);
 
-                    Intent intent = new Intent(this, typeof(Signup2));
-                    StartActivity(intent);
+                    StartActivity(new Intent(this, typeof(Signup2)));
+                }
+                else
+                {
+                    View view = (View)sender;
+                    Snackbar.Make(view, responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
                 }
             }
             catch (Exception ex)

@@ -21,7 +21,7 @@ namespace iBarangayApp
         private static String insertrequest, certificate, deliveryoption, insertservice, itemquantity;
         private static String barangayitems, checkusername, signup3, civilstatus, gender, purok, personalinfo,updatepersonalinfo;
         private static String serviceall, servicepending, serviceapproved, servicedisapproved, serviceborrowed, servicereturned;
-        private static String insertverification;
+        private static String insertverification, forgotpass, updatepass;
         public zsg_hosting()
         {
             String hosting = hosting2;
@@ -56,6 +56,9 @@ namespace iBarangayApp
             servicereturned = hosting + "ibarangay_servicereturned.php";  //Ser_Fragment6  // ?Username=
 
             insertverification = hosting + "ibarangay_insertverification.php";  //VerifyAccount2
+
+             forgotpass = hosting + "ibarangay_forgotpass.php";  //ForgetPassword
+             updatepass = hosting + "ibarangay_updatepassword.php";  //UpdatePassword
         }
 
         public String getAnnouncement()
@@ -163,6 +166,15 @@ namespace iBarangayApp
             return insertverification;
         }
 
+        public String getForgotPass()
+        {
+            return forgotpass;
+        }
+
+        public String getUpdatePass()
+        {
+            return updatepass;
+        }
         public String getServiceall()
         {
             return serviceall;

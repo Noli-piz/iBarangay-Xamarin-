@@ -28,8 +28,8 @@ using Firebase.Messaging;
 
 namespace iBarangayApp
 {
-    //[Activity(Label = "Login")]
-    [Activity(Label = "IBarangay", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "Login")]
+    //[Activity(Label = "IBarangay", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
 
     public class Login : Activity
     {
@@ -42,7 +42,7 @@ namespace iBarangayApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.activity_login);
+            SetContentView(Resource.Layout.Login);
 
             // Create your application here
             edtUsername = FindViewById<EditText>(Resource.Id.ETusername);
