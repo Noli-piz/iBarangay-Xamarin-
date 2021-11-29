@@ -308,7 +308,6 @@ namespace iBarangayApp
                         adapter = new CustomAdapter(this, announcementArrayList);
                         lview.Adapter = adapter;
                         lview.ItemClick += List_Click;
-                        await Task.CompletedTask;
                     }
                     else
                     {

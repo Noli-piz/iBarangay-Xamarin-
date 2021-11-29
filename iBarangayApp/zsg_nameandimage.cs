@@ -111,7 +111,6 @@ namespace iBarangayApp
                 }
 
                 bitImg = imageBitmap;
-                await Task.CompletedTask;
             }
             catch (Exception e)
             {

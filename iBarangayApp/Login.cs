@@ -29,7 +29,7 @@ using Firebase.Messaging;
 namespace iBarangayApp
 {
     //[Activity(Label = "Login")]
-    [Activity(Label = "IBarangay", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "iBarangay", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
 
     public class Login : Activity
     {
@@ -158,7 +158,6 @@ namespace iBarangayApp
                     Intent intent = new Intent(this, typeof(MainAnnouncement));
                     StartActivity(intent);
                     Finish();
-                    await Task.CompletedTask;
                 }
                 else
                 {
