@@ -18,6 +18,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using static Android.App.DatePickerDialog;
 
 namespace iBarangayApp
@@ -224,6 +225,8 @@ namespace iBarangayApp
 
                     Dialog diag = alertDiag.Create();
                     diag.Show();
+                    await Task.CompletedTask;
+
                 }
                 else
                 {

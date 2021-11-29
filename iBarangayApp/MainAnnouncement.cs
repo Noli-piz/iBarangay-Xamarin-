@@ -24,6 +24,7 @@ using Android.Graphics;
 using System.Net;
 using Android.Graphics.Drawables;
 using Firebase.Messaging;
+using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
@@ -307,6 +308,7 @@ namespace iBarangayApp
                         adapter = new CustomAdapter(this, announcementArrayList);
                         lview.Adapter = adapter;
                         lview.ItemClick += List_Click;
+                        await Task.CompletedTask;
                     }
                     else
                     {

@@ -13,18 +13,25 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
+using static Android.App.DatePickerDialog;
 
 namespace iBarangayApp
 {
     [Activity(Label = "Service_Module")]
-    public class Service_Module : Activity
+    public class Service_Module : Activity, IOnDateSetListener
     {
-        private Button BTNAdd, BTNMin, BTNRequest;
+        private Button BTNAdd, BTNMin, BTNRequest, BTNRent;
         private TextView  TVAvailable, tvBack, tvDelFee;
         private Spinner sprDelivery, sprItem;
         private EditText ETPurpose, TVQuantity;
 
         private List<string> DOption = new List<string>(), Item= new List<string>();
+
+        private int rentDay, rentMonth, rentYear;
+        private string rentDate;
+        private const int DATE_DIALOG = 1;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -33,6 +40,7 @@ namespace iBarangayApp
             BTNAdd = FindViewById<Button>(Resource.Id.btnAdd);
             BTNMin = FindViewById<Button>(Resource.Id.btnMin);
             BTNRequest = FindViewById<Button>(Resource.Id.btnRequestItem);
+            BTNRent = FindViewById<Button>(Resource.Id.btnRentDate);
             ETPurpose = FindViewById<EditText>(Resource.Id.ETPurposeItem);
             TVQuantity = FindViewById<EditText>(Resource.Id.tvQuantity);
             TVAvailable = FindViewById<TextView>(Resource.Id.tvAvailable);
@@ -67,6 +75,12 @@ namespace iBarangayApp
                     }
                 }
             };
+
+            BTNRent.Click += delegate {
+                 ShowDialog(DATE_DIALOG);
+             };
+
+            SetDate();
         }
 
 
@@ -140,6 +154,7 @@ namespace iBarangayApp
                     datas["DateOfRequest"] = dateToday.ToString("yyyy-MM-dd");
                     datas["Status"] = "Pending";
                     datas["deliveryoption"] = strDO;
+                    datas["RentDate"] = rentDate;
 
                     var response = wb.UploadValues(uri, "POST", datas);
                     responseFromServer = Encoding.UTF8.GetString(response);
@@ -160,6 +175,8 @@ namespace iBarangayApp
 
                     Dialog diag = alertDiag.Create();
                     diag.Show();
+                    await Task.CompletedTask;
+
                 }
                 else
                 {
@@ -172,6 +189,7 @@ namespace iBarangayApp
                 Snackbar.Make(view, ex.Message, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
 
             }
+
         }
 
         private async void LoadSpnr()
@@ -276,6 +294,46 @@ namespace iBarangayApp
             {
                 Toast.MakeText(this, ex.Message, ToastLength.Short).Show();
             }
+        }
+
+
+        private void SetDate()
+        {
+            rentYear = Int32.Parse(DateTime.Now.ToString("yyyy"));
+            rentMonth = Int32.Parse(DateTime.Now.ToString("MM"));
+            rentDay = Int32.Parse(DateTime.Now.ToString("dd"));
+
+            DateTime date = new DateTime(rentYear, rentMonth, rentDay);
+
+            rentDate = date.ToString("yyyy-MM-dd");
+            BTNRent.Text = date.ToString("MMM dd, yyyy");
+
+        }
+
+        protected override Dialog OnCreateDialog(int id)
+        {
+            switch (id)
+            {
+                case DATE_DIALOG:
+                    {
+                        return new DatePickerDialog(this, this, rentYear, rentMonth- 1, rentDay);
+                    }
+                default:
+                    break;
+            }
+
+            return base.OnCreateDialog(id);
+        }
+
+        public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
+        {
+                rentYear = year;
+                rentMonth = month + 1;
+                rentDay = dayOfMonth;
+
+                DateTime date = new DateTime(rentYear, rentMonth, rentDay);
+                BTNRent.Text = date.ToString("MMMM dd, yyyy");
+                rentDate = date.ToString("yyyy-MM-dd");
         }
 
 

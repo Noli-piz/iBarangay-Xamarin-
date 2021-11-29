@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
@@ -110,6 +111,7 @@ namespace iBarangayApp
                 }
 
                 bitImg = imageBitmap;
+                await Task.CompletedTask;
             }
             catch (Exception e)
             {

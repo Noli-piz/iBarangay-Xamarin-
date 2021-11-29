@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
@@ -75,7 +76,8 @@ namespace iBarangayApp
 
                 if (responseFromServer == "Updated Successfully")
                 {
-                    StartActivity(new Intent(this, typeof(Signup2)));
+                    StartActivity(new Intent(this, typeof(Login)));
+                    await Task.CompletedTask;
                 }
                 else
                 {

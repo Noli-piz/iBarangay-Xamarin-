@@ -13,6 +13,7 @@ using SendGrid.Helpers.Mail;
 using Google.Android.Material.Snackbar;
 using System.Collections.Specialized;
 using System.Net;
+using System.Timers;
 
 namespace iBarangayApp
 {
@@ -23,8 +24,10 @@ namespace iBarangayApp
         private EditText etNum1, etNum2, etNum3, etNum4, etNum5, etNum6;
         private TextView tvResend;
         private zsg_randomnum randomNumber =  new zsg_randomnum();
+        private Timer _timer;
 
         private int tries=3;
+        private int mins,secs;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,6 +47,14 @@ namespace iBarangayApp
             tvResend.Click += delegate{
                 randomNumber = new zsg_randomnum();
                 SendEmailAsync(randomNumber.randomNum());
+
+                mins = 2;
+                secs = 59;
+                _timer = new System.Timers.Timer();
+                _timer.Interval = 1000;
+                _timer.Elapsed += OnTimedEvent;
+                _timer.Enabled = true;
+                tvResend.Clickable = false;
             };
 
             SendEmailAsync(randomNumber.randomNum());
@@ -84,8 +95,31 @@ namespace iBarangayApp
                 HtmlContent = "<p>Your verification code is: <strong> " + randomNumber +"</strong></p>"
             };
 
-            msg.AddTo(new EmailAddress(email.getEmail(), "Test-user"));
+            msg.AddTo(new EmailAddress(email.getEmail(), "ibarangay-user"));
             var response = await client.SendEmailAsync(msg);
+            btnSubmit.Text = response.StatusCode.ToString();
+        }
+
+        private void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            secs--;
+
+            if (secs == 0)
+            {
+                if (mins==0)
+                {
+                    _timer.Stop();
+                    tvResend.Clickable = true;
+                    tvResend.Text = "Resend Code";
+                }
+                else
+                {
+                    mins--;
+                    secs = 59;
+                }
+            }
+
+            tvResend.Text = mins + " " + secs;
         }
     }
 }

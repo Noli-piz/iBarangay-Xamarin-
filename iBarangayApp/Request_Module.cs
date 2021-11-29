@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
@@ -101,6 +102,7 @@ namespace iBarangayApp
 
                 if (responseFromServer == "Operation Success")
                 {
+
                     Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
                     alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Request Success.");
@@ -114,6 +116,8 @@ namespace iBarangayApp
 
                     Dialog diag = alertDiag.Create();
                     diag.Show();
+                    await Task.CompletedTask;
+
                 }
                 else
                 {

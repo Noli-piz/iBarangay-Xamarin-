@@ -135,6 +135,21 @@
         </LinearLayout>
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rent Date"
+            style="@style/textDesign"/>
+
+        <Button
+            android:id="@+id/btnRentDate"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            style="?android:spinnerStyle"
+            android:text="JAN 01 2020"
+            android:layout_marginBottom="30dp"/>
+            <!--android:onClick="opedDatePicker"-->
+
+        <TextView
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

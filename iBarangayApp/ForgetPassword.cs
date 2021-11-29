@@ -13,10 +13,12 @@ using SendGrid.Helpers.Mail;
 using Google.Android.Material.Snackbar;
 using System.Collections.Specialized;
 using System.Net;
+using Java.Util;
 
 namespace iBarangayApp
 {
-    [Activity(Label = "ForgetPassword", MainLauncher =true)]
+    //[Activity(Label = "ForgetPassword", MainLauncher = true)]
+    [Activity(Label = "ForgetPassword")]
     public class ForgetPassword : Activity
     {
         private Button btnSubmit;
@@ -83,5 +85,6 @@ namespace iBarangayApp
                 Toast.MakeText(this, "Please check your connection.", ToastLength.Short).Show();
             }
         }
+
     }
 }

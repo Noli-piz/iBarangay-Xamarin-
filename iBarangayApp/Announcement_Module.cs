@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
@@ -53,6 +54,7 @@ namespace iBarangayApp
             }
 
             imgView.SetImageBitmap(imageBitmap);
+            await Task.CompletedTask;
         }
 
         private void Back_Click(object sender, EventArgs e)
