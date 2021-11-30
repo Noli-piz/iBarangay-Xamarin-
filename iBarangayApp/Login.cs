@@ -1,30 +1,19 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Java.Net;
-using System.Net;
-using Java.Util.Concurrent;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.IO;
-using Google.Android.Material.Snackbar;
-using System.Collections.Specialized;
-using Google.Android.Material.ProgressIndicator;
-using System.Threading.Tasks;
-using Google.Android.Material.TextField;
-using Android.Views.InputMethods;
-using Android.Util;
 using Android.Gms.Common;
-using Firebase.Iid;
-using Plugin.FirebasePushNotification;
+using Android.OS;
+using Android.Views;
+using Android.Views.InputMethods;
+using Android.Widget;
 using Firebase.Messaging;
+using Google.Android.Material.ProgressIndicator;
+using Google.Android.Material.Snackbar;
+using Google.Android.Material.TextField;
+using System;
+using System.Collections.Specialized;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
@@ -37,12 +26,12 @@ namespace iBarangayApp
         private Button btnLogin, btnSignup;
         private CircularProgressIndicator progBar;
 
-        private ISharedPreferences pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
+        private ISharedPreferences pref; 
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Login);
+            SetContentView(Resource.Layout.login);
 
             // Create your application here
             edtUsername = FindViewById<EditText>(Resource.Id.ETusername);
@@ -54,30 +43,28 @@ namespace iBarangayApp
             btnSignup.Click += BtnSignup_Click;
 
             progBar = FindViewById<CircularProgressIndicator>(Resource.Id.circular);
-            zsg_nameandimage user = new zsg_nameandimage();
-
             IsPlayServiceAvailable();
+            zsg_nameandimage user = new zsg_nameandimage();
             FirebaseMessaging.Instance.UnsubscribeFromTopic("ibarangay");
             FirebaseMessaging.Instance.UnsubscribeFromTopic(user.getStrusername());
             user.reset();
 
+            pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
             String strLogin = pref.GetString("Logout", String.Empty);
             if (strLogin == "false")
             {
                 edtUsername.Text = pref.GetString("Username", String.Empty);
                 edtPassword.Text = pref.GetString("Password", String.Empty);
-                Object sender = new object();
 
                 Disable();
-                GetInfo(sender);
+                Wait();
+
             }
-
-
 
         }
 
         TextInputLayout lay;
-        bool visibleToUser =true;
+        bool visibleToUser = true;
         private void Disable()
         {
             edtUsername.Visibility = ViewStates.Invisible;
@@ -101,7 +88,7 @@ namespace iBarangayApp
         }
         private void BtnLogin_Click(object sender, EventArgs e)
         {
-            if (edtUsername.Text== "" || edtPassword.Text == "")
+            if (edtUsername.Text == "" || edtPassword.Text == "")
             {
                 Toast.MakeText(Application.Context, "Please enter Username or Password!", ToastLength.Short).Show();
             }
@@ -111,7 +98,7 @@ namespace iBarangayApp
                 imm.HideSoftInputFromWindow(edtUsername.WindowToken, 0);
                 imm.HideSoftInputFromWindow(edtPassword.WindowToken, 0);
 
-                GetInfo(sender);
+                GetInfo();
             }
         }
 
@@ -121,12 +108,23 @@ namespace iBarangayApp
             StartActivity(intent);
         }
 
-        private async void GetInfo(object sender)
+        private async void Wait()
+        {
+            progBar.Visibility = ViewStates.Visible;
+            await Task.Delay(1500);
+            GetInfo();
+            await Task.CompletedTask;
+        }
+
+        private async void GetInfo()
         {
             try
             {
+                if (progBar.Visibility != ViewStates.Visible)
+                {
+                    progBar.Visibility = ViewStates.Visible;
+                }
 
-                progBar.Visibility = ViewStates.Visible;
                 zsg_hosting hosting = new zsg_hosting();
                 var uri = hosting.getLogin();
 
@@ -153,7 +151,7 @@ namespace iBarangayApp
                     user.setStrusername(edtUsername.Text);
                     user.nameandimage();
 
-                    
+
                     await Task.Delay(4000);
                     Intent intent = new Intent(this, typeof(MainAnnouncement));
                     StartActivity(intent);
@@ -161,8 +159,7 @@ namespace iBarangayApp
                 }
                 else
                 {
-                    View view = (View)sender;
-                    Snackbar.Make(view, responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                    Snackbar.Make(FindViewById(Resource.Id.rlayout), responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
                 }
             }
             catch (Exception ex)
@@ -172,7 +169,8 @@ namespace iBarangayApp
             finally
             {
                 progBar.Visibility = ViewStates.Invisible;
-                if (visibleToUser == false) {
+                if (visibleToUser == false)
+                {
                     Enable();
                 }
             }

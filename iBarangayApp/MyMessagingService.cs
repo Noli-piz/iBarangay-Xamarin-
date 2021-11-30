@@ -2,15 +2,10 @@
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.App;
-using Android.Views;
-using Android.Widget;
 using Firebase.Messaging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace iBarangayApp
 {
@@ -22,8 +17,8 @@ namespace iBarangayApp
         private readonly string NOTIFICATION_CHANNEL_ID = "balangkas.valenzuela.ibarangayapp";
         //public override void OnNewToken(string token)
         //{
-       //   super.onNewToken(token);
-       //   Log.d("NEW_TOKEN",token);
+        //   super.onNewToken(token);
+        //   Log.d("NEW_TOKEN",token);
         //}
 
         public override void OnMessageReceived(RemoteMessage message)
@@ -70,13 +65,12 @@ namespace iBarangayApp
 
             //Announcement
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-
             notificationBuilder.SetAutoCancel(true)
                 .SetDefaults(-1)
                 .SetWhen(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds())
                 .SetContentTitle(title)
                 .SetContentText(body)
-                .SetSmallIcon(Resource.Drawable.campaign)
+                .SetSmallIcon(Resource.Drawable.outline_notifications_24)
                 .SetContentInfo("info");
 
             notificationManager.Notify(new Random().Next(), notificationBuilder.Build());

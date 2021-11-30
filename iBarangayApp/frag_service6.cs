@@ -1,18 +1,15 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Graphics;
 using AndroidX.SwipeRefreshLayout.Widget;
 using Google.Android.Material.Snackbar;
 using Org.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 
 namespace iBarangayApp
 {
@@ -44,9 +41,9 @@ namespace iBarangayApp
         }
 
 
-        List<String> ArrItem = new List<String>(), ArrQuantity = new List<string>(), 
-            ArrPurpose = new List<String>(), ArrDate = new List<String>(), ArrStatus = new List<String>(), 
-            ArrDO = new List<String>(), ArrNote = new List<String>();
+        List<String> ArrItem = new List<String>(), ArrQuantity = new List<string>(),
+            ArrPurpose = new List<String>(), ArrDate = new List<String>(), ArrStatus = new List<String>(),
+            ArrDO = new List<String>(), ArrNote = new List<String>(), ArrRent = new List<String>();
         private async void GetRequest()
         {
             try
@@ -79,6 +76,7 @@ namespace iBarangayApp
                             ArrStatus.Add(rqst.GetString("Status"));
                             ArrDO.Add(rqst.GetString("Options"));
                             ArrNote.Add(rqst.GetString("Note"));
+                            ArrRent.Add(rqst.GetString("RentDate"));
                         }
 
                         serviceArrayList = new List<SFrag>();
@@ -128,11 +126,22 @@ namespace iBarangayApp
             intent.PutExtra("Status", ArrStatus[e.Position]);
             intent.PutExtra("DO", ArrDO[e.Position]);
             intent.PutExtra("Note", ArrNote[e.Position]);
+            intent.PutExtra("Rental", ArrRent[e.Position]);
+
             StartActivity(intent);
         }
 
         private void RefreshLayout(object sender, EventArgs e)
         {
+            ArrItem.Clear();
+            ArrQuantity.Clear();
+            ArrDate.Clear();
+            ArrPurpose.Clear();
+            ArrStatus.Clear();
+            ArrDO.Clear();
+            ArrNote.Clear();
+            ArrRent.Clear();
+
             GetRequest();
         }
     }

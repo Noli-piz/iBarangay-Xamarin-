@@ -1,18 +1,15 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Graphics;
 using AndroidX.SwipeRefreshLayout.Widget;
 using Google.Android.Material.Snackbar;
 using Org.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 
 namespace iBarangayApp
 {
@@ -44,8 +41,8 @@ namespace iBarangayApp
         }
 
 
-        List<String> ArrItem = new List<String>(), ArrPurpose = new List<String>(), 
-            ArrDate = new List<String>(), ArrStatus = new List<String>(), 
+        List<String> ArrItem = new List<String>(), ArrPurpose = new List<String>(),
+            ArrDate = new List<String>(), ArrStatus = new List<String>(),
             ArrDO = new List<String>(), ArrNote = new List<String>();
         private async void GetRequest()
         {
@@ -124,6 +121,12 @@ namespace iBarangayApp
 
         private void RefreshLayout(object sender, EventArgs e)
         {
+            ArrItem.Clear();
+            ArrDate.Clear();
+            ArrPurpose.Clear();
+            ArrStatus.Clear();
+            ArrDO.Clear();
+            ArrNote.Clear();
             GetRequest();
         }
     }

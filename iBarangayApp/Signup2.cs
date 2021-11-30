@@ -3,23 +3,20 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Provider;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Google.Android.Material.Snackbar;
 using Microsoft.WindowsAzure.Storage;
-using Azure.Storage.Blobs;
 using Org.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO; 
-using System.Linq;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using static Android.App.DatePickerDialog;
 using System.Threading.Tasks;
+using static Android.App.DatePickerDialog;
 
 namespace iBarangayApp
 {
@@ -38,7 +35,7 @@ namespace iBarangayApp
         private const int DATE_DIALOG = 1, DATE_DIALOG1 = 2;
         private int year, month, day, year1, month1, day1;
 
-        private string strEmail, strPassword, strImageUrl="";
+        private string strEmail, strPassword, strImageUrl = "";
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -70,11 +67,13 @@ namespace iBarangayApp
 
             imgProfile.Click += ImageClick;
 
-            btnBirthDate.Click += delegate {
+            btnBirthDate.Click += delegate
+            {
                 ShowDialog(DATE_DIALOG1);
             };
 
-            btnRegistration.Click += delegate {
+            btnRegistration.Click += delegate
+            {
                 ShowDialog(DATE_DIALOG);
             };
 
@@ -116,23 +115,28 @@ namespace iBarangayApp
         /// <summary>
         private void Signup_Click(object sender, EventArgs e)
         {
-            if (ETFname.Text == ""){
+            if (ETFname.Text == "")
+            {
                 ETFname.Error = "Cannot be Empty";
             }
-            else if (ETLname.Text == "") {
+            else if (ETLname.Text == "")
+            {
                 ETLname.Error = "Cannot be Empty";
             }
-            else if (ETBirthPlace.Text == "") { 
+            else if (ETBirthPlace.Text == "")
+            {
                 ETBirthPlace.Error = "Cannot be Empty";
             }
-            else if ( ETContactNo.Text == ""){
+            else if (ETContactNo.Text == "")
+            {
                 ETContactNo.Error = "Cannot be Empty";
             }
-            else if (strCV == "" || strGDR == "" || strPRK=="" || strVS=="")
+            else if (strCV == "" || strGDR == "" || strPRK == "" || strVS == "")
             {
                 ((TextView)sprCivilStatus.SelectedView).Error = "None Selected";
                 Toast.MakeText(this, "Please Select Valid Information.", ToastLength.Short).Show();
-            } else if (strImageUrl=="")
+            }
+            else if (strImageUrl == "")
             {
                 Toast.MakeText(this, "Please Select an Image.", ToastLength.Short).Show();
             }
@@ -171,9 +175,9 @@ namespace iBarangayApp
             data[1] = inf.getStrPassword();
             data[2] = "False";
             data[3] = ETFname.Text;
-            data[4] = ETMname.Text=="" ? "NONE" : ETMname.Text;
+            data[4] = ETMname.Text == "" ? "NONE" : ETMname.Text;
             data[5] = ETLname.Text;
-            data[6] = ETSname.Text=="" ? "NONE" : ETSname.Text;
+            data[6] = ETSname.Text == "" ? "NONE" : ETSname.Text;
             data[7] = ETBirthPlace.Text;
             data[8] = Bdate;
             data[9] = strCV;
@@ -186,7 +190,7 @@ namespace iBarangayApp
             data[16] = inf.getStrEmail();
             data[17] = strImageUrl;
 
-            
+
             zsg_hosting hosting = new zsg_hosting();
             var uri = hosting.getSignup3();
 
@@ -196,7 +200,7 @@ namespace iBarangayApp
                 using (var wb = new WebClient())
                 {
                     var datas = new NameValueCollection();
-                    for (int i=0; i< field.Length; i++)
+                    for (int i = 0; i < field.Length; i++)
                     {
                         datas[field[i].ToString()] = data[i].ToString();
                     }
@@ -211,13 +215,14 @@ namespace iBarangayApp
                     View view = (View)sender;
                     Snackbar.Make(view, responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
                 }
-                else if(responseFromServer == "Sign Up Success")
+                else if (responseFromServer == "Sign Up Success")
                 {
                     Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
                     alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Sign Up Success.");
                     alertDiag.SetMessage("You Successfuly Create New Account.");
-                    alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
+                    alertDiag.SetPositiveButton("OK", (senderAlert, args) =>
+                    {
 
                         StartActivity(new Intent(this, typeof(Login)).SetFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask));
                         Finish();
@@ -225,7 +230,6 @@ namespace iBarangayApp
 
                     Dialog diag = alertDiag.Create();
                     diag.Show();
-                    await Task.CompletedTask;
 
                 }
                 else
@@ -238,7 +242,7 @@ namespace iBarangayApp
             {
                 Toast.MakeText(this, ex.ToString(), ToastLength.Short).Show();
             }
-            
+
         }
 
         private void ImageClick(object sender, EventArgs eventArgs)
@@ -255,7 +259,7 @@ namespace iBarangayApp
                 Android.Net.Uri filePath = data.Data;
                 try
                 {
-                    if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.P )
+                    if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.P)
                     {
                         Bitmap mBitMap = MediaStore.Images.Media.GetBitmap(ContentResolver, filePath);
                         imgProfile.SetImageBitmap(mBitMap);
@@ -333,12 +337,12 @@ namespace iBarangayApp
             day = Int32.Parse(DateTime.Now.ToString("dd"));
 
             year1 = Int32.Parse(DateTime.Now.ToString("yyyy"));
-            month1 = Int32.Parse(DateTime.Now.ToString("MM")) ;
+            month1 = Int32.Parse(DateTime.Now.ToString("MM"));
             day1 = Int32.Parse(DateTime.Now.ToString("dd"));
 
             DateTime date = new DateTime(year, month, day);
             DateTime date1 = new DateTime(year1, month1, day1);
-            
+
             Rdate = date.ToString("yyyy-MM-dd");
             Bdate = date1.ToString("yyyy-MM-dd");
 
@@ -347,7 +351,7 @@ namespace iBarangayApp
 
         }
 
-        int SelectedNum=0;
+        int SelectedNum = 0;
         protected override Dialog OnCreateDialog(int id)
         {
             switch (id)
@@ -355,12 +359,12 @@ namespace iBarangayApp
                 case DATE_DIALOG:
                     {
                         SelectedNum = id;
-                        return new DatePickerDialog(this, this, year, month-1, day);
+                        return new DatePickerDialog(this, this, year, month - 1, day);
                     }
                 case DATE_DIALOG1:
                     {
                         SelectedNum = id;
-                        return new DatePickerDialog(this, this, year1, month1-1, day1);
+                        return new DatePickerDialog(this, this, year1, month1 - 1, day1);
                     }
                 default:
                     break;
@@ -373,9 +377,10 @@ namespace iBarangayApp
         public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
         {
 
-            if (SelectedNum == 1) {
+            if (SelectedNum == 1)
+            {
                 this.year = year;
-                this.month = month+1;
+                this.month = month + 1;
                 day = dayOfMonth;
 
                 DateTime date = new DateTime(this.year, this.month, day);
@@ -385,7 +390,7 @@ namespace iBarangayApp
             else
             {
                 this.year1 = year;
-                this.month1 = month+1;
+                this.month1 = month + 1;
                 day1 = dayOfMonth;
 
                 DateTime date1 = new DateTime(year1, month1, day1);
@@ -395,7 +400,7 @@ namespace iBarangayApp
         }
 
 
-        private List<string> civil = new List<string>(), gender= new List<string>(), purok = new List<string>(), opt = new List<string>();
+        private List<string> civil = new List<string>(), gender = new List<string>(), purok = new List<string>(), opt = new List<string>();
         private async void LoadSpinners()
         {
             //// Civil Status 
@@ -426,8 +431,8 @@ namespace iBarangayApp
                     sprCivilStatus.Adapter = adapter;
                 }
             }
-            
-            
+
+
             //// Gender
             ///
 
@@ -504,13 +509,15 @@ namespace iBarangayApp
             Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
             alertDiag.SetTitle("Exit");
             alertDiag.SetMessage("Are you sure you want to Exit?");
-            alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
+            alertDiag.SetPositiveButton("OK", (senderAlert, args) =>
+            {
 
                 base.OnBackPressed();
                 Finish();
             });
 
-            alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
+            alertDiag.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
 
 
             });

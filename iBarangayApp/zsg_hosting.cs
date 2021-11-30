@@ -1,13 +1,4 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 
 namespace iBarangayApp
 {
@@ -19,7 +10,7 @@ namespace iBarangayApp
 
         private static String announcement, login, requestall, requestpending, requestapproved, requestdisapproved, requestdelivered, requestcancelled;
         private static String insertrequest, certificate, deliveryoption, insertservice, itemquantity;
-        private static String barangayitems, checkusername, signup3, civilstatus, gender, purok, personalinfo,updatepersonalinfo;
+        private static String barangayitems, checkusername, signup3, civilstatus, gender, purok, personalinfo, updatepersonalinfo;
         private static String serviceall, servicepending, serviceapproved, servicedisapproved, serviceborrowed, servicereturned;
         private static String insertverification, forgotpass, updatepass;
         public zsg_hosting()
@@ -57,8 +48,8 @@ namespace iBarangayApp
 
             insertverification = hosting + "ibarangay_insertverification.php";  //VerifyAccount2
 
-             forgotpass = hosting + "ibarangay_forgotpass.php";  //ForgetPassword
-             updatepass = hosting + "ibarangay_updatepassword.php";  //UpdatePassword
+            forgotpass = hosting + "ibarangay_forgotpass.php";  //ForgetPassword
+            updatepass = hosting + "ibarangay_updatepassword.php";  //UpdatePassword
         }
 
         public String getAnnouncement()
@@ -131,10 +122,10 @@ namespace iBarangayApp
             return signup3;
         }
 
-/*        public String getHosting()
-        {
-            return hosting;
-        }*/
+        /*        public String getHosting()
+                {
+                    return hosting;
+                }*/
 
         public String getCivilstatus()
         {

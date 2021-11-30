@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout 
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -146,7 +146,9 @@
             android:layout_height="35dp"
             style="?android:spinnerStyle"
             android:text="JAN 01 2020"
-            android:layout_marginBottom="30dp"/>
+            android:textSize="15sp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="5dp" />
             <!--android:onClick="opedDatePicker"-->
 
         <TextView
@@ -171,12 +173,12 @@
             android:textColor="@color/red"
             style="@style/textDesign"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRequestItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Request" />
+            android:text="Request"
+            app:cornerRadius="23dp"/>
     </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

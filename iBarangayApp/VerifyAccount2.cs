@@ -6,13 +6,10 @@ using Android.Provider;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Google.Android.Material.Snackbar;
 using Microsoft.WindowsAzure.Storage;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +26,7 @@ namespace iBarangayApp
         private TextView tvBack;
 
         private MemoryStream inputStream;
-        private string strImageUrl="", strImageUrlId;
+        private string strImageUrl = "", strImageUrlId;
         private Bitmap mBitMap;
         public static readonly int PickImageId = 1000;
 
@@ -50,7 +47,8 @@ namespace iBarangayApp
             btnPickImg.Click += btnPickImg_Click;
             btnOpenCam.Click += btnOpenCam_Click;
             btnFinish.Click += btnFinish_Click;
-            tvBack.Click += delegate{
+            tvBack.Click += delegate
+            {
                 OnBackPressed();
             };
 
@@ -59,9 +57,9 @@ namespace iBarangayApp
                 imgView.SetImageBitmap(mBitMap);
             }
 
-            
+
             strImageUrlId = Intent.GetStringExtra("ID");
-            
+
         }
 
         private void btnPickImg_Click(Object sender, EventArgs e)
@@ -214,7 +212,8 @@ namespace iBarangayApp
                     Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
                     alertDiag.SetTitle("Completed.");
                     alertDiag.SetMessage("Please wait atleast 3-7 days to verify your account.");
-                    alertDiag.SetPositiveButton("Okay", (senderAlert, args) => {
+                    alertDiag.SetPositiveButton("Okay", (senderAlert, args) =>
+                    {
 
                         StartActivity(new Intent(this, typeof(MainAnnouncement)).SetFlags(ActivityFlags.NoHistory));
                         Finish();
@@ -222,7 +221,6 @@ namespace iBarangayApp
                     });
                     Dialog diag = alertDiag.Create();
                     diag.Show();
-                    await Task.CompletedTask;
                 }
                 else
                 {
@@ -247,12 +245,14 @@ namespace iBarangayApp
             Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
             alertDiag.SetTitle("Go Back?");
             alertDiag.SetMessage("Are you sure you want to go back? Your data will not be save.");
-            alertDiag.SetPositiveButton("Okay", (senderAlert, args) => {
+            alertDiag.SetPositiveButton("Okay", (senderAlert, args) =>
+            {
 
                 base.OnBackPressed();
 
             });
-            alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
+            alertDiag.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
 
                 alertDiag.Dispose();
 

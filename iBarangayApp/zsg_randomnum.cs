@@ -1,18 +1,4 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Org.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+﻿using System;
 
 namespace iBarangayApp
 {
@@ -22,7 +8,7 @@ namespace iBarangayApp
         public zsg_randomnum()
         {
             reset();
-            for (int i =0; i<6 ;i++)
+            for (int i = 0; i < 6; i++)
             {
                 randNum += new Random().Next(1, 9).ToString();
             }

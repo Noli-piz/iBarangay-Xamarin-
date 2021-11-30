@@ -1,19 +1,13 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using Google.Android.Material.Snackbar;
+using System;
 using System.Collections.Specialized;
 using System.Net;
-using Java.Util;
+using System.Text;
 
 namespace iBarangayApp
 {
@@ -29,8 +23,8 @@ namespace iBarangayApp
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.ForgetPassword);
 
-            etEmail =  FindViewById<EditText>(Resource.Id.ETemail);
-            btnSubmit =  FindViewById<Button>(Resource.Id.btnSubmit);
+            etEmail = FindViewById<EditText>(Resource.Id.ETemail);
+            btnSubmit = FindViewById<Button>(Resource.Id.btnSubmit);
 
             btnSubmit.Click += BtnSubmit_Click;
         }

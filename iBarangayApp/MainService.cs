@@ -1,30 +1,23 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Media.TV;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
-using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using AndroidX.ViewPager.Widget;
-using Firebase.Messaging;
 using Google.Android.Material.FloatingActionButton;
 using Google.Android.Material.Navigation;
-using Google.Android.Material.Snackbar;
 using Google.Android.Material.Tabs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ActionBarDrawerToggle = AndroidX.AppCompat.App.ActionBarDrawerToggle;
 
 namespace iBarangayApp
 {
 
     [Activity(Label = "Miscellaneous Services")]
-    public class MainService : AppCompatActivity ,NavigationView.IOnNavigationItemSelectedListener
+    public class MainService : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
 
         private NavigationView navigationView;
@@ -171,7 +164,8 @@ namespace iBarangayApp
                 alertDiag.SetCancelable(false);
                 alertDiag.SetTitle("Confirm Logout");
                 alertDiag.SetMessage("Are you sure you want to logout?");
-                alertDiag.SetPositiveButton("Logout", (senderAlert, args) => {
+                alertDiag.SetPositiveButton("Logout", (senderAlert, args) =>
+                {
 
                     ISharedPreferencesEditor edit = pref.Edit();
                     edit.Clear();
@@ -179,12 +173,13 @@ namespace iBarangayApp
                     edit.Apply();
 
 
-                    Intent intent = new Intent(this, typeof(Login)).SetFlags( ActivityFlags.ClearTask | ActivityFlags.NewTask);
+                    Intent intent = new Intent(this, typeof(Login)).SetFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask);
                     StartActivity(intent);
                     Finish();
                     this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
                 });
-                alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
+                alertDiag.SetNegativeButton("Cancel", (senderAlert, args) =>
+                {
 
                     navigationView.SetCheckedItem(Resource.Id.nav_service);
                     alertDiag.Dispose();

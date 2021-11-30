@@ -1,22 +1,13 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
-    public class  Announcement
+    public class Announcement
     {
-        public  int id_announcement { get; set; }
+        public int id_announcement { get; set; }
         public string Date { get; set; }
         public string Subject { get; set; }
 
@@ -40,7 +31,6 @@ namespace iBarangayApp
             }
 
             Image = imageBitmap;
-            await Task.CompletedTask;
         }
     }
 }

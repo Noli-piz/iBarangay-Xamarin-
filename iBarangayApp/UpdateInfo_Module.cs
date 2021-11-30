@@ -3,8 +3,6 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Provider;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Google.Android.Material.Snackbar;
@@ -14,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -72,11 +69,13 @@ namespace iBarangayApp
 
             imgProfile.Click += ImageClick;
 
-            btnBirthDate.Click += delegate {
+            btnBirthDate.Click += delegate
+            {
                 ShowDialog(BDATE_DIALOG);
             };
 
-            btnRegistration.Click += delegate {
+            btnRegistration.Click += delegate
+            {
                 ShowDialog(RDATE_DIALOG);
             };
 
@@ -216,7 +215,8 @@ namespace iBarangayApp
                     Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
                     alertDiag.SetTitle("Update Information.");
                     alertDiag.SetMessage("You Successfuly Update your Information.");
-                    alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
+                    alertDiag.SetPositiveButton("OK", (senderAlert, args) =>
+                    {
 
                         Intent intent = new Intent(this, typeof(MainAnnouncement));
                         StartActivity(intent);
@@ -225,7 +225,6 @@ namespace iBarangayApp
 
                     Dialog diag = alertDiag.Create();
                     diag.Show();
-                    await Task.CompletedTask;
 
                 }
                 else

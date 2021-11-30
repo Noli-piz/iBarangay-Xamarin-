@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Google.Android.Material.Snackbar;
@@ -9,7 +8,6 @@ using Org.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -22,11 +20,11 @@ namespace iBarangayApp
     public class Service_Module : Activity, IOnDateSetListener
     {
         private Button BTNAdd, BTNMin, BTNRequest, BTNRent;
-        private TextView  TVAvailable, tvBack, tvDelFee;
+        private TextView TVAvailable, tvBack, tvDelFee;
         private Spinner sprDelivery, sprItem;
         private EditText ETPurpose, TVQuantity;
 
-        private List<string> DOption = new List<string>(), Item= new List<string>();
+        private List<string> DOption = new List<string>(), Item = new List<string>();
 
         private int rentDay, rentMonth, rentYear;
         private string rentDate;
@@ -53,16 +51,18 @@ namespace iBarangayApp
 
             sprDelivery.ItemSelected += spDO_Click;
             sprItem.ItemSelected += spI_Click;
-            
+
             tvBack.Click += tvBack_Click;
             BTNRequest.Click += btnSubmit_CLick;
 
             BTNMin.Click += btnMin_Click;
             BTNAdd.Click += btnAdd_Click;
 
-            TVQuantity.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
+            TVQuantity.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) =>
+            {
 
-                if (TVQuantity.Text.Length > 0) {
+                if (TVQuantity.Text.Length > 0)
+                {
                     String Newvalue = TVQuantity.Text.ToString();
                     if (Convert.ToInt32(Newvalue) > intAvailable)
                     {
@@ -76,16 +76,17 @@ namespace iBarangayApp
                 }
             };
 
-            BTNRent.Click += delegate {
-                 ShowDialog(DATE_DIALOG);
-             };
+            BTNRent.Click += delegate
+            {
+                ShowDialog(DATE_DIALOG);
+            };
 
             SetDate();
         }
 
 
         private String strDO, strItem;
-        private int intQuantity =0, intAvailable =0;
+        private int intQuantity = 0, intAvailable = 0;
 
         private void spDO_Click(Object sender, AdapterView.ItemSelectedEventArgs e)
         {
@@ -100,7 +101,8 @@ namespace iBarangayApp
 
         private void btnMin_Click(Object sender, EventArgs e)
         {
-            if (intQuantity > 0) {
+            if (intQuantity > 0)
+            {
                 intQuantity--;
                 TVQuantity.Text = intQuantity.ToString();
             }
@@ -108,7 +110,8 @@ namespace iBarangayApp
 
         private void btnAdd_Click(Object sender, EventArgs e)
         {
-            if (intQuantity < intAvailable) {
+            if (intQuantity < intAvailable)
+            {
                 intQuantity++;
                 TVQuantity.Text = intQuantity.ToString();
             }
@@ -166,7 +169,8 @@ namespace iBarangayApp
                     alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Request Success.");
                     alertDiag.SetMessage("Wait for the Barangay Official to Approve your Request.");
-                    alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
+                    alertDiag.SetPositiveButton("OK", (senderAlert, args) =>
+                    {
 
                         Intent intent = new Intent(this, typeof(MainService));
                         StartActivity(intent);
@@ -175,7 +179,6 @@ namespace iBarangayApp
 
                     Dialog diag = alertDiag.Create();
                     diag.Show();
-                    await Task.CompletedTask;
 
                 }
                 else
@@ -263,7 +266,7 @@ namespace iBarangayApp
 
                 using (var client = new HttpClient())
                 {
-                    var uri = hosting.getItemquantity() +"?ItemName=" +strItem;
+                    var uri = hosting.getItemquantity() + "?ItemName=" + strItem;
                     var result = await client.GetStringAsync(uri);
 
 
@@ -286,7 +289,7 @@ namespace iBarangayApp
                             intQuantity = intAvailable;
                         }
 
-                        
+
                     }
                 }
             }
@@ -316,7 +319,7 @@ namespace iBarangayApp
             {
                 case DATE_DIALOG:
                     {
-                        return new DatePickerDialog(this, this, rentYear, rentMonth- 1, rentDay);
+                        return new DatePickerDialog(this, this, rentYear, rentMonth - 1, rentDay);
                     }
                 default:
                     break;
@@ -327,13 +330,13 @@ namespace iBarangayApp
 
         public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
         {
-                rentYear = year;
-                rentMonth = month + 1;
-                rentDay = dayOfMonth;
+            rentYear = year;
+            rentMonth = month + 1;
+            rentDay = dayOfMonth;
 
-                DateTime date = new DateTime(rentYear, rentMonth, rentDay);
-                BTNRent.Text = date.ToString("MMMM dd, yyyy");
-                rentDate = date.ToString("yyyy-MM-dd");
+            DateTime date = new DateTime(rentYear, rentMonth, rentDay);
+            BTNRent.Text = date.ToString("MMMM dd, yyyy");
+            rentDate = date.ToString("yyyy-MM-dd");
         }
 
 

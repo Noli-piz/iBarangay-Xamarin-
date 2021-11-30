@@ -2,14 +2,9 @@
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace iBarangayApp
@@ -54,7 +49,6 @@ namespace iBarangayApp
             }
 
             imgView.SetImageBitmap(imageBitmap);
-            await Task.CompletedTask;
         }
 
         private void Back_Click(object sender, EventArgs e)

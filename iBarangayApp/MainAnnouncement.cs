@@ -1,30 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using Android.Widget;
 using AndroidX.AppCompat.App;
-using AndroidX.AppCompat.Widget;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
-using Google.Android.Material.FloatingActionButton;
+using AndroidX.SwipeRefreshLayout.Widget;
+using Firebase.Messaging;
 using Google.Android.Material.Navigation;
 using Google.Android.Material.Snackbar;
-using Newtonsoft.Json;
 using Org.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections;
-using Android.Widget;
-using Java.Util;
-using AndroidX.SwipeRefreshLayout.Widget;
-using Android.Graphics;
-using System.Net;
-using Android.Graphics.Drawables;
-using Firebase.Messaging;
-using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace iBarangayApp
 {
@@ -75,9 +66,9 @@ namespace iBarangayApp
             TvVerificationStatus = view.FindViewById<TextView>(Resource.Id.tvVerificationStatus);
 
             TvName.Text = nme.getStrname() == null ? "Loading..." : nme.getStrname();
-            TvVerificationStatus.Text = nme.getboolVerified() == false? "Not Verified" : "Verified";
+            TvVerificationStatus.Text = nme.getboolVerified() == false ? "Not Verified" : "Verified";
             imgView = view.FindViewById<ImageView>(Resource.Id.imgMenuProfile);
-            if(nme.getImg() != null)
+            if (nme.getImg() != null)
             {
                 imgView.SetImageBitmap(nme.getImg());
             }
@@ -111,7 +102,7 @@ namespace iBarangayApp
         public override void OnBackPressed()
         {
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if(drawer.IsDrawerOpen(GravityCompat.Start))
+            if (drawer.IsDrawerOpen(GravityCompat.Start))
             {
                 drawer.CloseDrawer(GravityCompat.Start);
             }
@@ -151,7 +142,7 @@ namespace iBarangayApp
 
             if (id == Resource.Id.nav_announcement)
             {
-                
+
             }
             else if (id == Resource.Id.nav_request)
             {
@@ -168,13 +159,15 @@ namespace iBarangayApp
                     alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Not Verified");
                     alertDiag.SetMessage("Unable to access because you are still not Verified.");
-                    alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) => {
+                    alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) =>
+                    {
 
                         StartActivity(new Intent(this, typeof(VerifyAccount)));
                         Finish();
 
                     });
-                    alertDiag.SetNegativeButton("Do it Later", (senderAlert, args) => {
+                    alertDiag.SetNegativeButton("Do it Later", (senderAlert, args) =>
+                    {
 
                         navigationView.SetCheckedItem(Resource.Id.nav_announcement);
                         alertDiag.Dispose();
@@ -198,13 +191,15 @@ namespace iBarangayApp
                     alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Not Verified");
                     alertDiag.SetMessage("Unable to access because you are still not Verified.");
-                    alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) => {
+                    alertDiag.SetPositiveButton("Get Verified", (senderAlert, args) =>
+                    {
 
                         StartActivity(new Intent(this, typeof(VerifyAccount)));
                         Finish();
 
                     });
-                    alertDiag.SetNegativeButton("Do it Later", (senderAlert, args) => {
+                    alertDiag.SetNegativeButton("Do it Later", (senderAlert, args) =>
+                    {
 
                         navigationView.SetCheckedItem(Resource.Id.nav_announcement);
                         alertDiag.Dispose();
@@ -219,7 +214,8 @@ namespace iBarangayApp
                 alertDiag.SetCancelable(false);
                 alertDiag.SetTitle("Confirm Logout");
                 alertDiag.SetMessage("Are you sure you want to logout?");
-                alertDiag.SetPositiveButton("Logout", (senderAlert, args) => {
+                alertDiag.SetPositiveButton("Logout", (senderAlert, args) =>
+                {
 
                     ISharedPreferencesEditor edit = pref.Edit();
                     edit.Clear();
@@ -232,7 +228,8 @@ namespace iBarangayApp
                     Finish();
                     this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
                 });
-                alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
+                alertDiag.SetNegativeButton("Cancel", (senderAlert, args) =>
+                {
 
                     navigationView.SetCheckedItem(Resource.Id.nav_announcement);
                     alertDiag.Dispose();
@@ -240,7 +237,7 @@ namespace iBarangayApp
                 });
                 Dialog diag = alertDiag.Create();
                 diag.Show();
-                
+
             }
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -319,7 +316,8 @@ namespace iBarangayApp
             {
                 Snackbar.Make(rout, "Unable to connect to the database.", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
             }
-            finally{
+            finally
+            {
                 swipe.Refreshing = false;
             }
         }
@@ -337,10 +335,17 @@ namespace iBarangayApp
         }
         private void RefreshLayout(object sender, EventArgs e)
         {
+            LId.Clear();
+            LDate.Clear();
+            LSubject.Clear();
+            LLevel.Clear();
+            LImageLocation.Clear();
+            LDetail.Clear();
+
             GetAnnouncement();
         }
 
-        
+
     }
 }
 

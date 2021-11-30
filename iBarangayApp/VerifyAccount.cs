@@ -4,15 +4,11 @@ using Android.Graphics;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Microsoft.WindowsAzure.Storage;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace iBarangayApp
 {
@@ -186,14 +182,16 @@ namespace iBarangayApp
             Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
             alertDiag.SetTitle("Quit Verification?");
             alertDiag.SetMessage("Are you sure you want to quit?");
-            alertDiag.SetPositiveButton("Okay", (senderAlert, args) => {
+            alertDiag.SetPositiveButton("Okay", (senderAlert, args) =>
+            {
 
                 Intent intent = new Intent(this, typeof(MainAnnouncement)).SetFlags(ActivityFlags.NoHistory);
                 StartActivity(intent);
                 Finish();
                 this.OverridePendingTransition(Android.Resource.Animation.SlideInLeft, Android.Resource.Animation.SlideOutRight);
             });
-            alertDiag.SetNegativeButton("Cancel", (senderAlert, args) => {
+            alertDiag.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
 
                 alertDiag.Dispose();
 

@@ -1,14 +1,7 @@
 ﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using static iBarangayApp.MainAnnouncement;
 
 namespace iBarangayApp
 {
@@ -18,11 +11,12 @@ namespace iBarangayApp
         private Activity activity;
         private List<Announcement> announcement;
 
-        public CustomAdapter(Activity activity, List<Announcement> announcement) {
+        public CustomAdapter(Activity activity, List<Announcement> announcement)
+        {
 
             this.activity = activity;
             this.announcement = announcement;
-        
+
         }
         public override int Count
         {

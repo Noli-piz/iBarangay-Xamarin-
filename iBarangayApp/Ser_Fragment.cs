@@ -1,20 +1,15 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace iBarangayApp
 {
     [Activity(Label = "Ser_Fragment")]
     public class Ser_Fragment : Activity
     {
-        private TextView tvBack, tvDocument, tvDate, tvPurpose, tvDO, tvStatus, tvQuantity, tvNote;
+        private TextView tvBack, tvDocument, tvDate, tvPurpose, tvDO, tvStatus, tvQuantity, tvNote, tvRental;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -31,14 +26,16 @@ namespace iBarangayApp
             tvStatus = FindViewById<TextView>(Resource.Id.ser_status);
             tvDO = FindViewById<TextView>(Resource.Id.ser_do);
             tvNote = FindViewById<TextView>(Resource.Id.ser_note);
+            tvRental = FindViewById<TextView>(Resource.Id.ser_rentaldate);
 
-            tvDocument.Text = "Item: " + Intent.GetStringExtra("Item");
-            tvDate.Text = "Requested Date: " + Intent.GetStringExtra("Date");
-            tvQuantity.Text = "Quantity: " + Intent.GetStringExtra("Quantity");
-            tvPurpose.Text = "Purpose: " + Intent.GetStringExtra("Purpose");
-            tvStatus.Text = "Status: " + Intent.GetStringExtra("Status");
-            tvDO.Text = "Delivery Option: " + Intent.GetStringExtra("DO");
-            tvNote.Text = "Note: " + Intent.GetStringExtra("Note");
+            tvDocument.Text = Intent.GetStringExtra("Item");
+            tvDate.Text = Intent.GetStringExtra("Date");
+            tvQuantity.Text =  Intent.GetStringExtra("Quantity");
+            tvPurpose.Text =  Intent.GetStringExtra("Purpose");
+            tvStatus.Text =  Intent.GetStringExtra("Status");
+            tvDO.Text =   Intent.GetStringExtra("DO");
+            tvNote.Text =  Intent.GetStringExtra("Note");
+            tvRental.Text =  Intent.GetStringExtra("Rental");
 
             tvBack.Click += tvBack_Click;
         }

@@ -1,15 +1,6 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using AndroidX.Fragment.App;
+﻿using AndroidX.Fragment.App;
 using Java.Lang;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace iBarangayApp
 {
@@ -19,7 +10,7 @@ namespace iBarangayApp
         public List<string> fragmentTitles = new List<string>();
         public PagerAdapter(AndroidX.Fragment.App.FragmentManager fm) : base(fm)
         {
-            
+
         }
         public void AddFragment(AndroidX.Fragment.App.Fragment fragment, string title)
         {

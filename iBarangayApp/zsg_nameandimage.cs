@@ -1,19 +1,8 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.Graphics;
 using Org.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
@@ -63,7 +52,7 @@ namespace iBarangayApp
                     Lname = info.GetString("Lname");
                     Sname = info.GetString("Sname");
                     Image = info.GetString("Image");
-                    
+
                     Birthplace = info.GetString("Birthplace");
                     ContactNo = info.GetString("ContactNo");
                     CedulaNo = info.GetString("CedulaNo");

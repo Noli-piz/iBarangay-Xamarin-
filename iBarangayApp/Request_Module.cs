@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Google.Android.Material.Snackbar;
@@ -9,8 +8,6 @@ using Org.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -63,7 +60,7 @@ namespace iBarangayApp
 
         private void btnSubmit_Click(Object sender, EventArgs e)
         {
-            if (strDO == "" || strCert =="")
+            if (strDO == "" || strCert == "")
             {
 
             }
@@ -80,7 +77,7 @@ namespace iBarangayApp
             {
                 zsg_nameandimage name = new zsg_nameandimage();
                 zsg_hosting hosting = new zsg_hosting();
-             
+
                 DateTime dateToday = DateTime.Now;
 
                 var uri = hosting.getInsertrequest();
@@ -107,7 +104,8 @@ namespace iBarangayApp
                     alertDiag.SetCancelable(false);
                     alertDiag.SetTitle("Request Success.");
                     alertDiag.SetMessage("Wait for the Barangay Official to Approve your Request.");
-                    alertDiag.SetPositiveButton("OK", (senderAlert, args) => {
+                    alertDiag.SetPositiveButton("OK", (senderAlert, args) =>
+                    {
 
                         Intent intent = new Intent(this, typeof(MainRequest));
                         StartActivity(intent);
@@ -116,7 +114,6 @@ namespace iBarangayApp
 
                     Dialog diag = alertDiag.Create();
                     diag.Show();
-                    await Task.CompletedTask;
 
                 }
                 else
@@ -132,7 +129,7 @@ namespace iBarangayApp
             }
         }
 
-      
+
         private List<string> DOption = new List<string>(), Cert = new List<string>(), DocFee = new List<string>(), DeliveryFee = new List<string>();
         private async void LoadSpnr()
         {

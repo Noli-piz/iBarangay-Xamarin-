@@ -1,68 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Req_FragmentModule"
     android:padding="30dp">
 
-    <TextView
-        android:id="@+id/req_tvback"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BACK"
-        android:textSize="18dp"
-        android:textColor="@color/red"
-        android:layout_marginBottom="40dp"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/req_doctype"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Document Type:"
-        android:textSize="18dp"
-        android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/req_tvback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BACK"
+            android:textColor="@color/red"
+            android:layout_marginBottom="40dp"/>
 
-    <TextView
-        android:id="@+id/req_reqdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Requested Date:"
-        android:textSize="18dp"
-        android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Requested Date"/> 
 
-    <TextView
-        android:id="@+id/req_status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Status:"
-        android:textSize="18dp"
-        android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/req_reqdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="txt"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"/>
 
-    <TextView
-        android:id="@+id/req_do"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delivery Option:"
-        android:textSize="18dp"
-        android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Document Type"/> 
 
-    <TextView
-        android:id="@+id/req_purpose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Purpose:"
-        android:textSize="18dp"
-        android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/req_doctype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="txt"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"/>
 
-   <TextView
-        android:id="@+id/req_note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Note:"
-        android:textSize="18dp"
-        android:layout_marginBottom="10dp"/>
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status"/> 
+
+        <TextView
+            android:id="@+id/req_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="txt"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery Option"/> 
+        <TextView
+            android:id="@+id/req_do"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="txt"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Purpose"/>
+
+        <TextView
+            android:id="@+id/req_purpose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="txt"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"/>
+
+         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Note"/> 
+
+       <TextView
+            android:id="@+id/req_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="txt"
+            android:textSize="18dp"/>
+        </LinearLayout>
+</ScrollView>

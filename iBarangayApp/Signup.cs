@@ -1,15 +1,12 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using Google.Android.Material.Snackbar;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -50,6 +47,12 @@ namespace iBarangayApp
             }
             else
             {
+
+                InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+                imm.HideSoftInputFromWindow(edtEmail.WindowToken, 0);
+                imm.HideSoftInputFromWindow(edtUsername.WindowToken, 0);
+                imm.HideSoftInputFromWindow(edtPassword.WindowToken, 0);
+                imm.HideSoftInputFromWindow(edtRpassword.WindowToken, 0);
                 ValidateUsername(sender);
             }
 
@@ -75,7 +78,7 @@ namespace iBarangayApp
                     responseFromServer = Encoding.UTF8.GetString(response);
                 }
 
-                if(responseFromServer == "Username is Available")
+                if (responseFromServer == "Username is Available")
                 {
                     Info inf = new Info();
                     inf.Infos(edtEmail.Text, edtUsername.Text, edtPassword.Text);

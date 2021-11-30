@@ -1,13 +1,4 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 
 namespace iBarangayApp
 {
@@ -15,7 +6,7 @@ namespace iBarangayApp
     {
         public int id;
         public String item, purpose, date, status;
-        public RFrag(int id,String item, String date, String purpose, String status)
+        public RFrag(int id, String item, String date, String purpose, String status)
         {
             this.id = id;
             this.item = item;

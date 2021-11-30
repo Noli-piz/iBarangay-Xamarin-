@@ -1,18 +1,10 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using Google.Android.Material.Snackbar;
-using System.Collections.Specialized;
-using System.Net;
+using System;
 using System.Timers;
 
 namespace iBarangayApp
@@ -23,28 +15,29 @@ namespace iBarangayApp
         private Button btnSubmit;
         private EditText etNum1, etNum2, etNum3, etNum4, etNum5, etNum6;
         private TextView tvResend;
-        private zsg_randomnum randomNumber =  new zsg_randomnum();
+        private zsg_randomnum randomNumber = new zsg_randomnum();
         private Timer _timer;
 
-        private int tries=3;
-        private int mins,secs;
+        private int tries = 3;
+        private int mins, secs;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.ForgetPassword2);
 
-            etNum1 =  FindViewById<EditText>(Resource.Id.etNum1);
-            etNum2 =  FindViewById<EditText>(Resource.Id.etNum2);
-            etNum3 =  FindViewById<EditText>(Resource.Id.etNum3);
-            etNum4 =  FindViewById<EditText>(Resource.Id.etNum4);
-            etNum5 =  FindViewById<EditText>(Resource.Id.etNum5);
-            etNum6 =  FindViewById<EditText>(Resource.Id.etNum6);
-            tvResend =  FindViewById<TextView>(Resource.Id.tvResend);
-            btnSubmit =  FindViewById<Button>(Resource.Id.btnSubmit);
+            etNum1 = FindViewById<EditText>(Resource.Id.etNum1);
+            etNum2 = FindViewById<EditText>(Resource.Id.etNum2);
+            etNum3 = FindViewById<EditText>(Resource.Id.etNum3);
+            etNum4 = FindViewById<EditText>(Resource.Id.etNum4);
+            etNum5 = FindViewById<EditText>(Resource.Id.etNum5);
+            etNum6 = FindViewById<EditText>(Resource.Id.etNum6);
+            tvResend = FindViewById<TextView>(Resource.Id.tvResend);
+            btnSubmit = FindViewById<Button>(Resource.Id.btnSubmit);
 
             btnSubmit.Click += BtnSubmit_Click;
             tvResend.Clickable = true;
-            tvResend.Click += delegate{
+            tvResend.Click += delegate
+            {
                 randomNumber = new zsg_randomnum();
                 SendEmailAsync(randomNumber.randomNum());
 
@@ -74,11 +67,12 @@ namespace iBarangayApp
             else
             {
                 tries--;
-                Toast.MakeText(this, "Verifcation Code is Wrong! You only have " + tries +" left.", ToastLength.Short).Show();
+                Toast.MakeText(this, "Verifcation Code is Wrong! You only have " + tries + " left.", ToastLength.Short).Show();
             }
         }
 
-         public async void SendEmailAsync(string randomNumber){
+        public async void SendEmailAsync(string randomNumber)
+        {
 
             zsg_emailverfication email = new zsg_emailverfication();
 
@@ -92,7 +86,7 @@ namespace iBarangayApp
                 From = new EmailAddress(ApiKey.getSendGridEmail(), "iBarangay<no-reply>"),
                 Subject = "Verification Code",
                 PlainTextContent = "Your verification code is: " + randomNumber,
-                HtmlContent = "<p>Your verification code is: <strong> " + randomNumber +"</strong></p>"
+                HtmlContent = "<p>Your verification code is: <strong> " + randomNumber + "</strong></p>"
             };
 
             msg.AddTo(new EmailAddress(email.getEmail(), "ibarangay-user"));
@@ -106,7 +100,7 @@ namespace iBarangayApp
 
             if (secs == 0)
             {
-                if (mins==0)
+                if (mins == 0)
                 {
                     _timer.Stop();
                     tvResend.Clickable = true;

@@ -1,13 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace iBarangayApp
 {
@@ -30,12 +25,12 @@ namespace iBarangayApp
             tvDO = FindViewById<TextView>(Resource.Id.req_do);
             tvNote = FindViewById<TextView>(Resource.Id.req_note);
 
-            tvDocument.Text = "Document: " + Intent.GetStringExtra("Item");
-            tvDate.Text = "Requested Date: " + Intent.GetStringExtra("Date");
-            tvPurpose.Text = "Purpose: " + Intent.GetStringExtra("Purpose");
-            tvStatus.Text = "Status: " + Intent.GetStringExtra("Status");
-            tvDO.Text = "Delivery Option: " + Intent.GetStringExtra("DO");
-            tvNote.Text = "Note: " + Intent.GetStringExtra("Note");
+            tvDocument.Text = Intent.GetStringExtra("Item");
+            tvDate.Text = Intent.GetStringExtra("Date");
+            tvPurpose.Text = Intent.GetStringExtra("Purpose");
+            tvStatus.Text = Intent.GetStringExtra("Status");
+            tvDO.Text = Intent.GetStringExtra("DO");
+            tvNote.Text = Intent.GetStringExtra("Note");
 
             tvBack.Click += tvBack_Click;
         }
