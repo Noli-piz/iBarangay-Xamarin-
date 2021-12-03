@@ -23,7 +23,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Requested Date"/> 
+            android:text="Requested Date"
+            android:textStyle="bold"/> 
 
         <TextView
             android:id="@+id/req_reqdate"
@@ -36,7 +37,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Document Type"/> 
+            android:text="Document Type"
+            android:textStyle="bold"/> 
 
         <TextView
             android:id="@+id/req_doctype"
@@ -50,7 +52,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Status"/> 
+            android:text="Status"
+            android:textStyle="bold"/> 
 
         <TextView
             android:id="@+id/req_status"
@@ -63,7 +66,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delivery Option"/> 
+            android:text="Delivery Option"
+            android:textStyle="bold"/> 
+
         <TextView
             android:id="@+id/req_do"
             android:layout_width="match_parent"
@@ -75,7 +80,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Purpose"/>
+            android:text="Purpose"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/req_purpose"
@@ -88,7 +94,8 @@
          <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Note"/> 
+            android:text="Note"
+            android:textStyle="bold"/> 
 
        <TextView
             android:id="@+id/req_note"

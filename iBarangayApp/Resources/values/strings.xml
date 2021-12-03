@@ -33,4 +33,9 @@
 	<string name="extended_fab_content_desc">Tab 3</string>
 	<string name="extended_fab_label">Request</string>
 	<string name="title_activity_main">MainActivity</string>
+
+	<string name="forgetpass">Enter the username associated with your account.</string>
+	<string name="forgetpass2">Enter the verification code we just sent you on </string>
+	<string name="forgetpass3">Please enter your new password.</string>
+
 </resources>

@@ -17,12 +17,13 @@ using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
-    //[Activity(Label = "Login")]
-    [Activity(Label = "iBarangay", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "Login")]
+    //[Activity(Label = "iBarangay", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
 
     public class Login : Activity
     {
         private EditText edtUsername, edtPassword;
+        private TextView tvForgetPass;
         private Button btnLogin, btnSignup;
         private CircularProgressIndicator progBar;
 
@@ -38,6 +39,7 @@ namespace iBarangayApp
             edtPassword = FindViewById<EditText>(Resource.Id.ETpassword);
             btnLogin = FindViewById<Button>(Resource.Id.btnlogin);
             btnSignup = FindViewById<Button>(Resource.Id.btnsignupS2);
+            tvForgetPass = FindViewById<TextView>(Resource.Id.tvForgetPass);
 
             btnLogin.Click += BtnLogin_Click;
             btnSignup.Click += BtnSignup_Click;
@@ -50,16 +52,21 @@ namespace iBarangayApp
             user.reset();
 
             pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
-            String strLogin = pref.GetString("Logout", String.Empty);
-            if (strLogin == "false")
+            //String strLogin = pref.GetString("Logout", String.Empty);
+            //if (strLogin == "false")
+            //{
+            //    edtUsername.Text = pref.GetString("Username", String.Empty);
+            //    edtPassword.Text = pref.GetString("Password", String.Empty);
+
+            //    Disable();
+            //    Wait();
+            //}
+
+            tvForgetPass.Clickable = true;
+            tvForgetPass.Click += (delegate
             {
-                edtUsername.Text = pref.GetString("Username", String.Empty);
-                edtPassword.Text = pref.GetString("Password", String.Empty);
-
-                Disable();
-                Wait();
-
-            }
+                StartActivity(new Intent(this, typeof(ForgetPassword)));
+            });
 
         }
 
@@ -120,10 +127,7 @@ namespace iBarangayApp
         {
             try
             {
-                if (progBar.Visibility != ViewStates.Visible)
-                {
-                    progBar.Visibility = ViewStates.Visible;
-                }
+                progBar.Visibility = ViewStates.Visible;
 
                 zsg_hosting hosting = new zsg_hosting();
                 var uri = hosting.getLogin();
@@ -162,9 +166,20 @@ namespace iBarangayApp
                     Snackbar.Make(FindViewById(Resource.Id.rlayout), responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
                 }
             }
+            catch (WebException ex)
+            {
+                Android.Util.Log.Debug("ERROR", ex.ToString() + " ");
+
+            }
+            catch (NullReferenceException ex)
+            {
+                Android.Util.Log.Debug("ERROR", ex.ToString() + " ");
+
+            }
             catch (Exception ex)
             {
                 Toast.MakeText(this, "Please check your connection.", ToastLength.Short).Show();
+                Android.Util.Log.Debug("ERROR", ex.ToString() + " ");
             }
             finally
             {

@@ -1,10 +1,15 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
+using Android.Text;
 using Android.Widget;
+using Org.Json;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Timers;
 
 namespace iBarangayApp
@@ -14,7 +19,7 @@ namespace iBarangayApp
     {
         private Button btnSubmit;
         private EditText etNum1, etNum2, etNum3, etNum4, etNum5, etNum6;
-        private TextView tvResend;
+        private TextView tvResend, tvEmail;
         private zsg_randomnum randomNumber = new zsg_randomnum();
         private Timer _timer;
 
@@ -32,6 +37,7 @@ namespace iBarangayApp
             etNum5 = FindViewById<EditText>(Resource.Id.etNum5);
             etNum6 = FindViewById<EditText>(Resource.Id.etNum6);
             tvResend = FindViewById<TextView>(Resource.Id.tvResend);
+            tvEmail = FindViewById<TextView>(Resource.Id.tvEmail);
             btnSubmit = FindViewById<Button>(Resource.Id.btnSubmit);
 
             btnSubmit.Click += BtnSubmit_Click;
@@ -39,7 +45,7 @@ namespace iBarangayApp
             tvResend.Click += delegate
             {
                 randomNumber = new zsg_randomnum();
-                SendEmailAsync(randomNumber.randomNum());
+                //SendEmailAsync(randomNumber.randomNum());
 
                 mins = 2;
                 secs = 59;
@@ -50,7 +56,16 @@ namespace iBarangayApp
                 tvResend.Clickable = false;
             };
 
-            SendEmailAsync(randomNumber.randomNum());
+            //SendEmailAsync(randomNumber.randomNum());
+            tvResend.Text = randomNumber.randomNum();
+
+
+            zsg_emailverfication username = new zsg_emailverfication();
+            string editemail = username.getEmail();
+            string pattern = @"(?<=[\w]{4})[\w-\._\+%]*(?=[\w]{2}@)";
+            string edittedemail = Regex.Replace(editemail, pattern, m => new string('*', m.Length));
+
+            tvEmail.Text =" "+edittedemail;
         }
 
         private void BtnSubmit_Click(object sender, EventArgs e)
@@ -60,14 +75,40 @@ namespace iBarangayApp
             {
                 etNum1.Error = "Cannot be empty!";
             }
+            else if (etNum2.Text == "")
+            {
+                etNum2.Error = "Cannot be empty!";
+            }
+            else if (etNum3.Text == "")
+            {
+                etNum3.Error = "Cannot be empty!";
+            }
+            else if (etNum4.Text == "")
+            {
+                etNum4.Error = "Cannot be empty!";
+            }
+            else if (etNum5.Text == "")
+            {
+                etNum5.Error = "Cannot be empty!";
+            }
+            else if (etNum6.Text == "")
+            {
+                etNum6.Error = "Cannot be empty!";
+            }
             else if (numText == randomNumber.randomNum())
             {
                 StartActivity(new Intent(this, typeof(UpdatePassword)));
+                Finish();
             }
             else
             {
                 tries--;
-                Toast.MakeText(this, "Verifcation Code is Wrong! You only have " + tries + " left.", ToastLength.Short).Show();
+                Toast.MakeText(this, "Verifcation Code is Wrong!", ToastLength.Short).Show();
+
+                if (tries==0)
+                {
+
+                }
             }
         }
 
@@ -76,7 +117,7 @@ namespace iBarangayApp
 
             zsg_emailverfication email = new zsg_emailverfication();
 
-            csApiKey ApiKey = new csApiKey();
+            zsg_ApiKey ApiKey = new zsg_ApiKey();
             ApiKey.loadKeys();
 
             var client = new SendGridClient(ApiKey.getSendGridKey());
@@ -91,7 +132,6 @@ namespace iBarangayApp
 
             msg.AddTo(new EmailAddress(email.getEmail(), "ibarangay-user"));
             var response = await client.SendEmailAsync(msg);
-            btnSubmit.Text = response.StatusCode.ToString();
         }
 
         private void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
@@ -102,9 +142,9 @@ namespace iBarangayApp
             {
                 if (mins == 0)
                 {
+                    tvResend.Text = "Resend Code?";
                     _timer.Stop();
                     tvResend.Clickable = true;
-                    tvResend.Text = "Resend Code";
                 }
                 else
                 {
@@ -113,7 +153,33 @@ namespace iBarangayApp
                 }
             }
 
-            tvResend.Text = mins + " " + secs;
+            string strmins = "0" + mins ;
+            string strsecs = secs.ToString().Length <=1 ? "0" + secs : secs +"" ;
+
+            tvResend.Text = "Resend OTP in " + strmins + ":" + strsecs;
+        }
+
+        async void RetrieveEmail(string username)
+        {
+            using (var client = new HttpClient())
+            {
+                zsg_hosting hosting = new zsg_hosting();
+                var uri = hosting.getEmail() + "?Username=" + username;
+                var result = await client.GetStringAsync(uri);
+
+                JSONObject jsonresult = new JSONObject(result);
+                int success = jsonresult.GetInt("success");
+
+                if (success == 1)
+                {
+                    JSONArray information = jsonresult.GetJSONArray("info");
+
+                    JSONObject info = information.GetJSONObject(0);
+                    btnSubmit.Text= info.GetString("Email");
+
+                }
+
+            }
         }
     }
 }

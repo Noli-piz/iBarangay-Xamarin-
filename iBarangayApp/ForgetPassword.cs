@@ -2,11 +2,14 @@
 using Android.Content;
 using Android.OS;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using Google.Android.Material.Snackbar;
+using Org.Json;
 using System;
 using System.Collections.Specialized;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace iBarangayApp
@@ -16,14 +19,16 @@ namespace iBarangayApp
     public class ForgetPassword : Activity
     {
         private Button btnSubmit;
-        private EditText etEmail;
+        private EditText etUsername;
+        private zsg_emailverfication email = new zsg_emailverfication();
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.ForgetPassword);
 
-            etEmail = FindViewById<EditText>(Resource.Id.ETemail);
+            etUsername = FindViewById<EditText>(Resource.Id.ETusername);
             btnSubmit = FindViewById<Button>(Resource.Id.btnSubmit);
 
             btnSubmit.Click += BtnSubmit_Click;
@@ -31,12 +36,15 @@ namespace iBarangayApp
 
         private void BtnSubmit_Click(object sender, EventArgs e)
         {
-            if (etEmail.Text == "")
+            if (etUsername.Text == "")
             {
-                etEmail.Error = "Cannot be empty!";
+                etUsername.Error = "Cannot be empty!";
             }
             else
             {
+                InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+                imm.HideSoftInputFromWindow(etUsername.WindowToken, 0);
+
                 ValidateUsername(sender);
             }
         }
@@ -47,7 +55,6 @@ namespace iBarangayApp
             try
             {
                 zsg_hosting hosting = new zsg_hosting();
-                zsg_nameandimage name = new zsg_nameandimage();
 
                 var uri = hosting.getForgotPass();
 
@@ -55,18 +62,15 @@ namespace iBarangayApp
                 using (var wb = new WebClient())
                 {
                     var datas = new NameValueCollection();
-                    datas["Email"] = etEmail.Text;
+                    datas["Username"] = etUsername.Text;
 
                     var response = wb.UploadValues(uri, "POST", datas);
                     responseFromServer = Encoding.UTF8.GetString(response);
                 }
 
-                if (responseFromServer == "Email is Exist")
+                if (responseFromServer == "Username is Exist")
                 {
-                    zsg_emailverfication email = new zsg_emailverfication();
-                    email.setEmail(etEmail.Text);
-
-                    StartActivity(new Intent(this, typeof(ForgetPassword2)));
+                    RetrieveEmail();
                 }
                 else
                 {
@@ -80,5 +84,32 @@ namespace iBarangayApp
             }
         }
 
+
+        async void RetrieveEmail()
+        {
+            using (var client = new HttpClient())
+            {
+                zsg_hosting hosting = new zsg_hosting();
+                var uri = hosting.getEmail() + "?Username=" + etUsername.Text;
+                var result = await client.GetStringAsync(uri);
+
+                JSONObject jsonresult = new JSONObject(result);
+                int success = jsonresult.GetInt("success");
+
+                if (success == 1)
+                {
+                    JSONArray information = jsonresult.GetJSONArray("info");
+                    JSONObject info = information.GetJSONObject(0);
+
+                    email.setEmail(info.GetString("Email"));
+
+                    //zsg_ApiKey ap = new zsg_ApiKey();
+                    //ap.setSendGridKey(info.GetString("ApiKey"));
+
+                    StartActivity(new Intent(this, typeof(ForgetPassword2)));
+                }
+
+            }
+        }
     }
 }

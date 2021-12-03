@@ -1,6 +1,6 @@
 ﻿namespace iBarangayApp
 {
-    class csApiKey
+    class zsg_ApiKey
     {
 
         private static string sendgridKey, sendgridEmail;
@@ -10,6 +10,18 @@
             sendgridKey = "";
             sendgridEmail = "sti_ibarangay@outlook.com";
         }
+
+        public void setSendGridKey(string key)
+        {
+            sendgridKey = key;
+        }
+
+
+        public void setSendGridEmail(string email)
+        {
+            sendgridEmail = email;
+        }
+
 
         public string getSendGridKey()
         {

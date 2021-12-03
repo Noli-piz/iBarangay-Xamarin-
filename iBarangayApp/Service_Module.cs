@@ -121,12 +121,12 @@ namespace iBarangayApp
         {
             if (TVQuantity.Text == "0")
             {
-                Toast.MakeText(this, "Not Valid Qunatity", ToastLength.Short).Show();
+                Toast.MakeText(this, "Not Valid Quantity", ToastLength.Short).Show();
 
             }
             else if (ETPurpose.Text == "")
             {
-                Toast.MakeText(this, "Please input the purpose.", ToastLength.Short).Show();
+                Toast.MakeText(this, "Not Valid Purpose.", ToastLength.Short).Show();
             }
             else
             {

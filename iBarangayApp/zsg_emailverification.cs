@@ -1,8 +1,11 @@
-﻿namespace iBarangayApp
+﻿using Org.Json;
+using System.Net.Http;
+
+namespace iBarangayApp
 {
     public class zsg_emailverfication
     {
-        private static string email = "";
+        private static string email = "", username="";
 
         public void setEmail(string eml)
         {
@@ -14,9 +17,22 @@
             return email;
         }
 
+        public void setUsername(string usr)
+        {
+            username = usr;
+        }
+
+        public string getUsername()
+        {
+            return username;
+        }
+
         public void reset()
         {
             email = "";
+            username = "";
         }
+
+
     }
 }

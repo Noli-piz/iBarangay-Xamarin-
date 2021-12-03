@@ -72,7 +72,17 @@ namespace iBarangayApp
 
                 if (responseFromServer == "Updated Successfully")
                 {
-                    StartActivity(new Intent(this, typeof(Login)));
+                    Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetCancelable(false);
+                    alertDiag.SetTitle("Password Successfuly Updated");
+                    alertDiag.SetMessage("Don't forget your password. Ok?");
+                    alertDiag.SetPositiveButton("OK", (senderAlert, args) =>
+                    {
+                        StartActivity(new Intent(this, typeof(Login)).SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask));
+                    });
+                    Dialog diag = alertDiag.Create();
+                    diag.Show();
+
                 }
                 else
                 {

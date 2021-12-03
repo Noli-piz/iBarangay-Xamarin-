@@ -63,6 +63,9 @@ namespace iBarangayApp
             if (strDO == "" || strCert == "")
             {
 
+            }else if (edtPurpose.Text == "")
+            {
+                Toast.MakeText(this, "Not Valid Purpose.", ToastLength.Short).Show();
             }
             else
             {
