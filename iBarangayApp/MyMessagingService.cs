@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
+using Android.Util;
 using Firebase.Messaging;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,11 @@ namespace iBarangayApp
             {
                 SendNotification(message.Data);
             }
+
+            Log.Debug("BroadCast", "OnMessageReceive");
+
+            Intent broad = new Intent("RefreshData");
+            Android.Support.V4.Content.LocalBroadcastManager.GetInstance(this).SendBroadcast(broad);
         }
 
         private void SendNotification(IDictionary<string, string> data)

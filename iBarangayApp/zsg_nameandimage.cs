@@ -21,6 +21,35 @@ namespace iBarangayApp
             RetrieveInfo();
         }
 
+        public async void retrievedVerificationStatus()
+        {
+            using (var client = new HttpClient())
+            {
+                zsg_hosting hosting = new zsg_hosting();
+                var uri = hosting.getPersonalinfo() + "?Username=" + strusername;
+                var result = await client.GetStringAsync(uri);
+
+                JSONObject jsonresult = new JSONObject(result);
+                int success = jsonresult.GetInt("success");
+
+                if (success == 1)
+                {
+                    JSONArray information = jsonresult.GetJSONArray("info");
+
+                    JSONObject info = information.GetJSONObject(0);
+                    if (info.GetString("Valid") == "0" || info.GetString("Valid") == "false" || info.GetString("Valid") == "False")
+                    {
+                        boolVerified = false;
+                    }
+                    else
+                    {
+                        boolVerified = true;
+                    }
+                }
+
+            }
+        }
+
         public void reset()
         {
             stremail = "";

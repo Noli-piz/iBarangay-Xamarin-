@@ -14,8 +14,8 @@ using System.Timers;
 
 namespace iBarangayApp
 {
-    [Activity(Label = "ForgetPassword2")]
-    public class ForgetPassword2 : Activity
+    [Activity(Label = "Signup1")]
+    public class Signup1 : Activity
     {
         private Button btnSubmit;
         private EditText etNum1, etNum2, etNum3, etNum4, etNum5, etNum6;
@@ -25,10 +25,12 @@ namespace iBarangayApp
 
         private int tries = 3;
         private int mins, secs;
+        private Info inf = new Info();
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.ForgetPassword2);
+            SetContentView(Resource.Layout.activity_signup1);
 
             etNum1 = FindViewById<EditText>(Resource.Id.etNum1);
             etNum2 = FindViewById<EditText>(Resource.Id.etNum2);
@@ -57,11 +59,8 @@ namespace iBarangayApp
             };
 
             SendEmailAsync(randomNumber.randomNum());
-            //tvResend.Text = randomNumber.randomNum();
 
-
-            zsg_emailverfication username = new zsg_emailverfication();
-            string editemail = username.getEmail();
+            string editemail = inf.getStrEmail();
             string pattern = @"(?<=[\w]{4})[\w-\._\+%]*(?=[\w]{2}@)";
             string edittedemail = Regex.Replace(editemail, pattern, m => new string('*', m.Length));
 
@@ -97,7 +96,7 @@ namespace iBarangayApp
             }
             else if (numText == randomNumber.randomNum())
             {
-                StartActivity(new Intent(this, typeof(UpdatePassword)));
+                StartActivity(new Intent(this, typeof(Signup2)));
                 Finish();
             }
             else
@@ -114,9 +113,6 @@ namespace iBarangayApp
 
         public async void SendEmailAsync(string randomNumber)
         {
-
-            zsg_emailverfication email = new zsg_emailverfication();
-
             zsg_ApiKey ApiKey = new zsg_ApiKey();
             ApiKey.loadKeys();
 
@@ -130,9 +126,9 @@ namespace iBarangayApp
                 HtmlContent = "<p>Your verification code is: <strong> " + randomNumber + "</strong></p>"
             };
 
-            msg.AddTo(new EmailAddress(email.getEmail(), "ibarangay-user"));
+            msg.AddTo(new EmailAddress(inf.getStrEmail(), "ibarangay-user"));
             var response = await client.SendEmailAsync(msg);
-            Android.Util.Log.Error("ERROR:" , response +"" );
+            Android.Util.Log.Error("ERROR:" , response.StatusCode +"" );
         }
 
         private void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)

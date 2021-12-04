@@ -5,9 +5,11 @@ using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
 using Google.Android.Material.Snackbar;
+using Org.Json;
 using System;
 using System.Collections.Specialized;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace iBarangayApp
@@ -33,6 +35,8 @@ namespace iBarangayApp
 
             tvBack.Click += Back_Click;
             btnNext.Click += BtnNext_Click;
+
+            RetrieveEmail();
         }
 
         private void BtnNext_Click(object sender, EventArgs e)
@@ -47,15 +51,42 @@ namespace iBarangayApp
             }
             else
             {
+                if (checkEmail(edtEmail.Text)) {
+                    InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+                    imm.HideSoftInputFromWindow(edtEmail.WindowToken, 0);
+                    imm.HideSoftInputFromWindow(edtUsername.WindowToken, 0);
+                    imm.HideSoftInputFromWindow(edtPassword.WindowToken, 0);
+                    imm.HideSoftInputFromWindow(edtRpassword.WindowToken, 0);
+                    ValidateUsername(sender);
+                }
+                else
+                {
+                    Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetTitle("Not Valid Email.");
+                    alertDiag.SetMessage("Please enter a valid email.");
+                    alertDiag.SetPositiveButton("OK", (senderAlert, args) =>
+                    {
+                        alertDiag.Dispose();
+                    });
 
-                InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
-                imm.HideSoftInputFromWindow(edtEmail.WindowToken, 0);
-                imm.HideSoftInputFromWindow(edtUsername.WindowToken, 0);
-                imm.HideSoftInputFromWindow(edtPassword.WindowToken, 0);
-                imm.HideSoftInputFromWindow(edtRpassword.WindowToken, 0);
-                ValidateUsername(sender);
+                    Dialog diag = alertDiag.Create();
+                    diag.Show();
+                }
             }
 
+        }
+
+        private bool checkEmail(String email)
+        {
+            try
+            {
+                var add = new System.Net.Mail.MailAddress(email);
+                return add.Address == email;
+            }
+            catch (Exception es)
+            {
+                return false;
+            }
         }
 
         private void ValidateUsername(object sender)
@@ -83,7 +114,7 @@ namespace iBarangayApp
                     Info inf = new Info();
                     inf.Infos(edtEmail.Text, edtUsername.Text, edtPassword.Text);
 
-                    StartActivity(new Intent(this, typeof(Signup2)));
+                    StartActivity(new Intent(this, typeof(Signup1)));
                 }
                 else
                 {
@@ -102,6 +133,26 @@ namespace iBarangayApp
             base.OnBackPressed();
         }
 
+        async void RetrieveEmail()
+        {
+            using (var client = new HttpClient())
+            {
+                zsg_hosting hosting = new zsg_hosting();
+                var uri = hosting.getApiKey();
+                var result = await client.GetStringAsync(uri);
 
+                JSONObject jsonresult = new JSONObject(result);
+                int success = jsonresult.GetInt("success");
+
+                if (success == 1)
+                {
+                    JSONArray information = jsonresult.GetJSONArray("info");
+                    JSONObject info = information.GetJSONObject(0);
+
+                    zsg_ApiKey ap = new zsg_ApiKey();
+                    ap.setSendGridKey(info.GetString("ApiKey"));
+                }
+            }
+        }
     }
 }

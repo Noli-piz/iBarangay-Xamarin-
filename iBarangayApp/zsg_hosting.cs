@@ -10,7 +10,7 @@ namespace iBarangayApp
 
         private static String announcement, login, requestall, requestpending, requestapproved, requestdisapproved, requestdelivered, requestcancelled;
         private static String insertrequest, certificate, deliveryoption, insertservice, itemquantity;
-        private static String barangayitems, checkusername, signup3, civilstatus, gender, purok, personalinfo, updatepersonalinfo;
+        private static String barangayitems, checkusername, apikey ,signup3, civilstatus, gender, purok, personalinfo, updatepersonalinfo;
         private static String serviceall, servicepending, serviceapproved, servicedisapproved, serviceborrowed, servicereturned;
         private static String insertverification, forgotpass, getemail ,updatepass;
         public zsg_hosting()
@@ -33,6 +33,7 @@ namespace iBarangayApp
             barangayitems = hosting + "ibarangay_items.php";                //ServiceModule
                                                                             //deliveryoption = hosting + "ibarangay_deliveryoptions.php";     //ServiceModule
             checkusername = hosting + "ibarangay_checkusername.php";        //SignUp
+            apikey = hosting + "ibarangay_getapikey.php";                   //SignUp1
             signup3 = hosting + "ibarangay_signup3.php";                    //SignUp2
             civilstatus = hosting + "ibarangay_civilstatus.php";            //SignUp2
             gender = hosting + "ibarangay_gender.php";                      //SignUp2
@@ -116,6 +117,11 @@ namespace iBarangayApp
         public String getCheckusername()
         {
             return checkusername;
+        }
+
+        public String getApiKey()
+        {
+            return apikey;
         }
 
         public String getSignup3()

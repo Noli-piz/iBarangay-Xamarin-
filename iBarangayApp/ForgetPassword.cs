@@ -103,8 +103,8 @@ namespace iBarangayApp
 
                     email.setEmail(info.GetString("Email"));
 
-                    //zsg_ApiKey ap = new zsg_ApiKey();
-                    //ap.setSendGridKey(info.GetString("ApiKey"));
+                    zsg_ApiKey ap = new zsg_ApiKey();
+                    ap.setSendGridKey(info.GetString("ApiKey"));
 
                     StartActivity(new Intent(this, typeof(ForgetPassword2)));
                 }

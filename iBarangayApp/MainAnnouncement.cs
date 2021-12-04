@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
@@ -16,10 +17,12 @@ using Org.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace iBarangayApp
 {
     //[Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+
     [Activity(Label = "iBarangay")]
     public class MainAnnouncement : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
@@ -36,8 +39,14 @@ namespace iBarangayApp
         private zsg_nameandimage nme = new zsg_nameandimage();
         private ISharedPreferences pref = Application.Context.GetSharedPreferences("UserInfo", FileCreationMode.Private);
 
+        //Refresh the Activity
+        private MyBroadcastReceiver receiver;
+        public static MainAnnouncement instance;
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            base.OnCreate(savedInstanceState);
+            MainAnnouncement.instance = this;
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
@@ -86,9 +95,14 @@ namespace iBarangayApp
             swipe.Refresh += RefreshLayout;
 
             GetAnnouncement();
+
+            // Subscribe to FCM
             FirebaseMessaging.Instance.SubscribeToTopic("ibarangay");
             FirebaseMessaging.Instance.SubscribeToTopic(nme.getStrusername());
-            base.OnCreate(savedInstanceState);
+
+
+            //Refresh The Activity
+            receiver = new MyBroadcastReceiver();
         }
 
 
@@ -96,8 +110,6 @@ namespace iBarangayApp
         {
             base.OnSaveInstanceState(outState);
         }
-
-
 
         public override void OnBackPressed()
         {
@@ -346,6 +358,40 @@ namespace iBarangayApp
         }
 
 
+        protected override void OnResume()
+        {
+            base.OnResume();
+            Log.Debug("BroadCast", "Resume");
+
+            Android.Support.V4.Content.LocalBroadcastManager.GetInstance(this).RegisterReceiver(receiver, new IntentFilter("RefreshData"));
+        }
+
+        protected override void OnPause()
+        {
+            Log.Debug("BroadCast", "Pause");
+            Android.Support.V4.Content.LocalBroadcastManager.GetInstance(this).UnregisterReceiver(receiver);
+
+            base.OnPause();
+        }
+
+        public async void UpdateGuiMethod()
+        {
+            nme.retrievedVerificationStatus();
+            TvVerificationStatus.Text = nme.getboolVerified() == false ? "Not Verified" : "Verified";
+
+            await Task.Delay(5000);
+            this.Recreate();
+            OverridePendingTransition(0, 0);
+        }
+
+        [BroadcastReceiver]
+        public class MyBroadcastReceiver : BroadcastReceiver
+        {
+            public override void OnReceive(Context context, Intent intent)
+            {
+                MainAnnouncement.instance.UpdateGuiMethod();
+            }
+        }
     }
 }
 

@@ -7,7 +7,6 @@
 
         public void loadKeys()
         {
-            sendgridKey = "";
             sendgridEmail = "sti_ibarangay@outlook.com";
         }
 
