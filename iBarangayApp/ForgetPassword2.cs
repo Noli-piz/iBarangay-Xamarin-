@@ -107,7 +107,16 @@ namespace iBarangayApp
 
                 if (tries==0)
                 {
-
+                    tries = 3;
+                    Android.App.AlertDialog.Builder alertDiag = new Android.App.AlertDialog.Builder(this);
+                    alertDiag.SetTitle("Unable to Reset?");
+                    alertDiag.SetMessage("Please go to Barangay Hall for this concern.");
+                    alertDiag.SetPositiveButton("OK", (senderAlert, args) =>
+                    {
+                        alertDiag.Dispose();
+                    });
+                    Dialog diag = alertDiag.Create();
+                    diag.Show();
                 }
             }
         }

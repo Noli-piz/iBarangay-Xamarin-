@@ -79,7 +79,7 @@ namespace iBarangayApp
             else
             {
                 Intent intent = new Intent(this, typeof(VerifyAccount2));
-                intent.PutExtra("ID", strImageUrl);
+                intent.PutExtra("image1", strImageUrl);
                 StartActivity(intent);
             }
         }

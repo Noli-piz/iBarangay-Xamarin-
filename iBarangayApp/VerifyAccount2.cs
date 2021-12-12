@@ -26,7 +26,7 @@ namespace iBarangayApp
         private TextView tvBack;
 
         private MemoryStream inputStream;
-        private string strImageUrl = "", strImageUrlId;
+        private string strImage2Url = "", strImage1Url;
         private Bitmap mBitMap;
         public static readonly int PickImageId = 1000;
 
@@ -58,7 +58,7 @@ namespace iBarangayApp
             }
 
 
-            strImageUrlId = Intent.GetStringExtra("ID");
+            strImage1Url = Intent.GetStringExtra("image1");
 
         }
 
@@ -78,13 +78,16 @@ namespace iBarangayApp
 
         private void btnFinish_Click(Object sender, EventArgs e)
         {
-            if (strImageUrl == null || strImageUrl == "")
+            if (strImage2Url == null || strImage2Url == "")
             {
                 Toast.MakeText(this, "Please Select an Image.", ToastLength.Short).Show();
             }
             else
             {
-                Verification();
+                Intent intent = new Intent(this, typeof(VerifyAccount3));
+                intent.PutExtra("image1", strImage1Url);
+                intent.PutExtra("image2", strImage2Url);
+                StartActivity(intent);
             }
         }
 
@@ -167,7 +170,7 @@ namespace iBarangayApp
                 var blockBlob = container.GetBlockBlobReference($"{name}.png");
                 await blockBlob.UploadFromStreamAsync(stream);
                 string URL = blockBlob.Uri.OriginalString;
-                strImageUrl = URL;
+                strImage2Url = URL;
                 Toast.MakeText(this, "Image uploaded to Blob Storage Successfully!", ToastLength.Long).Show();
             }
             catch (Exception e)
@@ -196,8 +199,8 @@ namespace iBarangayApp
                 {
                     var datas = new NameValueCollection();
                     datas["Username"] = nme.getStrusername();
-                    datas["IdImgUrl"] = strImageUrlId;
-                    datas["IdAndFaceImgUrl"] = strImageUrl;
+                    datas["IdImgUrl"] = strImage1Url;
+                    datas["IdAndFaceImgUrl"] = strImage2Url;
 
                     var response = wb.UploadValues(uri, "POST", datas);
                     responseFromServer = Encoding.UTF8.GetString(response);

@@ -26,7 +26,7 @@ namespace iBarangayApp
         private Button btnRegistration, btnBirthDate, btnSignup;
         private ImageView imgProfile;
         private Spinner sprCivilStatus, sprGender, sprPurok, sprVoterStatus;
-        private EditText ETFname, ETMname, ETLname, ETSname, ETBirthPlace, ETCedulaNo, ETContactNo;
+        private EditText ETFname, ETMname, ETLname, ETSname, ETBirthPlace, ETCedulaNo, ETContactNo, ETHouseandStreet;
         private TextView tvBack;
         private ProgressBar pb;
 
@@ -54,6 +54,7 @@ namespace iBarangayApp
             ETBirthPlace = FindViewById<EditText>(Resource.Id.S2Birthplace);
             ETCedulaNo = FindViewById<EditText>(Resource.Id.ETCedulaNo);
             ETContactNo = FindViewById<EditText>(Resource.Id.ETContactNo);
+            ETHouseandStreet = FindViewById<EditText>(Resource.Id.HouseAndStreet);
 
             sprCivilStatus = FindViewById<Spinner>(Resource.Id.spnrCivilStatus);
             sprGender = FindViewById<Spinner>(Resource.Id.spnrGender);
@@ -131,6 +132,10 @@ namespace iBarangayApp
             {
                 ETContactNo.Error = "Cannot be Empty";
             }
+            else if (ETHouseandStreet.Text == "")
+            {
+                ETHouseandStreet.Error = "Cannot be Empty";
+            }
             else if (strCV == "" || strGDR == "" || strPRK == "" || strVS == "")
             {
                 ((TextView)sprCivilStatus.SelectedView).Error = "None Selected";
@@ -150,7 +155,7 @@ namespace iBarangayApp
         {
             Info inf = new Info();
 
-            String[] field = new String[18];
+            String[] field = new String[19];
             field[0] = "Username";
             field[1] = "Password";
             field[2] = "Status";
@@ -169,8 +174,9 @@ namespace iBarangayApp
             field[15] = "CedulaNo";
             field[16] = "Email";
             field[17] = "Image";
+            field[18] = "HouseAndStreet";
 
-            String[] data = new String[18];
+            String[] data = new String[19];
             data[0] = inf.getStrUsername();
             data[1] = inf.getStrPassword();
             data[2] = "False";
@@ -189,6 +195,7 @@ namespace iBarangayApp
             data[15] = ETCedulaNo.Text == "" ? "NONE" : ETCedulaNo.Text;
             data[16] = inf.getStrEmail();
             data[17] = strImageUrl;
+            data[18] = ETHouseandStreet.Text;
 
 
             zsg_hosting hosting = new zsg_hosting();

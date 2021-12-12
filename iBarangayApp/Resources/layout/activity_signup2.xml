@@ -244,6 +244,35 @@
                         android:textColor="@color/white"/>
                 </androidx.cardview.widget.CardView>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="15dp"
+                    android:hint="House No. and Street."
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColorHint="@color/navy3"
+                    app:boxCornerRadiusBottomEnd="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintTextColor="@color/navy3">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/HouseAndStreet"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@color/navy2"
+                        android:inputType="textMultiLine"
+                        android:lines="10"
+                        android:singleLine="false"
+                        android:scrollbars="vertical"
+                        android:gravity="start"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

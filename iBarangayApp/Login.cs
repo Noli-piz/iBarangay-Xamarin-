@@ -161,6 +161,11 @@ namespace iBarangayApp
                     StartActivity(intent);
                     Finish();
                 }
+                else if(responseFromServer == "This Account is Banned by the Admin.")
+                {
+                    CustomDialog dialo = new CustomDialog(this);
+                    dialo.Show();
+                }
                 else
                 {
                     Snackbar.Make(FindViewById(Resource.Id.rlayout), responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();

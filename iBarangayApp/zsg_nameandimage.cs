@@ -12,7 +12,7 @@ namespace iBarangayApp
         private static String strusername, strname, stremail, strImg;
         private static Boolean boolVerified = true;
         private static Bitmap bitImg;
-        private static String Birthplace, Gender, CivilStatus, ContactNo, CedulaNo, Purok;
+        private static String Birthplace, Gender, CivilStatus, ContactNo, CedulaNo, Purok, HouseNoAndStreet;
         private static int BYear, BMonth, BDay, RYear, RMonth, RDay;
 
         private zsg_hosting sg_host = new zsg_hosting();
@@ -88,6 +88,7 @@ namespace iBarangayApp
 
                     CivilStatus = info.GetString("CivilStatus");
                     Gender = info.GetString("Gender");
+                    HouseNoAndStreet = info.GetString("HouseNoAndStreet");
 
                     BYear = Int32.Parse(info.GetString("BYear"));
                     BMonth = Int32.Parse(info.GetString("BMonth"));
@@ -173,6 +174,7 @@ namespace iBarangayApp
         public String getBirthPlace() { return Birthplace; }
         public String getCiviStatus() { return CivilStatus; }
         public String getGender() { return Gender; }
+        public String getHouseNoAndStreet() { return HouseNoAndStreet; }
         public String getContactNo() { return ContactNo; }
         public String getCedulaNo() { return CedulaNo; }
 

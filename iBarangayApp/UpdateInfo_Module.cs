@@ -26,7 +26,7 @@ namespace iBarangayApp
         private Button btnRegistration, btnBirthDate, btnUpdate;
         private ImageView imgProfile;
         private Spinner sprCivilStatus, sprGender, sprPurok, sprVoterStatus;
-        private EditText ETFname, ETMname, ETLname, ETSname, ETBirthPlace, ETCedulaNo, ETContactNo;
+        private EditText ETFname, ETMname, ETLname, ETSname, ETBirthPlace, ETCedulaNo, ETContactNo, ETHouseAndStreet;
         private TextView tvBack;
         private ProgressBar pb;
 
@@ -56,6 +56,7 @@ namespace iBarangayApp
             ETBirthPlace = FindViewById<EditText>(Resource.Id.S2Birthplace);
             ETCedulaNo = FindViewById<EditText>(Resource.Id.ETCedulaNo);
             ETContactNo = FindViewById<EditText>(Resource.Id.ETContactNo);
+            ETHouseAndStreet = FindViewById<EditText>(Resource.Id.HouseAndStreet);
 
             sprCivilStatus = FindViewById<Spinner>(Resource.Id.spnrCivilStatus);
             sprGender = FindViewById<Spinner>(Resource.Id.spnrGender);
@@ -98,6 +99,7 @@ namespace iBarangayApp
             ETBirthPlace.Text = nme.getBirthPlace();
             ETCedulaNo.Text = nme.getCedulaNo();
             ETContactNo.Text = nme.getContactNo();
+            ETHouseAndStreet.Text = nme.getHouseNoAndStreet();
 
             strImageUrl = nme.getStrImg();
             SetDate();
@@ -132,7 +134,7 @@ namespace iBarangayApp
         /// <summary>
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (ETFname.Text == "" || ETMname.Text == "" || ETLname.Text == "" || ETBirthPlace.Text == "" || ETCedulaNo.Text == "" || ETContactNo.Text == "")
+            if (ETFname.Text == "" || ETLname.Text == "" || ETBirthPlace.Text == ""  || ETContactNo.Text == "")
             {
                 Toast.MakeText(this, "Please Insert Valid Information.", ToastLength.Short).Show();
             }
@@ -149,7 +151,7 @@ namespace iBarangayApp
         private async void InsertInformation(object sender)
         {
 
-            String[] field = new String[15];
+            String[] field = new String[16];
             field[0] = "Username";
             field[1] = "Fname";
             field[2] = "Mname";
@@ -165,8 +167,9 @@ namespace iBarangayApp
             field[12] = "ContactNo";
             field[13] = "CedulaNo";
             field[14] = "Image";
+            field[15] = "HouseNoAndStreet";
 
-            String[] data = new String[15];
+            String[] data = new String[16];
             data[0] = nme.getStrusername();
             data[1] = ETFname.Text;
             data[2] = ETMname.Text;
@@ -182,6 +185,7 @@ namespace iBarangayApp
             data[12] = ETContactNo.Text;
             data[13] = ETCedulaNo.Text;
             data[14] = strImageUrl;
+            data[15] = ETHouseAndStreet.Text;
 
 
             zsg_hosting hosting = new zsg_hosting();
@@ -405,102 +409,110 @@ namespace iBarangayApp
         private List<string> civil = new List<string>(), gender = new List<string>(), purok = new List<string>(), opt = new List<string>();
         private async void LoadSpinners()
         {
-            //// Civil Status 
-            ///
 
-            zsg_hosting hosting = new zsg_hosting();
-            using (var client = new HttpClient())
+            try
             {
-                var uri = hosting.getCivilstatus();
-                var result = await client.GetStringAsync(uri);
+                //// Civil Status 
+                ///
 
-
-                JSONObject jsonresult = new JSONObject(result);
-                int success = jsonresult.GetInt("success");
-
-                if (success == 1)
+                zsg_hosting hosting = new zsg_hosting();
+                using (var client = new HttpClient())
                 {
-                    JSONArray cvl = jsonresult.GetJSONArray("civilstatus");
+                    var uri = hosting.getCivilstatus();
+                    var result = await client.GetStringAsync(uri);
 
-                    civil = new List<string>();
-                    for (int i = 0; i < cvl.Length(); i++)
+
+                    JSONObject jsonresult = new JSONObject(result);
+                    int success = jsonresult.GetInt("success");
+
+                    if (success == 1)
                     {
-                        JSONObject c = cvl.GetJSONObject(i);
-                        civil.Add(c.GetString("Types"));
+                        JSONArray cvl = jsonresult.GetJSONArray("civilstatus");
+
+                        civil = new List<string>();
+                        for (int i = 0; i < cvl.Length(); i++)
+                        {
+                            JSONObject c = cvl.GetJSONObject(i);
+                            civil.Add(c.GetString("Types"));
+                        }
+
+                        var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, civil);
+                        sprCivilStatus.Adapter = adapter;
+                        sprCivilStatus.SetSelection(adapter.GetPosition(nme.getCiviStatus()));
                     }
-
-                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, civil);
-                    sprCivilStatus.Adapter = adapter;
-                    sprCivilStatus.SetSelection(adapter.GetPosition(nme.getCiviStatus()));
                 }
+
+
+                //// Gender
+                ///
+
+                using (var client = new HttpClient())
+                {
+                    var uri = hosting.getGender();
+                    var result = await client.GetStringAsync(uri);
+
+
+                    JSONObject jsonresult = new JSONObject(result);
+                    int success = jsonresult.GetInt("success");
+
+                    if (success == 1)
+                    {
+                        JSONArray gdr = jsonresult.GetJSONArray("gender");
+
+                        gender = new List<string>();
+                        for (int i = 0; i < gdr.Length(); i++)
+                        {
+                            JSONObject c = gdr.GetJSONObject(i);
+                            gender.Add(c.GetString("Identities"));
+                        }
+
+                        var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, gender);
+                        sprGender.Adapter = adapter;
+                        sprGender.SetSelection(adapter.GetPosition(nme.getGender()));
+                    }
+                }
+
+                //// Purok
+                ///
+
+                using (var client = new HttpClient())
+                {
+                    var uri = hosting.getPurok();
+                    var result = await client.GetStringAsync(uri);
+
+
+                    JSONObject jsonresult = new JSONObject(result);
+                    int success = jsonresult.GetInt("success");
+
+                    if (success == 1)
+                    {
+                        JSONArray prk = jsonresult.GetJSONArray("purok");
+
+                        purok = new List<string>();
+                        for (int i = 0; i < prk.Length(); i++)
+                        {
+                            JSONObject c = prk.GetJSONObject(i);
+                            purok.Add(c.GetString("Name"));
+                        }
+
+                        var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, purok);
+                        sprPurok.Adapter = adapter;
+                    }
+                }
+
+                //// Voter Status
+                ///
+
+                opt = new List<String>();
+                opt.Add("Yes");
+                opt.Add("No");
+                var adapters = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, opt);
+                sprVoterStatus.Adapter = adapters;
             }
-
-
-            //// Gender
-            ///
-
-            using (var client = new HttpClient())
+            catch (Exception ex)
             {
-                var uri = hosting.getGender();
-                var result = await client.GetStringAsync(uri);
-
-
-                JSONObject jsonresult = new JSONObject(result);
-                int success = jsonresult.GetInt("success");
-
-                if (success == 1)
-                {
-                    JSONArray gdr = jsonresult.GetJSONArray("gender");
-
-                    gender = new List<string>();
-                    for (int i = 0; i < gdr.Length(); i++)
-                    {
-                        JSONObject c = gdr.GetJSONObject(i);
-                        gender.Add(c.GetString("Identities"));
-                    }
-
-                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, gender);
-                    sprGender.Adapter = adapter;
-                    sprGender.SetSelection(adapter.GetPosition(nme.getGender()));
-                }
+                Toast.MakeText(this, "Something went wrong.", ToastLength.Short).Show();
             }
-
-            //// Purok
-            ///
-
-            using (var client = new HttpClient())
-            {
-                var uri = hosting.getPurok();
-                var result = await client.GetStringAsync(uri);
-
-
-                JSONObject jsonresult = new JSONObject(result);
-                int success = jsonresult.GetInt("success");
-
-                if (success == 1)
-                {
-                    JSONArray prk = jsonresult.GetJSONArray("purok");
-
-                    purok = new List<string>();
-                    for (int i = 0; i < prk.Length(); i++)
-                    {
-                        JSONObject c = prk.GetJSONObject(i);
-                        purok.Add(c.GetString("Name"));
-                    }
-
-                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, purok);
-                    sprPurok.Adapter = adapter;
-                }
-            }
-
-            //// Voter Status
-            ///
-
-            opt = new List<String>();
-            opt.Add("Yes");
-            opt.Add("No");
-            var adapters = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, opt);
-            sprVoterStatus.Adapter = adapters;
         }
 
         private void tvBack_Click(Object sender, EventArgs e)

@@ -377,11 +377,12 @@ namespace iBarangayApp
         public async void UpdateGuiMethod()
         {
             nme.retrievedVerificationStatus();
-            TvVerificationStatus.Text = nme.getboolVerified() == false ? "Not Verified" : "Verified";
 
             await Task.Delay(5000);
-            this.Recreate();
-            OverridePendingTransition(0, 0);
+            //this.Recreate();
+            //OverridePendingTransition(0, 0);
+            TvVerificationStatus.Text = nme.getboolVerified() == false ? "Not Verified" : "Verified";
+
         }
 
         [BroadcastReceiver]

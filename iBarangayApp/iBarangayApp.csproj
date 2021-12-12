@@ -71,8 +71,10 @@
   <ItemGroup>
     <Compile Include="Announcement.cs" />
     <Compile Include="Announcement_Module.cs" />
+    <Compile Include="CustomDialog.cs" />
     <Compile Include="Signup1.cs" />
     <Compile Include="MySampleBroadcastReceiver .cs" />
+    <Compile Include="VerifyAccount3.cs" />
     <Compile Include="zsg_ApiKey.cs" />
     <Compile Include="CustomAdapter.cs" />
     <Compile Include="CustomAdapterService.cs" />
@@ -432,6 +434,24 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_signup1.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\lyt_customdialog.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\block.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\round_edge.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\VerifyAccount3.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
