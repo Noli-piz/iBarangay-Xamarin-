@@ -9,7 +9,8 @@ namespace iBarangayApp
     [Activity(Label = "Ser_Fragment")]
     public class Ser_Fragment : Activity
     {
-        private TextView tvBack, tvDocument, tvDate, tvPurpose, tvDO, tvStatus, tvQuantity, tvNote, tvRental;
+        private TextView tvBack, tvDocument, tvDate, tvPurpose, tvDO, 
+            tvStatus, tvQuantity, tvNote, tvRental, tvDeadline, lblDeadline, lblNote;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -27,6 +28,10 @@ namespace iBarangayApp
             tvDO = FindViewById<TextView>(Resource.Id.ser_do);
             tvNote = FindViewById<TextView>(Resource.Id.ser_note);
             tvRental = FindViewById<TextView>(Resource.Id.ser_rentaldate);
+            tvDeadline = FindViewById<TextView>(Resource.Id.ser_deadline);
+            lblDeadline = FindViewById<TextView>(Resource.Id.lbl_deadline);
+            lblNote = FindViewById<TextView>(Resource.Id.lbl_note);
+
 
             tvDocument.Text = Intent.GetStringExtra("Item");
             tvDate.Text = Intent.GetStringExtra("Date");
@@ -34,9 +39,20 @@ namespace iBarangayApp
             tvPurpose.Text =  Intent.GetStringExtra("Purpose");
             tvStatus.Text =  Intent.GetStringExtra("Status");
             tvDO.Text =   Intent.GetStringExtra("DO");
-            tvNote.Text =  Intent.GetStringExtra("Note");
             tvRental.Text =  Intent.GetStringExtra("Rental");
+            tvNote.Text =  Intent.GetStringExtra("Note");
+            tvDeadline.Text =  Intent.GetStringExtra("Deadline");
 
+            if (tvNote.Text == "" || tvNote.Text ==null || tvNote.Text =="null")
+            {
+                tvNote.Visibility = Android.Views.ViewStates.Gone;
+                lblNote.Visibility = Android.Views.ViewStates.Gone;
+            }
+            if (tvDeadline.Text=="0000-00-00")
+            {
+                tvDeadline.Visibility = Android.Views.ViewStates.Gone;
+                lblDeadline.Visibility = Android.Views.ViewStates.Gone;
+            }
             tvBack.Click += tvBack_Click;
         }
 

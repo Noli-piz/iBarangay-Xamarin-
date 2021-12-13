@@ -43,7 +43,9 @@ namespace iBarangayApp
 
         List<String> ArrItem = new List<String>(), ArrQuantity = new List<string>(),
             ArrPurpose = new List<String>(), ArrDate = new List<String>(), ArrStatus = new List<String>(),
-            ArrDO = new List<String>(), ArrNote = new List<String>(), ArrRent = new List<String>();
+            ArrDO = new List<String>(), ArrNote = new List<String>(), ArrRent = new List<String>(),
+            ArrDeadline = new List<String>();
+
         private async void GetRequest()
         {
             try
@@ -77,6 +79,7 @@ namespace iBarangayApp
                             ArrDO.Add(rqst.GetString("Options"));
                             ArrNote.Add(rqst.GetString("Note"));
                             ArrRent.Add(rqst.GetString("RentDate"));
+                            ArrDeadline.Add(rqst.GetString("Deadline"));
 
                         }
 
@@ -128,6 +131,7 @@ namespace iBarangayApp
             intent.PutExtra("DO", ArrDO[e.Position]);
             intent.PutExtra("Note", ArrNote[e.Position]);
             intent.PutExtra("Rental", ArrRent[e.Position]);
+            intent.PutExtra("Deadline", ArrDeadline[e.Position]);
 
             StartActivity(intent);
         }
@@ -142,6 +146,7 @@ namespace iBarangayApp
             ArrDO.Clear();
             ArrNote.Clear();
             ArrRent.Clear();
+            ArrDeadline.Clear();
 
             GetRequest();
         }

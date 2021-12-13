@@ -120,6 +120,7 @@
             android:layout_marginBottom="15dp"/>
 
          <TextView
+            android:id="@+id/lbl_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Note"
@@ -127,6 +128,21 @@
     
         <TextView
             android:id="@+id/ser_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="txt"
+            android:textSize="18dp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:id="@+id/lbl_deadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Deadline"
+            android:textStyle="bold"/> 
+    
+        <TextView
+            android:id="@+id/ser_deadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="txt"
