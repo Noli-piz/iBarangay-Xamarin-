@@ -92,6 +92,7 @@ namespace iBarangayApp
                 else
                 {
                     Snackbar.Make(FindViewById(Resource.Id.llayout), responseFromServer, Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                    SimulateStartup();
                 }
             }
             catch (Exception ex)

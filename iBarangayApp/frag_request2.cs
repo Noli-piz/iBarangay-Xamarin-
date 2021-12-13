@@ -94,10 +94,10 @@ namespace iBarangayApp
                     {
                         //Snackbar.Make(lout, "No Data.", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
                     }
-                    else
-                    {
-                        Snackbar.Make(lout, "Failed to Load", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-                    }
+                    //else
+                    //{
+                    //    Snackbar.Make(lout, "Failed to Load", Snackbar.LengthLong).SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+                    //}
 
                     swipe.Refreshing = false;
                 }
